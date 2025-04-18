@@ -1,0 +1,60 @@
+'use client'
+import { MapPin, Phone, Menu, X } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
+
+const Header = () => {
+  const router = useRouter()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <div className='sticky top-0 z-50 w-full bg-white shadow'>
+      <div className='h-20 flex items-center justify-between py-3 px-4'>
+        <div>
+          <h1 className='text-2xl sm:text-3xl font-[montserratSemiBold] text-blue-600'>AutoSafeGlass</h1>
+        </div>
+
+        {/* Desktop Menu */}
+        <div className='hidden md:flex items-center gap-10 font-[montserratSemiBold]'>
+          <Link href='' className='hover:text-blue-600 duration-300'>Services</Link>
+          <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
+            <MapPin className='w-5 h-5' /> Locations
+          </Link>
+          <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
+            <Phone className='w-5 h-5' /> 1-888-4-FIX-GLASS
+          </Link>
+          <button onClick={() => router.push('/online-estimate')} className='bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 duration-300'>
+            Get A Quote
+          </button>
+        </div>
+
+        {/* Mobile Menu Icon */}
+        <div className='md:hidden'>
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X className='w-6 h-6' /> : <Menu className='w-6 h-6' />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className='md:hidden flex flex-col items-start gap-4 px-4 pb-4 font-[montserratSemiBold]'>
+          <Link href='' className='hover:text-blue-600 duration-300'>Services</Link>
+          <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
+            <MapPin className='w-5 h-5' /> Locations
+          </Link>
+          <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
+            <Phone className='w-5 h-5' /> 1-888-4-FIX-GLASS
+          </Link>
+          <button className='bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 duration-300'>
+            Get A Quote
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Header
