@@ -1,5 +1,5 @@
 'use client'
-import { MapPin, Phone, Menu, X } from 'lucide-react'
+import { MapPin, Phone, Menu, X, Search } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -18,6 +18,13 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <div className='hidden md:flex items-center gap-10 font-[montserratSemiBold]'>
+        <button
+          onClick={() => router.push('/vin-search')}
+          className='hidden md:flex items-center gap-2 px-6 py-2 bg-blue-300 text-white rounded-lg hover:bg-blue-400 transition-colors'
+        >
+          {/* <Search className='w-5 h-5' /> */}
+          <span>Search VIN</span>
+        </button>
           <Link href='' className='hover:text-blue-600 duration-300'>Services</Link>
           <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
             <MapPin className='w-5 h-5' /> Locations
@@ -41,6 +48,15 @@ const Header = () => {
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
         <div className='md:hidden flex flex-col items-start gap-4 px-4 pb-4 font-[montserratSemiBold]'>
+          {/* VIN Search Button for Mobile */}
+          <button
+            onClick={() => router.push('/vin-search')}
+            className='w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors'
+          >
+            <Search className='w-5 h-5' />
+            <span>Search VIN</span>
+          </button>
+          
           <Link href='' className='hover:text-blue-600 duration-300'>Services</Link>
           <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
             <MapPin className='w-5 h-5' /> Locations
@@ -48,7 +64,7 @@ const Header = () => {
           <Link href='' className='flex items-center gap-1 hover:text-blue-600 duration-300'>
             <Phone className='w-5 h-5' /> 1-888-4-FIX-GLASS
           </Link>
-          <button className='bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 duration-300'>
+          <button onClick={() => router.push('/online-estimate')} className='bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 duration-300'>
             Get A Quote
           </button>
         </div>
