@@ -20,6 +20,9 @@ const OnlineEstimate = () => {
     licensePlate: "",
     registeredState: "",
     vin: "",
+    year: "",
+    make: "",
+    model: "",
   });
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -67,7 +70,7 @@ const OnlineEstimate = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInfo((prevData) => ({
       ...prevData,
