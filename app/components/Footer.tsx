@@ -105,7 +105,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-700 hover:text-blue-500">
+                <Link href="/ContactUs" className="text-gray-700 hover:text-blue-500">
                   Contact Us
                 </Link>
               </li>
@@ -136,7 +136,7 @@ const Footer = () => {
             </div>
             <div className="space-y-4 w-full">
               <Link
-                href="#quote"
+                href="/online-estimate"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-full text-center block transition-colors"
               >
                 Get a Quote

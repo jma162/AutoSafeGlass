@@ -1,6 +1,9 @@
+"use client"
 import { ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation";
 
 const Services = () => {
+  const router = useRouter();
   return (
     <div className="relative w-full bg-black">
       {/* Background Image */}
@@ -15,7 +18,7 @@ const Services = () => {
       <div className="relative max-w-7xl mx-auto py-16 px-4">
         <div className="flex justify-end">
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-            <h2 className="text-3xl font-bold mb-8">Our Services</h2>
+            <h2 className="text-3xl font-[montserratSemiBold] mb-8">Our Services</h2>
 
             <div className="space-y-6">
               {/* Windshield Repair */}
@@ -84,7 +87,7 @@ const Services = () => {
             </div>
 
             <div className="mt-8">
-              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-full transition-colors">
+              <button onClick={() => router.push('/services')} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-full transition-colors">
                 View All Services
               </button>
             </div>

@@ -32,7 +32,7 @@ const About = () => {
               <circle cx="60" cy="75" r="3" stroke="#0EA5E9" strokeWidth="2" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold mb-3">Fast & Reliable</h3>
+          <h3 className="text-xl font-[montserratSemiBold] mb-3">Fast & Reliable</h3>
           <p className="text-gray-700">
             With 30+ years in the auto glass industry, we will get you back on
             the road in no time.
@@ -60,7 +60,7 @@ const About = () => {
               <path d="M55 65L58 68L65 61" stroke="#0EA5E9" strokeWidth="2" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold mb-3">Price Match Guarantee</h3>
+          <h3 className="text-xl font-[montserratSemiBold] mb-3">Price Match Guarantee</h3>
           <p className="text-gray-700">
             Our Price Match Guarantee ensures you get the best price for your
             auto glass service.
@@ -87,7 +87,7 @@ const About = () => {
               <path d="M35 50H65" stroke="#0EA5E9" strokeWidth="2" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold mb-3">Insurance Accepted</h3>
+          <h3 className="text-xl font-[montserratSemiBold] mb-3">Insurance Accepted</h3>
           <p className="text-gray-700">
             We take all insurance. Plus, we manage your insurance claim.
           </p>
@@ -125,7 +125,7 @@ const About = () => {
               <path d="M50 75V80" stroke="#0EA5E9" strokeWidth="2" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold mb-3">Lifetime Warranty</h3>
+          <h3 className="text-xl font-[montserratSemiBold] mb-3">Lifetime Warranty</h3>
           <p className="text-gray-700">
             No-hassle warranty against glass defects or repairs needed to our
             original work.

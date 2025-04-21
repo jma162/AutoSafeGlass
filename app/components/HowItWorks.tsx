@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 const HowItWorks = () => {
     return (
       <div className="max-w-7xl mx-auto py-16 px-4">
@@ -65,18 +67,18 @@ const HowItWorks = () => {
         </div>
   
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="#quote"
+          <Link
+            href="/online-estimate"
             className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-8 rounded-full text-center transition-colors"
           >
             Get Quote & Schedule
-          </a>
-          <a
+          </Link>
+          <Link
             href="tel:18884349527"
             className="border-2 border-blue-500 text-blue-500 hover:bg-blue-50 font-medium py-3 px-8 rounded-full text-center transition-colors"
           >
             Call 1-888-4-FIX-GLASS
-          </a>
+          </Link>
         </div>
       </div>
     )

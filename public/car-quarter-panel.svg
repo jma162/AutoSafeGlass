@@ -1,0 +1,9 @@
+<svg width="128" height="80" viewBox="0 0 128 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 20C20 17.7909 21.7909 16 24 16H104C106.209 16 108 17.7909 108 20V60C108 62.2091 106.209 64 104 64H24C21.7909 64 20 62.2091 20 60V20Z" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M20 40H108" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M44 16V64" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M84 16V64" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M44 16L20 40" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M84 16L108 40" stroke="#0EA5E9" strokeWidth="2"/>
+  <path d="M84 20H104C105.105 20 106 20.8954 106 22V38C106 39.1046 105.105 40 104 40H84V20Z" fill="#FEF3C7" stroke="#0EA5E9" strokeWidth="2"/>
+</svg> 
