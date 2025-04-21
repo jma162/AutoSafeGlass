@@ -8,7 +8,7 @@ const ServicesPage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-blue-900 text-white py-20">
+      <div className="relative bg-black text-white py-20">
         <div className="absolute inset-0 z-0">
           <Image
             src="/alogo.jpg"
