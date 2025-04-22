@@ -12,8 +12,8 @@ const Header = () => {
   return (
     <div className="sticky top-0 z-50 w-full bg-white shadow">
       <div className="h-20 flex items-center justify-between py-3 px-4">
-        <div className="flex items-center gap-2">
-          <Image src="/autosafelogo.png" alt="AutoSafeGlass" width={80} height={80} onClick={() => router.push("/")}/>
+        <div className="flex items-center gap-2" onClick={() => router.push("/")}>
+          <Image src="/autosafelogo.png" alt="AutoSafeGlass" width={80} height={80}/>
           <h1 className="text-2xl sm:text-3xl font-[montserratSemiBold]">
             AutoSafeGlass
           </h1>
