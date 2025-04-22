@@ -7,12 +7,12 @@ const Services = () => {
   return (
     <div className="relative w-full bg-black">
       {/* Background Image */}
-      <div
+      {/* <div
         className="absolute inset-0 w-full h-full bg-cover bg-center opacity-50"
         style={{
           backgroundImage: "url('/alogo.jpg')",
         }}
-      />
+      /> */}
 
       {/* Content Container */}
       <div className="relative max-w-7xl mx-auto py-16 px-4">

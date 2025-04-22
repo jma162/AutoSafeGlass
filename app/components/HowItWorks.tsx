@@ -4,7 +4,6 @@ const HowItWorks = () => {
     return (
       <div className="max-w-7xl mx-auto py-16 px-4">
         <div className="text-center mb-12">
-          <p className="text-sm font-medium mb-2">IT'S EASY!</p>
           <h2 className="text-4xl font-[montserratSemiBold] mb-4">How It Works</h2>
           <p className="max-w-3xl mx-auto text-gray-700">
             With 30+ years in the auto glass industry, we will get you back on the road in no time.
@@ -77,7 +76,7 @@ const HowItWorks = () => {
             href="tel:18884349527"
             className="border-2 border-blue-500 text-blue-500 hover:bg-blue-50 font-medium py-3 px-8 rounded-full text-center transition-colors"
           >
-            Call 1-888-4-FIX-GLASS
+            Call 215-904-5778
           </Link>
         </div>
       </div>

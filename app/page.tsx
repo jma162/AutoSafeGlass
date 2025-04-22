@@ -8,9 +8,8 @@ const page = () => {
   return (
     <>
     <Banner />
-    <About />
     <HowItWorks />
-    <Services />
+    <About />
     </>
   )
 }
