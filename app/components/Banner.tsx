@@ -9,7 +9,7 @@ const Banner = () => {
         className="absolute inset-0 w-full h-full bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-04-18%20170252-umt7V981sKUqh3NvLL3zr9mPlkwhZG.png')",
+            "url(./banner.jpeg)",
         }}
       />
 
