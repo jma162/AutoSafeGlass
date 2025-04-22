@@ -14,7 +14,7 @@ const Banner = () => {
       />
 
       {/* White Card */}
-      <div className="absolute md:left-12 top-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-lg max-w-md">
+      {/* <div className="absolute md:left-12 top-1/2 -translate-y-1/2 bg-white p-8 rounded-lg shadow-lg max-w-md">
         <div className="mb-6">
           <Sparkles className="text-yellow-400 h-6 w-6 mb-2" />
           <h1 className="text-4xl font-[montserratSemiBold] mb-2">Need Your Windshield Fixed?</h1>
@@ -37,7 +37,7 @@ const Banner = () => {
           <MapPin className="h-4 w-4 mr-2" />
           Use my current location
         </button>
-      </div>
+      </div> */}
     </div>
   )
 }
