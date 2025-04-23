@@ -249,35 +249,35 @@ const OnlineEstimate = () => {
             >
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
-                  <svg
+                <svg
                     width="48"
                     height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                     className={selectedOption === "Front" ? "text-green-600" : "text-gray-400"}
-                  >
-                    <rect
-                      x="4"
-                      y="6"
-                      width="16"
-                      height="12"
-                      rx="2"
+                >
+                  <rect
+                    x="4"
+                    y="6"
+                    width="16"
+                    height="12"
+                    rx="2"
                       stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
+                    strokeWidth="1.5"
+                  />
                     <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-                  </svg>
-                  {selectedOption === "Front" && (
+                </svg>
+                {selectedOption === "Front" && (
                     <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </div>
+                    <Check className="h-4 w-4 text-white" />
+                  </div>
+                )}
+              </div>
                 <span className="font-medium text-gray-900">Front Windshield</span>
                 <p className="text-sm text-gray-500 mt-1 text-center">Damage to the front windshield</p>
               </div>
@@ -294,35 +294,35 @@ const OnlineEstimate = () => {
             >
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
-                  <svg
+                <svg
                     width="48"
                     height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                     className={selectedOption === "Back" ? "text-green-600" : "text-gray-400"}
-                  >
-                    <rect
-                      x="4"
-                      y="6"
-                      width="16"
-                      height="12"
-                      rx="2"
+                >
+                  <rect
+                    x="4"
+                    y="6"
+                    width="16"
+                    height="12"
+                    rx="2"
                       stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
+                    strokeWidth="1.5"
+                  />
                     <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-                  </svg>
-                  {selectedOption === "Back" && (
+                </svg>
+                {selectedOption === "Back" && (
                     <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </div>
+                    <Check className="h-4 w-4 text-white" />
+                  </div>
+                )}
+              </div>
                 <span className="font-medium text-gray-900">Back Window</span>
                 <p className="text-sm text-gray-500 mt-1 text-center">Damage to the rear window</p>
               </div>
@@ -339,36 +339,36 @@ const OnlineEstimate = () => {
             >
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
-                  <svg
+                <svg
                     width="48"
                     height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                     className={selectedOption === "Driver Side" ? "text-green-600" : "text-gray-400"}
-                  >
-                    <path
-                      d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                >
+                  <path
+                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
                       stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
+                    strokeWidth="1.5"
+                  />
                     <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                    <path
-                      d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
+                  <path
+                    d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
                       fill="currentColor"
                       stroke="currentColor"
-                      strokeWidth="0.5"
-                    />
-                  </svg>
-                  {selectedOption === "Driver Side" && (
+                    strokeWidth="0.5"
+                  />
+                </svg>
+                {selectedOption === "Driver Side" && (
                     <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </div>
+                    <Check className="h-4 w-4 text-white" />
+                  </div>
+                )}
+              </div>
                 <span className="font-medium text-gray-900">Driver Side</span>
                 <p className="text-sm text-gray-500 mt-1 text-center">Damage to driver side windows</p>
               </div>
@@ -385,36 +385,36 @@ const OnlineEstimate = () => {
             >
               <div className="flex flex-col items-center">
                 <div className="relative mb-4">
-                  <svg
+                <svg
                     width="48"
                     height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                     className={selectedOption === "Passenger Side" ? "text-green-600" : "text-gray-400"}
-                  >
-                    <path
-                      d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                >
+                  <path
+                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
                       stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
+                    strokeWidth="1.5"
+                  />
                     <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                    <path
-                      d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
+                  <path
+                    d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
                       fill="currentColor"
                       stroke="currentColor"
-                      strokeWidth="0.5"
-                    />
-                  </svg>
-                  {selectedOption === "Passenger Side" && (
+                    strokeWidth="0.5"
+                  />
+                </svg>
+                {selectedOption === "Passenger Side" && (
                     <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </div>
+                    <Check className="h-4 w-4 text-white" />
+                  </div>
+                )}
+              </div>
                 <span className="font-medium text-gray-900">Passenger Side</span>
                 <p className="text-sm text-gray-500 mt-1 text-center">Damage to passenger side windows</p>
               </div>
@@ -499,7 +499,7 @@ const OnlineEstimate = () => {
               {selectedSeverity === "small" && (
                 <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
-                </div>
+        </div>
               )}
             </div>
             <div>
@@ -546,20 +546,20 @@ const OnlineEstimate = () => {
                 {selectedDriverLocation === location.id && (
                   <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
               </div>
+                )}
+                </div>
               <span className="font-medium text-gray-900">{location.label}</span>
               <p className="text-sm text-gray-500 mt-1 text-center">{location.description}</p>
-            </div>
-          </div>
+              </div>
+              </div>
         ))}
       </div>
 
       {/* Multiple Windows Checkbox */}
       <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
-          <input
+                <input
             type="checkbox"
             className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
             checked={hasMultipleWindows}
@@ -572,10 +572,10 @@ const OnlineEstimate = () => {
             <span className="text-sm text-gray-500">
               Select the primary window above and we'll contact you to get more details.
             </span>
-          </div>
+              </div>
         </label>
-      </div>
-    </>
+            </div>
+          </>
   );
 
   const PassengerSideLocationsStep = () => (
@@ -610,7 +610,7 @@ const OnlineEstimate = () => {
                 {selectedPassengerLocation === location.id && (
                   <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
-                  </div>
+            </div>
                 )}
               </div>
               <span className="font-medium text-gray-900">{location.label}</span>
@@ -623,7 +623,7 @@ const OnlineEstimate = () => {
       {/* Multiple Windows Checkbox */}
       <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
-          <input
+              <input
             type="checkbox"
             className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
             checked={hasMultipleWindows}
@@ -636,8 +636,8 @@ const OnlineEstimate = () => {
             <span className="text-sm text-gray-500">
               Select the primary window above and we'll contact you to get more details.
             </span>
-          </div>
-        </label>
+            </div>
+              </label>
       </div>
     </>
   );
@@ -785,7 +785,7 @@ const OnlineEstimate = () => {
           <h1 className="text-2xl font-bold text-gray-900">Get Your Free Estimate</h1>
           <p className="text-gray-600 mt-1">Complete the form below to get started</p>
         </div>
-      </div>
+        </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -798,7 +798,7 @@ const OnlineEstimate = () => {
                     currentStep >= 1 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
                     <Car className="w-4 h-4" />
-                  </div>
+        </div>
                   <div>
                     <h3 className="font-medium text-gray-900">Damage Details</h3>
                     <p className="text-sm text-gray-500">Select damage location and type</p>
@@ -841,61 +841,61 @@ const OnlineEstimate = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+        </div>
+      </div>
 
-          {/* Main Content */}
+      {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm p-8">
-              {currentStep === 1 && <DamageStep />}
-              {currentStep === 2 && (
-                <>
+        {currentStep === 1 && <DamageStep />}
+        {currentStep === 2 && (
+          <>
                   <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
                   <p className="text-gray-600 mb-6">
-                    Select one option to provide your vehicle details. We recommend
-                    license plate or VIN to ensure an accurate quote.
-                  </p>
+              Select one option to provide your vehicle details. We recommend
+              license plate or VIN to ensure an accurate quote.
+            </p>
 
                   <div className="space-y-6">
-                    {/* Method Selection */}
+              {/* Method Selection */}
                     <div className="grid grid-cols-2 gap-4">
-                      <button
+                <button
                         className={`p-4 rounded-lg text-center transition-colors ${
-                          vehicleInfo.method === "license"
+                    vehicleInfo.method === "license"
                             ? "bg-green-600 text-white shadow-md"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                        onClick={() =>
-                          setVehicleInfo({ ...vehicleInfo, method: "license" })
-                        }
-                      >
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                  onClick={() =>
+                    setVehicleInfo({ ...vehicleInfo, method: "license" })
+                  }
+                >
                         <Car className="w-6 h-6 mx-auto mb-2" />
                         <span className="block font-medium">VIN Check</span>
-                      </button>
-                      <button
+                </button>
+                <button
                         className={`p-4 rounded-lg text-center transition-colors ${
-                          vehicleInfo.method === "manual"
+                    vehicleInfo.method === "manual"
                             ? "bg-green-600 text-white shadow-md"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                        onClick={() =>
-                          setVehicleInfo({ ...vehicleInfo, method: "manual" })
-                        }
-                      >
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                  onClick={() =>
+                    setVehicleInfo({ ...vehicleInfo, method: "manual" })
+                  }
+                >
                         <Car className="w-6 h-6 mx-auto mb-2" />
                         <span className="block font-medium">Year, Make, Model</span>
-                      </button>
-                    </div>
+                </button>
+              </div>
 
-                    {vehicleInfo.method === "license" ? (
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+              {vehicleInfo.method === "license" ? (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                             VIN
-                          </label>
+                      </label>
                           <div className="relative">
-                            <input
-                              type="text"
+                      <input
+                        type="text"
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                               value={vehicleInfo.vin}
                               onChange={handleVinChange}
@@ -905,9 +905,9 @@ const OnlineEstimate = () => {
                             {isLoading && (
                               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                                 <Loader2 className="w-5 h-5 animate-spin text-green-600" />
-                              </div>
+                    </div>
                             )}
-                          </div>
+                      </div>
                           {vinError && (
                             <p className="text-red-500 text-sm mt-1">{vinError}</p>
                           )}
@@ -919,18 +919,18 @@ const OnlineEstimate = () => {
                                 <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
                                 <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
                                 <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                              </div>
-                            </div>
+                    </div>
+                    </div>
                           )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-4">
+                    </div>
+                  </div>
+              ) : (
+                <div className="space-y-4">
                         <div className="grid grid-cols-3 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Year
-                            </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Year
+                    </label>
                             <select
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                               value={vehicleInfo.year}
@@ -946,12 +946,12 @@ const OnlineEstimate = () => {
                                 </option>
                               ))}
                             </select>
-                          </div>
+                  </div>
 
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Make
-                            </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Make
+                    </label>
                             <select
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                               value={vehicleInfo.make}
@@ -968,12 +968,12 @@ const OnlineEstimate = () => {
                                 </option>
                               ))}
                             </select>
-                          </div>
+                  </div>
 
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Model
-                            </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Model
+                    </label>
                             <select
                               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                               value={vehicleInfo.model}
@@ -990,132 +990,132 @@ const OnlineEstimate = () => {
                               ))}
                             </select>
                           </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
-                </>
+                </div>
               )}
-              {currentStep === 3 && (
-                <>
+            </div>
+          </>
+        )}
+        {currentStep === 3 && (
+          <>
                   <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
                   <p className="text-gray-600 mb-6">
-                    Please provide your contact information for your quote
-                  </p>
+              Please provide your contact information for your quote
+            </p>
 
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          name="firstName"
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                          value={userInfo.firstName}
-                          onChange={handleChange}
-                          placeholder="Enter first name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
+                    value={userInfo.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter first name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                          value={userInfo.lastName}
-                          onChange={(e) =>
-                            setUserInfo({ ...userInfo, lastName: e.target.value })
-                          }
-                          placeholder="Enter last name"
-                        />
-                      </div>
-                    </div>
+                    value={userInfo.lastName}
+                    onChange={(e) =>
+                      setUserInfo({ ...userInfo, lastName: e.target.value })
+                    }
+                    placeholder="Enter last name"
+                  />
+                </div>
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                        value={userInfo.phone}
-                        onChange={(e) =>
-                          setUserInfo({ ...userInfo, phone: e.target.value })
-                        }
-                        placeholder="(123) 456-7890"
-                      />
-                    </div>
+                  value={userInfo.phone}
+                  onChange={(e) =>
+                    setUserInfo({ ...userInfo, phone: e.target.value })
+                  }
+                  placeholder="(123) 456-7890"
+                />
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                        value={userInfo.email}
-                        onChange={(e) =>
-                          setUserInfo({ ...userInfo, email: e.target.value })
-                        }
-                        placeholder="Enter email address"
-                      />
-                    </div>
+                  value={userInfo.email}
+                  onChange={(e) =>
+                    setUserInfo({ ...userInfo, email: e.target.value })
+                  }
+                  placeholder="Enter email address"
+                />
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        ZIP Code
-                      </label>
-                      <input
-                        type="text"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ZIP Code
+                </label>
+                <input
+                  type="text"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                        value={userInfo.zipCode}
-                        onChange={(e) =>
-                          setUserInfo({ ...userInfo, zipCode: e.target.value })
-                        }
-                        placeholder="Enter ZIP code"
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
-              {currentStep === 4 && <SummaryStep />}
+                  value={userInfo.zipCode}
+                  onChange={(e) =>
+                    setUserInfo({ ...userInfo, zipCode: e.target.value })
+                  }
+                  placeholder="Enter ZIP code"
+                />
+              </div>
+            </div>
+          </>
+        )}
+        {currentStep === 4 && <SummaryStep />}
 
-              {/* Navigation Buttons */}
-              <div className="mt-8 flex justify-between">
-                {((currentStep > 1 && currentStep < 4) ||
-                  showDamageSeverity ||
-                  showDriverSideLocations ||
-                  showPassengerSideLocations) && (
-                  <button
-                    onClick={handleBack}
+        {/* Navigation Buttons */}
+        <div className="mt-8 flex justify-between">
+          {((currentStep > 1 && currentStep < 4) ||
+            showDamageSeverity ||
+            showDriverSideLocations ||
+            showPassengerSideLocations) && (
+            <button
+              onClick={handleBack}
                     className="text-gray-600 hover:text-gray-800 font-medium py-2 px-8 rounded-lg transition-colors"
-                  >
-                    Back
-                  </button>
-                )}
-                {currentStep < 4 && (
-                  <div
-                    className={`${
-                      currentStep > 1 ||
-                      showDamageSeverity ||
-                      showDriverSideLocations ||
-                      showPassengerSideLocations
-                        ? "ml-auto"
-                        : ""
-                    }`}
-                  >
-                    <button
-                      onClick={handleNext}
-                      disabled={currentStep === 1 && !selectedOption}
+            >
+              Back
+            </button>
+          )}
+          {currentStep < 4 && (
+            <div
+              className={`${
+                currentStep > 1 ||
+                showDamageSeverity ||
+                showDriverSideLocations ||
+                showPassengerSideLocations
+                  ? "ml-auto"
+                  : ""
+              }`}
+            >
+              <button
+                onClick={handleNext}
+                disabled={currentStep === 1 && !selectedOption}
                       className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
-                    >
-                      Next
-                    </button>
-                  </div>
-                )}
+              >
+                Next
+              </button>
+            </div>
+          )}
               </div>
             </div>
           </div>

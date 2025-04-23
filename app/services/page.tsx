@@ -146,7 +146,7 @@ const ServicesPage = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Schedule Service
           </h2>
-          <p className="text-xl mb-8">
+          <p className="text-xl mb-8" onClick={() => window.open("tel:+12159045778")}>
             Please Call 215-904-5778
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -157,7 +157,7 @@ const ServicesPage = () => {
               Get Free Quote
             </button>
             <a 
-              href="tel:215-904-5778" 
+              onClick={() => window.open("tel:+12159045778")}
               className="bg-white text-green-900 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium"
             >
               Call Now

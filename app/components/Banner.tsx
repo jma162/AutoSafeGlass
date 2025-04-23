@@ -19,13 +19,13 @@ const Banner = () => {
       id: 2,
       title: "Auto Glass Repair",
       subtitle: "Fast and affordable solutions",
-      image: "/banner.jpeg",
+      image: "/autoFix.jpeg",
     },
     {
       id: 3,
       title: "Mobile Service Available",
       subtitle: "We come to you at no extra cost",
-      image: "/banner.jpeg",
+      image: "/mobileGlass.jpeg",
     },
   ]
 
