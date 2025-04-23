@@ -92,19 +92,19 @@ const ServicesPage = () => {
             </p>
             <div className="space-y-4">
               <div className="flex items-start">
-                <span className="text-blue-600 text-xl mr-2">•</span>
+                <span className="text-green-600 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Open a claim with your insurance company and tell them that you would like Auto Safe Glass Co. to do the job.
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="text-blue-600 text-xl mr-2">•</span>
+                <span className="text-green-600 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Make an appointment. Once you provide us the insurance claim number, we are ready to work for you.
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="text-blue-600 text-xl mr-2">•</span>
+                <span className="text-green-600 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Once our technician has completed the job, simply pay us your deductible, and we will take care of the rest.
                 </p>

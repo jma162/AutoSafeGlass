@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Check, ChevronDown, Loader2 } from "lucide-react";
+import { Check, ChevronDown, Loader2, Car, User, FileText } from "lucide-react";
 import Image from "next/image";
 
 const OnlineEstimate = () => {
@@ -224,18 +224,236 @@ const OnlineEstimate = () => {
     fetchYears();
   }, []);
 
+  const DamageStep = () => (
+    <>
+      {showPassengerSideLocations ? (
+        <PassengerSideLocationsStep />
+      ) : showDriverSideLocations ? (
+        <DriverSideLocationsStep />
+      ) : showDamageSeverity ? (
+        <DamageSeverityStep />
+      ) : (
+        <>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Where is your damaged glass?</h2>
+          <p className="text-gray-600 mb-8">Select the location of the damage on your vehicle</p>
+
+          <div className="grid grid-cols-2 gap-4">
+            {/* Front Option */}
+            <div
+              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+                selectedOption === "Front"
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-200"
+              }`}
+              onClick={() => setSelectedOption("Front")}
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative mb-4">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={selectedOption === "Front" ? "text-green-600" : "text-gray-400"}
+                  >
+                    <rect
+                      x="4"
+                      y="6"
+                      width="16"
+                      height="12"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                  {selectedOption === "Front" && (
+                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                </div>
+                <span className="font-medium text-gray-900">Front Windshield</span>
+                <p className="text-sm text-gray-500 mt-1 text-center">Damage to the front windshield</p>
+              </div>
+            </div>
+
+            {/* Back Option */}
+            <div
+              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+                selectedOption === "Back"
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-200"
+              }`}
+              onClick={() => setSelectedOption("Back")}
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative mb-4">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={selectedOption === "Back" ? "text-green-600" : "text-gray-400"}
+                  >
+                    <rect
+                      x="4"
+                      y="6"
+                      width="16"
+                      height="12"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                  {selectedOption === "Back" && (
+                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                </div>
+                <span className="font-medium text-gray-900">Back Window</span>
+                <p className="text-sm text-gray-500 mt-1 text-center">Damage to the rear window</p>
+              </div>
+            </div>
+
+            {/* Driver Side Option */}
+            <div
+              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+                selectedOption === "Driver Side"
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-200"
+              }`}
+              onClick={() => setSelectedOption("Driver Side")}
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative mb-4">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={selectedOption === "Driver Side" ? "text-green-600" : "text-gray-400"}
+                  >
+                    <path
+                      d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
+                    <path
+                      d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      strokeWidth="0.5"
+                    />
+                  </svg>
+                  {selectedOption === "Driver Side" && (
+                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                </div>
+                <span className="font-medium text-gray-900">Driver Side</span>
+                <p className="text-sm text-gray-500 mt-1 text-center">Damage to driver side windows</p>
+              </div>
+            </div>
+
+            {/* Passenger Side Option */}
+            <div
+              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+                selectedOption === "Passenger Side"
+                  ? "border-green-500 bg-green-50"
+                  : "border-gray-200"
+              }`}
+              onClick={() => setSelectedOption("Passenger Side")}
+            >
+              <div className="flex flex-col items-center">
+                <div className="relative mb-4">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={selectedOption === "Passenger Side" ? "text-green-600" : "text-gray-400"}
+                  >
+                    <path
+                      d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
+                    <path
+                      d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      strokeWidth="0.5"
+                    />
+                  </svg>
+                  {selectedOption === "Passenger Side" && (
+                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                </div>
+                <span className="font-medium text-gray-900">Passenger Side</span>
+                <p className="text-sm text-gray-500 mt-1 text-center">Damage to passenger side windows</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Multiple Windows Checkbox */}
+          <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <label className="flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
+                checked={hasMultipleWindows}
+                onChange={(e) => setHasMultipleWindows(e.target.checked)}
+              />
+              <div className="ml-3">
+                <span className="text-sm font-medium text-gray-900 block">
+                  I have multiple windows with damage
+                </span>
+                <span className="text-sm text-gray-500">
+                  Select the primary window above and we'll contact you to get more details.
+                </span>
+              </div>
+            </label>
+          </div>
+        </>
+      )}
+    </>
+  );
+
   const DamageSeverityStep = () => (
     <>
-      <div className="flex items-center gap-2 mb-6">
-        <h1 className="text-2xl font-bold text-center flex-1">
-          How severe is the damage?
-        </h1>
-      </div>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">How severe is the damage?</h2>
+      <p className="text-gray-600 mb-8">Select the type of damage to your windshield</p>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
-          className={`border rounded-lg p-6 cursor-pointer hover:border-blue-500 ${
-            selectedSeverity === "large" ? "border-blue-500" : "border-gray-200"
+          className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+            selectedSeverity === "large" ? "border-green-500 bg-green-50" : "border-gray-200"
           }`}
           onClick={() => setSelectedSeverity("large")}
         >
@@ -249,21 +467,23 @@ const OnlineEstimate = () => {
                 className="object-contain"
               />
               {selectedSeverity === "large" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
                 </div>
               )}
             </div>
-            <p className="text-gray-700">
-              The damage is larger than a quarter and/or there are more than 3
-              damaged areas.
-            </p>
+            <div>
+              <h3 className="font-medium text-gray-900">Large Damage</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                The damage is larger than a quarter and/or there are more than 3 damaged areas.
+              </p>
+            </div>
           </div>
         </div>
 
         <div
-          className={`border rounded-lg p-6 cursor-pointer hover:border-blue-500 ${
-            selectedSeverity === "small" ? "border-blue-500" : "border-gray-200"
+          className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+            selectedSeverity === "small" ? "border-green-500 bg-green-50" : "border-gray-200"
           }`}
           onClick={() => setSelectedSeverity("small")}
         >
@@ -277,16 +497,18 @@ const OnlineEstimate = () => {
                 className="object-contain"
               />
               {selectedSeverity === "small" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
                 </div>
               )}
-        </div>
-            <p className="text-gray-700">
-              There are 3 or fewer chips or cracks that are each smaller than a
-              quarter.
-            </p>
-        </div>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-900">Small Damage</h3>
+              <p className="text-sm text-gray-500 mt-1">
+                There are 3 or fewer chips or cracks that are each smaller than a quarter.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -294,31 +516,27 @@ const OnlineEstimate = () => {
 
   const DriverSideLocationsStep = () => (
     <>
-      <div className="flex items-center gap-2 mb-6">
-        <h1 className="text-2xl font-bold text-center flex-1">
-          Where is your damaged glass?
-        </h1>
-      </div>
-      <p className="text-center text-gray-600 mb-6">Select one option</p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Where is your damaged glass?</h2>
+      <p className="text-gray-600 mb-8">Select the specific location of the damage</p>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          { id: "vent", label: "Vent" },
-          { id: "front-door", label: "Front Door" },
-          { id: "back-door", label: "Back Door" },
-          { id: "quarter-panel", label: "Quarter Panel" },
+          { id: "vent", label: "Vent Window", description: "Small triangular window at the front" },
+          { id: "front-door", label: "Front Door", description: "Window in the front door" },
+          { id: "back-door", label: "Back Door", description: "Window in the back door" },
+          { id: "quarter-panel", label: "Quarter Panel", description: "Window behind the back door" },
         ].map((location) => (
           <div
             key={location.id}
-            className={`border rounded-lg p-6 cursor-pointer hover:border-blue-500 ${
+            className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
               selectedDriverLocation === location.id
-                ? "border-blue-500"
+                ? "border-green-500 bg-green-50"
                 : "border-gray-200"
             }`}
             onClick={() => setSelectedDriverLocation(location.id)}
           >
             <div className="flex flex-col items-center">
-              <div className="relative w-32 h-20 mb-2">
+              <div className="relative w-32 h-20 mb-4">
                 <Image
                   src={`/car-${location.id}.svg`}
                   alt={`Car ${location.label}`}
@@ -326,33 +544,33 @@ const OnlineEstimate = () => {
                   className="object-contain"
                 />
                 {selectedDriverLocation === location.id && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
               </div>
-              <span className="text-sm text-gray-700">{location.label}</span>
+              <span className="font-medium text-gray-900">{location.label}</span>
+              <p className="text-sm text-gray-500 mt-1 text-center">{location.description}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Multiple Windows Checkbox */}
-      <div className="mt-6">
+      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
           <input
             type="checkbox"
-            className="mt-1 h-4 w-4 text-blue-500 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
             checked={hasMultipleWindows}
             onChange={(e) => setHasMultipleWindows(e.target.checked)}
           />
           <div className="ml-3">
-            <span className="text-sm font-medium text-gray-700 block">
+            <span className="text-sm font-medium text-gray-900 block">
               I have multiple windows with damage
             </span>
-            <span className="text-xs text-gray-500">
-              Select the primary window above and we'll contact you to get more
-              details.
+            <span className="text-sm text-gray-500">
+              Select the primary window above and we'll contact you to get more details.
             </span>
           </div>
         </label>
@@ -362,31 +580,27 @@ const OnlineEstimate = () => {
 
   const PassengerSideLocationsStep = () => (
     <>
-      <div className="flex items-center gap-2 mb-6">
-        <h1 className="text-2xl font-bold text-center flex-1">
-          Where is your damaged glass?
-        </h1>
-      </div>
-      <p className="text-center text-gray-600 mb-6">Select one option</p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Where is your damaged glass?</h2>
+      <p className="text-gray-600 mb-8">Select the specific location of the damage</p>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          { id: "vent", label: "Vent" },
-          { id: "front-door", label: "Front Door" },
-          { id: "back-door", label: "Back Door" },
-          { id: "quarter-panel", label: "Quarter Panel" },
+          { id: "vent", label: "Vent Window", description: "Small triangular window at the front" },
+          { id: "front-door", label: "Front Door", description: "Window in the front door" },
+          { id: "back-door", label: "Back Door", description: "Window in the back door" },
+          { id: "quarter-panel", label: "Quarter Panel", description: "Window behind the back door" },
         ].map((location) => (
           <div
             key={location.id}
-            className={`border rounded-lg p-6 cursor-pointer hover:border-blue-500 ${
+            className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
               selectedPassengerLocation === location.id
-                ? "border-blue-500"
+                ? "border-green-500 bg-green-50"
                 : "border-gray-200"
             }`}
             onClick={() => setSelectedPassengerLocation(location.id)}
           >
             <div className="flex flex-col items-center">
-              <div className="relative w-32 h-20 mb-2">
+              <div className="relative w-32 h-20 mb-4">
                 <Image
                   src={`/car-${location.id}.svg`}
                   alt={`Car ${location.label}`}
@@ -394,246 +608,37 @@ const OnlineEstimate = () => {
                   className="object-contain"
                 />
                 {selectedPassengerLocation === location.id && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
               </div>
-              <span className="text-sm text-gray-700">{location.label}</span>
+              <span className="font-medium text-gray-900">{location.label}</span>
+              <p className="text-sm text-gray-500 mt-1 text-center">{location.description}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Multiple Windows Checkbox */}
-      <div className="mt-6">
+      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
           <input
             type="checkbox"
-            className="mt-1 h-4 w-4 text-blue-500 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
             checked={hasMultipleWindows}
             onChange={(e) => setHasMultipleWindows(e.target.checked)}
           />
           <div className="ml-3">
-            <span className="text-sm font-medium text-gray-700 block">
+            <span className="text-sm font-medium text-gray-900 block">
               I have multiple windows with damage
             </span>
-            <span className="text-xs text-gray-500">
-              Select the primary window above and we'll contact you to get more
-              details.
+            <span className="text-sm text-gray-500">
+              Select the primary window above and we'll contact you to get more details.
             </span>
           </div>
         </label>
       </div>
-    </>
-  );
-
-  const DamageStep = () => (
-    <>
-      {showPassengerSideLocations ? (
-        <PassengerSideLocationsStep />
-      ) : showDriverSideLocations ? (
-        <DriverSideLocationsStep />
-      ) : showDamageSeverity ? (
-        <DamageSeverityStep />
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold text-center mb-2">
-            Where is your damaged glass?
-          </h1>
-        <p className="text-center text-gray-600 mb-6">Select one option</p>
-
-        {/* Options */}
-        <div className="space-y-4">
-          {/* Front Option */}
-          <div
-            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
-                selectedOption === "Front"
-                  ? "border-blue-500"
-                  : "border-gray-200"
-            }`}
-            onClick={() => setSelectedOption("Front")}
-          >
-            <div className="relative">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="4"
-                    y="6"
-                    width="16"
-                    height="12"
-                    rx="2"
-                    stroke="#888888"
-                    strokeWidth="1.5"
-                  />
-                <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
-                <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
-                <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
-              </svg>
-              {selectedOption === "Front" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                  <Check className="h-4 w-4 text-white" />
-                </div>
-              )}
-            </div>
-            <span className="mt-2 text-sm">Front</span>
-          </div>
-
-          {/* Back Option */}
-          <div
-            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
-                selectedOption === "Back"
-                  ? "border-blue-500"
-                  : "border-gray-200"
-            }`}
-            onClick={() => setSelectedOption("Back")}
-          >
-            <div className="relative">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="4"
-                    y="6"
-                    width="16"
-                    height="12"
-                    rx="2"
-                    stroke="#888888"
-                    strokeWidth="1.5"
-                  />
-                <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
-                <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
-                <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
-              </svg>
-              {selectedOption === "Back" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                  <Check className="h-4 w-4 text-white" />
-                </div>
-              )}
-            </div>
-            <span className="mt-2 text-sm">Back</span>
-          </div>
-
-          {/* Driver Side Option */}
-          <div
-            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
-                selectedOption === "Driver Side"
-                  ? "border-blue-500"
-                  : "border-gray-200"
-            }`}
-            onClick={() => setSelectedOption("Driver Side")}
-          >
-            <div className="relative">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                <path
-                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                  stroke="#888888"
-                  strokeWidth="1.5"
-                />
-                <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
-                <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
-                <path
-                  d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
-                  fill="#A4CAFE"
-                  stroke="#888888"
-                  strokeWidth="0.5"
-                />
-              </svg>
-              {selectedOption === "Driver Side" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                  <Check className="h-4 w-4 text-white" />
-                </div>
-              )}
-            </div>
-            <span className="mt-2 text-sm">Driver Side</span>
-          </div>
-
-          {/* Passenger Side Option */}
-          <div
-            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
-                selectedOption === "Passenger Side"
-                  ? "border-blue-500"
-                  : "border-gray-200"
-            }`}
-            onClick={() => setSelectedOption("Passenger Side")}
-          >
-            <div className="relative">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                <path
-                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                  stroke="#888888"
-                  strokeWidth="1.5"
-                />
-                <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
-                <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
-                <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
-                <path
-                  d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
-                  fill="#A4CAFE"
-                  stroke="#888888"
-                  strokeWidth="0.5"
-                />
-              </svg>
-              {selectedOption === "Passenger Side" && (
-                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                  <Check className="h-4 w-4 text-white" />
-                </div>
-              )}
-            </div>
-            <span className="mt-2 text-sm">Passenger Side</span>
-          </div>
-        </div>
-
-        {/* Multiple Windows Checkbox */}
-        <div className="mt-6">
-          <label className="flex items-start cursor-pointer">
-            <input
-              type="checkbox"
-              className="mt-1 h-4 w-4 text-blue-500 border-gray-300 rounded"
-              checked={hasMultipleWindows}
-              onChange={(e) => setHasMultipleWindows(e.target.checked)}
-            />
-            <div className="ml-3">
-                <span className="text-sm font-medium text-gray-700 block">
-                  I have multiple windows with damage
-                </span>
-              <span className="text-xs text-gray-500">
-                  Select the primary window above and we'll contact you to get
-                  more details.
-              </span>
-            </div>
-          </label>
-        </div>
-        </>
-      )}
     </>
   );
 
@@ -687,7 +692,7 @@ const OnlineEstimate = () => {
                 {getDamageLocation()}
               </p>
               {hasMultipleWindows && (
-                <p className="text-blue-600">Multiple windows have damage</p>
+                <p className="text-green-600">Multiple windows have damage</p>
               )}
             </div>
           </div>
@@ -755,7 +760,7 @@ const OnlineEstimate = () => {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === "success"}
-          className="w-full mt-8 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full mt-8 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isSubmitting ? (
             <>
@@ -773,345 +778,347 @@ const OnlineEstimate = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col items-center py-12 px-4">
-      {/* Progress Steps */}
-      <div className="flex justify-center items-center gap-8 mb-12 max-w-md w-full">
-        <div className="flex flex-col items-center flex-1">
-          <div
-            className={`h-1 w-full ${
-              currentStep >= 1 ? "bg-yellow-400" : "bg-gray-200"
-            } mb-2`}
-          ></div>
-          <span
-            className={`text-sm ${
-              currentStep >= 1 ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            Damage
-          </span>
-        </div>
-        <div className="flex flex-col items-center flex-1">
-          <div
-            className={`h-1 w-full ${
-              currentStep >= 2 ? "bg-yellow-400" : "bg-gray-200"
-            } mb-2`}
-          ></div>
-          <span
-            className={`text-sm ${
-              currentStep >= 2 ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            Vehicle
-          </span>
-        </div>
-        <div className="flex flex-col items-center flex-1">
-          <div
-            className={`h-1 w-full ${
-              currentStep >= 3 ? "bg-yellow-400" : "bg-gray-200"
-            } mb-2`}
-          ></div>
-          <span
-            className={`text-sm ${
-              currentStep >= 3 ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            About You
-          </span>
-        </div>
-        <div className="flex flex-col items-center flex-1">
-          <div
-            className={`h-1 w-full ${
-              currentStep >= 4 ? "bg-yellow-400" : "bg-gray-200"
-            } mb-2`}
-          ></div>
-          <span
-            className={`text-sm ${
-              currentStep >= 4 ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            Summary
-          </span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <h1 className="text-2xl font-bold text-gray-900">Get Your Free Estimate</h1>
+          <p className="text-gray-600 mt-1">Complete the form below to get started</p>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-md w-full">
-        {currentStep === 1 && <DamageStep />}
-        {currentStep === 2 && (
-          <>
-            <h1 className="text-2xl font-bold text-center mb-2">
-              Tell us about your vehicle
-            </h1>
-            <p className="text-center text-gray-600 mb-6">
-              Select one option to provide your vehicle details. We recommend
-              license plate or VIN to ensure an accurate quote.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Progress Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    currentStep >= 1 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    <Car className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Damage Details</h3>
+                    <p className="text-sm text-gray-500">Select damage location and type</p>
+                  </div>
+                </div>
 
-            <div className="space-y-4">
-              {/* Method Selection */}
-              <div className="flex gap-2 mb-6">
-                <button
-                  className={`flex-1 py-3 px-4 rounded-lg text-center ${
-                    vehicleInfo.method === "license"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                  onClick={() =>
-                    setVehicleInfo({ ...vehicleInfo, method: "license" })
-                  }
-                >
-                  VIN Check
-                </button>
-                <button
-                  className={`flex-1 py-3 px-4 rounded-lg text-center ${
-                    vehicleInfo.method === "manual"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                  onClick={() =>
-                    setVehicleInfo({ ...vehicleInfo, method: "manual" })
-                  }
-                >
-                  Year, Make, Model
-                </button>
+                <div className="flex items-center gap-4">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    currentStep >= 2 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    <Car className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Vehicle Information</h3>
+                    <p className="text-sm text-gray-500">Enter your vehicle details</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    currentStep >= 3 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    <User className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Contact Information</h3>
+                    <p className="text-sm text-gray-500">Tell us about yourself</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    currentStep >= 4 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Review & Submit</h3>
+                    <p className="text-sm text-gray-500">Review your information</p>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
 
-              {vehicleInfo.method === "license" ? (
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg shadow-sm p-8">
+              {currentStep === 1 && <DamageStep />}
+              {currentStep === 2 && (
                 <>
-                  {/* VIN Input */}
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        VIN
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                          value={vehicleInfo.vin}
-                          onChange={handleVinChange}
-                          placeholder="Enter VIN"
-                          maxLength={17}
-                        />
-                        {isLoading && (
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
+                  <p className="text-gray-600 mb-6">
+                    Select one option to provide your vehicle details. We recommend
+                    license plate or VIN to ensure an accurate quote.
+                  </p>
+
+                  <div className="space-y-6">
+                    {/* Method Selection */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        className={`p-4 rounded-lg text-center transition-colors ${
+                          vehicleInfo.method === "license"
+                            ? "bg-green-600 text-white shadow-md"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                        onClick={() =>
+                          setVehicleInfo({ ...vehicleInfo, method: "license" })
+                        }
+                      >
+                        <Car className="w-6 h-6 mx-auto mb-2" />
+                        <span className="block font-medium">VIN Check</span>
+                      </button>
+                      <button
+                        className={`p-4 rounded-lg text-center transition-colors ${
+                          vehicleInfo.method === "manual"
+                            ? "bg-green-600 text-white shadow-md"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                        onClick={() =>
+                          setVehicleInfo({ ...vehicleInfo, method: "manual" })
+                        }
+                      >
+                        <Car className="w-6 h-6 mx-auto mb-2" />
+                        <span className="block font-medium">Year, Make, Model</span>
+                      </button>
+                    </div>
+
+                    {vehicleInfo.method === "license" ? (
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            VIN
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              value={vehicleInfo.vin}
+                              onChange={handleVinChange}
+                              placeholder="Enter VIN"
+                              maxLength={17}
+                            />
+                            {isLoading && (
+                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                <Loader2 className="w-5 h-5 animate-spin text-green-600" />
+                              </div>
+                            )}
                           </div>
-                        )}
+                          {vinError && (
+                            <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                          )}
+                          {vehicleInfo.year && (
+                            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                              <h3 className="font-medium mb-2">Vehicle Information</h3>
+                              <div className="grid grid-cols-2 gap-2 text-sm">
+                                <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                                <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                                <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                                <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      {vinError && (
-                        <p className="text-red-500 text-sm mt-1">{vinError}</p>
-                      )}
-                      {vehicleInfo.year && (
-                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                          <h3 className="font-medium mb-2">Vehicle Information</h3>
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
-                            <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
-                            <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
-                            <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                            <p><span className="font-medium">Engine Type:</span> {vehicleInfo.engineType}</p>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Year
+                            </label>
+                            <select
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              value={vehicleInfo.year}
+                              onChange={(e) => {
+                                setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
+                                fetchMakes(e.target.value);
+                              }}
+                            >
+                              <option value="">Select Year</option>
+                              {years.map((year) => (
+                                <option key={year} value={year}>
+                                  {year}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Make
+                            </label>
+                            <select
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              value={vehicleInfo.make}
+                              onChange={(e) => {
+                                setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
+                                fetchModels(e.target.value);
+                              }}
+                              disabled={!vehicleInfo.year}
+                            >
+                              <option value="">Select Make</option>
+                              {makes.map((make) => (
+                                <option key={make} value={make}>
+                                  {make}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Model
+                            </label>
+                            <select
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              value={vehicleInfo.model}
+                              onChange={(e) =>
+                                setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
+                              }
+                              disabled={!vehicleInfo.make}
+                            >
+                              <option value="">Select Model</option>
+                              {models.map((model) => (
+                                <option key={model} value={model}>
+                                  {model}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                         </div>
-                      )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+              {currentStep === 3 && (
+                <>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+                  <p className="text-gray-600 mb-6">
+                    Please provide your contact information for your quote
+                  </p>
+
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                          value={userInfo.firstName}
+                          onChange={handleChange}
+                          placeholder="Enter first name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                          value={userInfo.lastName}
+                          onChange={(e) =>
+                            setUserInfo({ ...userInfo, lastName: e.target.value })
+                          }
+                          placeholder="Enter last name"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        value={userInfo.phone}
+                        onChange={(e) =>
+                          setUserInfo({ ...userInfo, phone: e.target.value })
+                        }
+                        placeholder="(123) 456-7890"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        value={userInfo.email}
+                        onChange={(e) =>
+                          setUserInfo({ ...userInfo, email: e.target.value })
+                        }
+                        placeholder="Enter email address"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        ZIP Code
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        value={userInfo.zipCode}
+                        onChange={(e) =>
+                          setUserInfo({ ...userInfo, zipCode: e.target.value })
+                        }
+                        placeholder="Enter ZIP code"
+                      />
                     </div>
                   </div>
                 </>
-              ) : (
-                <div className="space-y-4">
-                  {/* Year Dropdown */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Year
-                    </label>
-                    <select
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      value={vehicleInfo.year}
-                      onChange={(e) => {
-                        setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
-                        fetchMakes(e.target.value);
-                      }}
-                    >
-                      <option value="">Select Year</option>
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Make Dropdown */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Make
-                    </label>
-                    <select
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      value={vehicleInfo.make}
-                      onChange={(e) => {
-                        setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
-                        fetchModels(e.target.value);
-                      }}
-                      disabled={!vehicleInfo.year}
-                    >
-                      <option value="">Select Make</option>
-                      {makes.map((make) => (
-                        <option key={make} value={make}>
-                          {make}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Model Dropdown */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Model
-                    </label>
-                    <select
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      value={vehicleInfo.model}
-                      onChange={(e) =>
-                        setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
-                      }
-                      disabled={!vehicleInfo.make}
-                    >
-                      <option value="">Select Model</option>
-                      {models.map((model) => (
-                        <option key={model} value={model}>
-                          {model}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
               )}
-            </div>
-          </>
-        )}
-        {currentStep === 3 && (
-          <>
-            <h1 className="text-2xl font-bold text-center mb-2">
-              Tell us about you
-            </h1>
-            <p className="text-center text-gray-600 mb-6">
-              Please provide your contact information for your quote
-            </p>
+              {currentStep === 4 && <SummaryStep />}
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    value={userInfo.firstName}
-                    onChange={handleChange}
-                    placeholder="Enter first name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    value={userInfo.lastName}
-                    onChange={(e) =>
-                      setUserInfo({ ...userInfo, lastName: e.target.value })
-                    }
-                    placeholder="Enter last name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={userInfo.phone}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, phone: e.target.value })
-                  }
-                  placeholder="(123) 456-7890"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={userInfo.email}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, email: e.target.value })
-                  }
-                  placeholder="Enter email address"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ZIP Code
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={userInfo.zipCode}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, zipCode: e.target.value })
-                  }
-                  placeholder="Enter ZIP code"
-                />
+              {/* Navigation Buttons */}
+              <div className="mt-8 flex justify-between">
+                {((currentStep > 1 && currentStep < 4) ||
+                  showDamageSeverity ||
+                  showDriverSideLocations ||
+                  showPassengerSideLocations) && (
+                  <button
+                    onClick={handleBack}
+                    className="text-gray-600 hover:text-gray-800 font-medium py-2 px-8 rounded-lg transition-colors"
+                  >
+                    Back
+                  </button>
+                )}
+                {currentStep < 4 && (
+                  <div
+                    className={`${
+                      currentStep > 1 ||
+                      showDamageSeverity ||
+                      showDriverSideLocations ||
+                      showPassengerSideLocations
+                        ? "ml-auto"
+                        : ""
+                    }`}
+                  >
+                    <button
+                      onClick={handleNext}
+                      disabled={currentStep === 1 && !selectedOption}
+                      className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-          </>
-        )}
-        {currentStep === 4 && <SummaryStep />}
-
-        {/* Navigation Buttons */}
-        <div className="mt-8 flex justify-between">
-          {((currentStep > 1 && currentStep < 4) ||
-            showDamageSeverity ||
-            showDriverSideLocations ||
-            showPassengerSideLocations) && (
-            <button
-              onClick={handleBack}
-              className="text-gray-600 hover:text-gray-800 font-medium py-2 px-8 rounded-full transition-colors"
-            >
-              Back
-            </button>
-          )}
-          {currentStep < 4 && (
-            <div
-              className={`${
-                currentStep > 1 ||
-                showDamageSeverity ||
-                showDriverSideLocations ||
-                showPassengerSideLocations
-                  ? "ml-auto"
-                  : ""
-              }`}
-            >
-              <button
-                onClick={handleNext}
-                disabled={currentStep === 1 && !selectedOption}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-            Next
-          </button>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
