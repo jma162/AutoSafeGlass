@@ -1,104 +1,61 @@
-"use client";
-import { MapPin, Phone, Menu, X, Search } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
+import { useRouter, usePathname } from "next/navigation"
 
 const Header = () => {
-  const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Get FREE Quote", href: "/online-estimate" },
+    { name: "Our Services", href: "/services" },
+    { name: "Contact Us", href: "/ContactUs" },
+  ]
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-white shadow">
-      <div className="h-20 flex items-center justify-between py-3 px-4">
-        <div className="flex items-center gap-2" onClick={() => router.push("/")}>
-          <Image src="/autosafelogo.png" alt="AutoSafeGlass" width={80} height={80}/>
-          <h1 className="text-2xl sm:text-3xl font-[montserratSemiBold]">
-            Auto Safe Glass
-          </h1>
+    <div className="w-full bg-white">
+      {/* Top section with logo and contact info */}
+      <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div className="flex items-center gap-3" onClick={() => router.push("/")} style={{ cursor: "pointer" }}>
+          <Image src="/autosafelogo.png" alt="AutoSafeGlass" width={100} height={100} />
+          <h1 className="text-3xl md:text-4xl font-[montserratSemiBold] text-[#333333]">Auto Safe Glass</h1>
         </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10 font-[montserratSemiBold]">
-          <Link
-            href=""
-            className="flex items-center gap-1 hover:text-blue-600 duration-300"
-          >
-            <MapPin className="w-5 h-5" /> Locations
-          </Link>
-          <Link
-            href=""
-            className="flex items-center gap-1 hover:text-blue-600 duration-300"
-          >
-            <Phone className="w-5 h-5" /> 215-904-5778
-          </Link>
-          <div className="flex items-center gap-2">
-            {/* <button
-              onClick={() => router.push("/vin-search")}
-              className="hidden md:flex items-center gap-2 px-6 py-1.5 bg-blue-500 text-white rounded-3xl hover:bg-blue-600 hover:shadow-lg duration-300 cursor-pointer"
-            >
-              <Search className='w-5 h-5' />
-              <span>Search VIN</span>
-            </button> */}
-            <button
-              onClick={() => router.push("/online-estimate")}
-              className="bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 hover:shadow-lg duration-300"
-            >
-              Get A Quote
-            </button>
+        <div className="text-right mt-4 md:mt-0">
+          <div className="flex flex-col items-end">
+            <p className="text-lg">
+              Call <span className="text-[#00a000] font-bold">215-904-5778</span> for free quote or appointment.
+            </p>
+            <p className="text-lg italic">
+              We provide <span className="text-[#00a000] font-bold">FREE</span> mobile service!
+            </p>
           </div>
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden">
-          <button onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="md:hidden flex flex-col items-start gap-4 px-4 pb-4 font-[montserratSemiBold]">
-          {/* VIN Search Button for Mobile */}
-          {/* <button
-            onClick={() => router.push("/vin-search")}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <Search className="w-5 h-5" />
-            <span>Search VIN</span>
-          </button> */}
-
-          <Link href="" className="hover:text-blue-600 duration-300">
-            Services
-          </Link>
-          <Link
-            href=""
-            className="flex items-center gap-1 hover:text-blue-600 duration-300"
-          >
-            <MapPin className="w-5 h-5" /> Locations
-          </Link>
-          <Link
-            href=""
-            className="flex items-center gap-1 hover:text-blue-600 duration-300"
-          >
-            <Phone className="w-5 h-5" /> 1-888-4-FIX-GLASS
-          </Link>
-          <button
-            onClick={() => router.push("/online-estimate")}
-            className="bg-blue-500 text-white px-4 py-1.5 rounded-3xl cursor-pointer hover:bg-blue-600 duration-300"
-          >
-            Get A Quote
-          </button>
+      {/* Navigation bar */}
+      <div className="w-full bg-[#6ba229]">
+        <div className="container mx-auto flex">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`px-6 py-4 font-medium transition-colors ${
+                  isActive ? "bg-[#5a8a22] text-white" : "text-white hover:bg-[#5a8a22]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            )
+          })}
         </div>
-      )}
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

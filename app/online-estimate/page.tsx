@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check, ChevronDown, Loader2 } from "lucide-react";
 import Image from "next/image";
 
@@ -23,6 +23,8 @@ const OnlineEstimate = () => {
     year: "",
     make: "",
     model: "",
+    bodyStyle: "",
+    engineType: "",
   });
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -35,6 +37,12 @@ const OnlineEstimate = () => {
   const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(
     null
   );
+
+  const [years, setYears] = useState<string[]>([]);
+  const [makes, setMakes] = useState<string[]>([]);
+  const [models, setModels] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [vinError, setVinError] = useState("");
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -140,6 +148,82 @@ const OnlineEstimate = () => {
     }
   };
 
+  const fetchYears = async () => {
+    try {
+      const response = await fetch('/api/car-data?type=years');
+      const data = await response.json();
+      setYears(data.map((item: any) => item.Model_Year).sort((a: string, b: string) => parseInt(b) - parseInt(a)));
+    } catch (error) {
+      console.error('Error fetching years:', error);
+    }
+  };
+
+  const fetchMakes = async (year: string) => {
+    try {
+      const response = await fetch(`/api/car-data?type=makes&year=${year}`);
+      const data = await response.json();
+      console.log(data, 'data');
+      if (data.error) {
+        console.error('Error fetching makes:', data.error);
+        return;
+      }
+      // Sort makes alphabetically
+      const sortedMakes = data.map((item: any) => item.MakeName).sort();
+      setMakes(sortedMakes);
+    } catch (error) {
+      console.error('Error fetching makes:', error);
+    }
+  };
+
+  const fetchModels = async (make: string) => {
+    try {
+      const response = await fetch(`/api/car-data?type=models&make=${make}`);
+      const data = await response.json();
+      if (data.error) {
+        console.error('Error fetching models:', data.error);
+        return;
+      }
+      setModels(data.map((item: any) => item.Model_Name).sort());
+    } catch (error) {
+      console.error('Error fetching models:', error);
+    }
+  };
+
+  const handleVinChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const vin = e.target.value;
+    setVehicleInfo(prev => ({ ...prev, vin }));
+    
+    if (vin.length === 17) {
+      setIsLoading(true);
+      setVinError("");
+      try {
+        const response = await fetch(`/api/vin-lookup?vin=${vin}`);
+        const data = await response.json();
+        
+        if (data.error) {
+          setVinError(data.error);
+        } else {
+          setVehicleInfo(prev => ({
+            ...prev,
+            year: data.year,
+            make: data.make,
+            model: data.model,
+            bodyStyle: data.bodyStyle,
+            engineType: data.engineType
+          }));
+        }
+      } catch (error) {
+        setVinError("Failed to fetch VIN data");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchYears();
+  }, []);
+
   const DamageSeverityStep = () => (
     <>
       <div className="flex items-center gap-2 mb-6">
@@ -197,12 +281,12 @@ const OnlineEstimate = () => {
                   <Check className="h-4 w-4 text-white" />
                 </div>
               )}
-            </div>
+        </div>
             <p className="text-gray-700">
               There are 3 or fewer chips or cracks that are each smaller than a
               quarter.
             </p>
-          </div>
+        </div>
         </div>
       </div>
     </>
@@ -357,20 +441,20 @@ const OnlineEstimate = () => {
           <h1 className="text-2xl font-bold text-center mb-2">
             Where is your damaged glass?
           </h1>
-          <p className="text-center text-gray-600 mb-6">Select one option</p>
+        <p className="text-center text-gray-600 mb-6">Select one option</p>
 
-          {/* Options */}
-          <div className="space-y-4">
-            {/* Front Option */}
-            <div
-              className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
+        {/* Options */}
+        <div className="space-y-4">
+          {/* Front Option */}
+          <div
+            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
                 selectedOption === "Front"
                   ? "border-blue-500"
                   : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Front")}
-            >
-              <div className="relative">
+            }`}
+            onClick={() => setSelectedOption("Front")}
+          >
+            <div className="relative">
                 <svg
                   width="40"
                   height="40"
@@ -387,31 +471,31 @@ const OnlineEstimate = () => {
                     stroke="#888888"
                     strokeWidth="1.5"
                   />
-                  <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
-                </svg>
-                {selectedOption === "Front" && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-              <span className="mt-2 text-sm">Front</span>
+                <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
+                <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
+                <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
+              </svg>
+              {selectedOption === "Front" && (
+                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+              )}
             </div>
+            <span className="mt-2 text-sm">Front</span>
+          </div>
 
-            {/* Back Option */}
-            <div
-              className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
+          {/* Back Option */}
+          <div
+            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
                 selectedOption === "Back"
                   ? "border-blue-500"
                   : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Back")}
-            >
-              <div className="relative">
+            }`}
+            onClick={() => setSelectedOption("Back")}
+          >
+            <div className="relative">
                 <svg
                   width="40"
                   height="40"
@@ -428,31 +512,31 @@ const OnlineEstimate = () => {
                     stroke="#888888"
                     strokeWidth="1.5"
                   />
-                  <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
-                </svg>
-                {selectedOption === "Back" && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-              <span className="mt-2 text-sm">Back</span>
+                <path d="M4 12H20" stroke="#888888" strokeWidth="1.5" />
+                <path d="M8 6V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M16 6V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M4 9H20" stroke="#888888" strokeWidth="1.5" />
+                <path d="M4 15H20" stroke="#888888" strokeWidth="1.5" />
+              </svg>
+              {selectedOption === "Back" && (
+                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+              )}
             </div>
+            <span className="mt-2 text-sm">Back</span>
+          </div>
 
-            {/* Driver Side Option */}
-            <div
-              className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
+          {/* Driver Side Option */}
+          <div
+            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
                 selectedOption === "Driver Side"
                   ? "border-blue-500"
                   : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Driver Side")}
-            >
-              <div className="relative">
+            }`}
+            onClick={() => setSelectedOption("Driver Side")}
+          >
+            <div className="relative">
                 <svg
                   width="40"
                   height="40"
@@ -460,41 +544,41 @@ const OnlineEstimate = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                    stroke="#888888"
-                    strokeWidth="1.5"
-                  />
-                  <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
-                  <path
-                    d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
-                    fill="#A4CAFE"
-                    stroke="#888888"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-                {selectedOption === "Driver Side" && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-              <span className="mt-2 text-sm">Driver Side</span>
+                <path
+                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                  stroke="#888888"
+                  strokeWidth="1.5"
+                />
+                <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
+                <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
+                <path
+                  d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
+                  fill="#A4CAFE"
+                  stroke="#888888"
+                  strokeWidth="0.5"
+                />
+              </svg>
+              {selectedOption === "Driver Side" && (
+                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+              )}
             </div>
+            <span className="mt-2 text-sm">Driver Side</span>
+          </div>
 
-            {/* Passenger Side Option */}
-            <div
-              className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
+          {/* Passenger Side Option */}
+          <div
+            className={`border rounded-lg p-4 flex flex-col items-center cursor-pointer hover:border-blue-500 ${
                 selectedOption === "Passenger Side"
                   ? "border-blue-500"
                   : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Passenger Side")}
-            >
-              <div className="relative">
+            }`}
+            onClick={() => setSelectedOption("Passenger Side")}
+          >
+            <div className="relative">
                 <svg
                   width="40"
                   height="40"
@@ -502,204 +586,54 @@ const OnlineEstimate = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                    stroke="#888888"
-                    strokeWidth="1.5"
-                  />
-                  <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
-                  <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
-                  <path
-                    d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
-                    fill="#A4CAFE"
-                    stroke="#888888"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-                {selectedOption === "Passenger Side" && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-              <span className="mt-2 text-sm">Passenger Side</span>
+                <path
+                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                  stroke="#888888"
+                  strokeWidth="1.5"
+                />
+                <path d="M7 8V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M17 8V18" stroke="#888888" strokeWidth="1.5" />
+                <path d="M7 12H17" stroke="#888888" strokeWidth="1.5" />
+                <path d="M7 15H17" stroke="#888888" strokeWidth="1.5" />
+                <path
+                  d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
+                  fill="#A4CAFE"
+                  stroke="#888888"
+                  strokeWidth="0.5"
+                />
+              </svg>
+              {selectedOption === "Passenger Side" && (
+                <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-1">
+                  <Check className="h-4 w-4 text-white" />
+                </div>
+              )}
             </div>
+            <span className="mt-2 text-sm">Passenger Side</span>
           </div>
+        </div>
 
-          {/* Multiple Windows Checkbox */}
-          <div className="mt-6">
-            <label className="flex items-start cursor-pointer">
-              <input
-                type="checkbox"
-                className="mt-1 h-4 w-4 text-blue-500 border-gray-300 rounded"
-                checked={hasMultipleWindows}
-                onChange={(e) => setHasMultipleWindows(e.target.checked)}
-              />
-              <div className="ml-3">
+        {/* Multiple Windows Checkbox */}
+        <div className="mt-6">
+          <label className="flex items-start cursor-pointer">
+            <input
+              type="checkbox"
+              className="mt-1 h-4 w-4 text-blue-500 border-gray-300 rounded"
+              checked={hasMultipleWindows}
+              onChange={(e) => setHasMultipleWindows(e.target.checked)}
+            />
+            <div className="ml-3">
                 <span className="text-sm font-medium text-gray-700 block">
                   I have multiple windows with damage
                 </span>
-                <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500">
                   Select the primary window above and we'll contact you to get
                   more details.
-                </span>
-              </div>
-            </label>
-          </div>
+              </span>
+            </div>
+          </label>
+        </div>
         </>
       )}
-    </>
-  );
-
-  const VehicleStep = () => (
-    <>
-      <h1 className="text-2xl font-bold text-center mb-2">
-        Tell us about your vehicle
-      </h1>
-      <p className="text-center text-gray-600 mb-6">
-        Select one option to provide your vehicle details. We recommend license
-        plate or VIN to ensure an accurate quote.
-      </p>
-
-      <div className="space-y-4">
-        {/* Method Selection */}
-        <div className="flex gap-2 mb-6">
-          <button
-            className={`flex-1 py-3 px-4 rounded-lg text-center ${
-              vehicleInfo.method === "license"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-            onClick={() =>
-              setVehicleInfo({ ...vehicleInfo, method: "license" })
-            }
-          >
-            License Plate or VIN
-          </button>
-          <button
-            className={`flex-1 py-3 px-4 rounded-lg text-center ${
-              vehicleInfo.method === "manual"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-            onClick={() => setVehicleInfo({ ...vehicleInfo, method: "manual" })}
-          >
-            Year, Make, Model
-          </button>
-        </div>
-
-        {vehicleInfo.method === "license" ? (
-          <>
-            {/* License Plate Input */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  License Plate
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={vehicleInfo.licensePlate}
-                  onChange={(e) =>
-                    setVehicleInfo({
-                      ...vehicleInfo,
-                      licensePlate: e.target.value,
-                    })
-                  }
-                  placeholder="Enter license plate"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Registered State
-                </label>
-                <div className="relative">
-                  <select
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-blue-500 focus:border-blue-500"
-                    value={vehicleInfo.registeredState}
-                    onChange={(e) =>
-                      setVehicleInfo({
-                        ...vehicleInfo,
-                        registeredState: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="">Select state</option>
-                    <option value="CA">California</option>
-                    <option value="NY">New York</option>
-                    {/* Add more states */}
-                  </select>
-                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                </div>
-              </div>
-              <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                Find my car
-              </button>
-              <div className="text-center">
-                <span className="text-gray-500">OR</span>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  VIN
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={vehicleInfo.vin}
-                  onChange={(e) =>
-                    setVehicleInfo({ ...vehicleInfo, vin: e.target.value })
-                  }
-                  placeholder="Enter VIN"
-                />
-                <button
-                  className="text-blue-600 text-sm mt-1 hover:underline"
-                  onClick={() => {
-                    /* Add help modal */
-                  }}
-                >
-                  Where is my VIN?
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="space-y-4">
-            {/* Year, Make, Model inputs */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Year
-              </label>
-              <input
-                type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter year"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Make
-              </label>
-              <input
-                type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter make"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Model
-              </label>
-              <input
-                type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter model"
-              />
-            </div>
-          </div>
-        )}
-      </div>
     </>
   );
 
@@ -926,7 +860,7 @@ const OnlineEstimate = () => {
                     setVehicleInfo({ ...vehicleInfo, method: "license" })
                   }
                 >
-                  License Plate or VIN
+                  VIN Check
                 </button>
                 <button
                   className={`flex-1 py-3 px-4 rounded-lg text-center ${
@@ -944,113 +878,112 @@ const OnlineEstimate = () => {
 
               {vehicleInfo.method === "license" ? (
                 <>
-                  {/* License Plate Input */}
+                  {/* VIN Input */}
                   <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        License Plate
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        value={vehicleInfo.licensePlate}
-                        onChange={(e) =>
-                          setVehicleInfo({
-                            ...vehicleInfo,
-                            licensePlate: e.target.value,
-                          })
-                        }
-                        placeholder="Enter license plate"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Registered State
-                      </label>
-                      <div className="relative">
-                        <select
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-blue-500 focus:border-blue-500"
-                          value={vehicleInfo.registeredState}
-                          onChange={(e) =>
-                            setVehicleInfo({
-                              ...vehicleInfo,
-                              registeredState: e.target.value,
-                            })
-                          }
-                        >
-                          <option value="">Select state</option>
-                          <option value="CA">California</option>
-                          <option value="NY">New York</option>
-                          {/* Add more states */}
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      </div>
-                    </div>
-                    <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                      Find my car
-                    </button>
-                    <div className="text-center">
-                      <span className="text-gray-500">OR</span>
-                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         VIN
                       </label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        value={vehicleInfo.vin}
-                        onChange={(e) =>
-                          setVehicleInfo({
-                            ...vehicleInfo,
-                            vin: e.target.value,
-                          })
-                        }
-                        placeholder="Enter VIN"
-                      />
-                      <button
-                        className="text-blue-600 text-sm mt-1 hover:underline"
-                        onClick={() => {
-                          /* Add help modal */
-                        }}
-                      >
-                        Where is my VIN?
-                      </button>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                          value={vehicleInfo.vin}
+                          onChange={handleVinChange}
+                          placeholder="Enter VIN"
+                          maxLength={17}
+                        />
+                        {isLoading && (
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                            <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                          </div>
+                        )}
+                      </div>
+                      {vinError && (
+                        <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                      )}
+                      {vehicleInfo.year && (
+                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                          <h3 className="font-medium mb-2">Vehicle Information</h3>
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                            <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                            <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                            <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                            <p><span className="font-medium">Engine Type:</span> {vehicleInfo.engineType}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </>
               ) : (
                 <div className="space-y-4">
-                  {/* Year, Make, Model inputs */}
+                  {/* Year Dropdown */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Year
                     </label>
-                    <input
-                      type="text"
+                    <select
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter year"
-                    />
+                      value={vehicleInfo.year}
+                      onChange={(e) => {
+                        setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
+                        fetchMakes(e.target.value);
+                      }}
+                    >
+                      <option value="">Select Year</option>
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
+                  {/* Make Dropdown */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Make
                     </label>
-                    <input
-                      type="text"
+                    <select
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter make"
-                    />
+                      value={vehicleInfo.make}
+                      onChange={(e) => {
+                        setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
+                        fetchModels(e.target.value);
+                      }}
+                      disabled={!vehicleInfo.year}
+                    >
+                      <option value="">Select Make</option>
+                      {makes.map((make) => (
+                        <option key={make} value={make}>
+                          {make}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
+                  {/* Model Dropdown */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Model
                     </label>
-                    <input
-                      type="text"
+                    <select
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter model"
-                    />
+                      value={vehicleInfo.model}
+                      onChange={(e) =>
+                        setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
+                      }
+                      disabled={!vehicleInfo.make}
+                    >
+                      <option value="">Select Model</option>
+                      {models.map((model) => (
+                        <option key={model} value={model}>
+                          {model}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               )}
@@ -1175,8 +1108,8 @@ const OnlineEstimate = () => {
                 disabled={currentStep === 1 && !selectedOption}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Next
-              </button>
+            Next
+          </button>
             </div>
           )}
         </div>

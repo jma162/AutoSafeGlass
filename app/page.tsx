@@ -1,15 +1,15 @@
 import React from 'react'
 import Banner from './components/Banner'
-import About from './components/About'
+import Repair from './components/Repair'
 import HowItWorks from './components/HowItWorks'
-import Services from './components/Services'
 
 const page = () => {
   return (
     <>
     <Banner />
+    <Repair />
     <HowItWorks />
-    <About />
+    {/* <About /> */}
     </>
   )
 }
