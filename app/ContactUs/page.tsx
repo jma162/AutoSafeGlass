@@ -95,7 +95,7 @@ const ContactUs = () => {
                 <Phone className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-500">Call us at</p>
+                <p className="text-base text-gray-500">Call us at</p>
                 <p className="text-xl font-[montserratSemiBold] text-gray-900">
                   215-904-5778
                 </p>
@@ -111,7 +111,7 @@ const ContactUs = () => {
                 <Mail className="w-6 h-6 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-500">Email us at</p>
+                <p className="text-base text-gray-500">Email us at</p>
                 <p className="text-lg font-[montserratSemiBold] text-gray-900">
                   info@autosafeglass.com
                 </p>
@@ -128,15 +128,15 @@ const ContactUs = () => {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm text-gray-500">Find us at</p>
+                  <p className="text-base text-gray-500">Find us at</p>
                   <span className="text-xs bg-gray-900 text-white px-2 py-0.5 rounded-full">
                     Main Store
                   </span>
                 </div>
-                <p className="text-lg font-[montserratSemiBold] text-gray-900">
+                <p className="text-base font-[montserratSemiBold] text-gray-900">
                   1200 Route 70 E. #707
                 </p>
-                <p className="text-lg font-[montserratSemiBold] text-gray-900">
+                <p className="text-base font-[montserratSemiBold] text-gray-900">
                   Cherry Hill, NJ 08034
                 </p>
               </div>
@@ -185,14 +185,6 @@ const ContactUs = () => {
                       By appointment
                     </span>
                   </div>
-                </div>
-
-                {/* 提示信息 */}
-                <div className="mt-4 pt-3 border-t border-gray-100">
-                  <p className="text-sm text-blue-600 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                    24/7 Emergency Service Available
-                  </p>
                 </div>
               </div>
             </div>
