@@ -17,34 +17,36 @@ const Header = () => {
     { name: "Contact Us", href: "/ContactUs" },
   ]
 
-  // Calculate estimated header height for layout padding
-  // Top section: ~96px (py-4 + logo height) + Nav bar: ~60px (py-3 + font) = ~156px
-  // Use a slightly larger value for safety buffer
-  const estimatedHeaderHeight = "160px"
+  // Recalculate estimated header height (adjust if needed, probably larger now)
+  // Top section: ~116px (py-2 + logo 100px) + Nav bar: ~56px (h-14) = ~172px
+  const estimatedHeaderHeight = "180px"
 
   return (
     <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-      {/* Top section: Logo/Brand centered (or left), Contact on right */}
-      <div className="container mx-auto px-4 py-3">
+      {/* Top section - Keeping py-2 */}
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo and Company Name */}
           <div 
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-4 cursor-pointer group"
             onClick={() => router.push("/")}
           >
             <div className="relative overflow-hidden rounded-lg transform transition-transform group-hover:scale-105">
               <Image 
                 src="/logo.jpg"
                 alt="AutoSafeGlass Logo"
-                width={60}
-                height={60}
-                className="w-12 h-12 md:w-14 md:h-14 object-cover"
+                width={100}
+                height={100}
+                className="w-20 h-20 md:w-24 md:h-24 object-cover"
               />
             </div>
             <div className="flex flex-col">
-              <h1 className="text-lg md:text-xl lg:text-2xl font-[montserratSemiBold] text-gray-900">
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-[montserratSemiBold] text-gray-900">
                 Auto Safe Glass
               </h1>
+              <p className="text-sm text-[#2c7a6d] font-medium hidden md:block">
+                Professional Auto Glass Services
+              </p>
             </div>
           </div>
 
