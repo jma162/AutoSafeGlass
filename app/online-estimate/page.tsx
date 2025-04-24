@@ -60,12 +60,9 @@ const OnlineEstimate = () => {
   const [models, setModels] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [vinError, setVinError] = useState("");
-<<<<<<< Updated upstream
   const [willClaimInsurance, setWillClaimInsurance] = useState<string>("");
-=======
   const [photos, setPhotos] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
->>>>>>> Stashed changes
 
   // Memoize the handleChange function
 
@@ -137,32 +134,6 @@ const OnlineEstimate = () => {
     setSubmitStatus(null);
 
     try {
-<<<<<<< Updated upstream
-      const formData = {
-        damage: {
-          location: selectedOption,
-          subLocation:
-            selectedOption === "Front"
-              ? selectedSeverity === "large"
-                ? "Large Damage"
-                : "Small Damage"
-              : selectedOption === "Driver Side"
-              ? selectedDriverLocation
-              : selectedPassengerLocation,
-          hasMultipleWindows,
-          willClaimInsurance,
-        },
-        vehicle: vehicleInfo,
-        userInfo: {
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          phone: userInfo.phone,
-          email: userInfo.email,
-          zipCode: userInfo.zipCode,
-          note: userInfo.note,
-        },
-      };
-=======
       // Upload photos to Cloudinary
       // const photoUrls = await Promise.all(
       //   uploadedPhotos.map(photo => uploadToCloudinary(photo))
@@ -189,7 +160,6 @@ const OnlineEstimate = () => {
       photos.forEach((photo, index) => {
         formData.append(`photo${index}`, photo);
       });
->>>>>>> Stashed changes
 
       const response = await fetch("/api/submit-estimate", {
         method: "POST",
@@ -1122,7 +1092,6 @@ const OnlineEstimate = () => {
             </div>
           </div>
 
-<<<<<<< Updated upstream
           {/* Insurance Information */}
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
@@ -1138,7 +1107,6 @@ const OnlineEstimate = () => {
               </div>
             </div>
           </div>
-=======
           {/* Uploaded Photos */}
           {previews.length > 0 && (
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
@@ -1161,7 +1129,6 @@ const OnlineEstimate = () => {
               </div>
             </div>
           )}
->>>>>>> Stashed changes
         </div>
 
         {/* Submit Button */}
