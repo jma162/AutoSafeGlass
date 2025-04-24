@@ -16,6 +16,7 @@ interface VehicleDetails {
   [key: string]: string
 }
 
+
 const VinSearch = () => {
   const [vin, setVin] = useState('')
   const [isLoading, setIsLoading] = useState(false)
