@@ -35,25 +35,6 @@ export async function POST(request: Request) {
         const bytes = await photo.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-<<<<<<< Updated upstream
-    // --- Email to the Company ---
-    const companyMailOptions = {
-      from: `\"Estimate Request\" <${process.env.SMTP_USER || 'trustmuhammadimedical@gmail.com'}>`,
-      to: process.env.COMPANY_EMAIL || 'default-company-email@example.com',
-      subject: `New Glass Repair Estimate Request - ${damage.location}`,
-      html: `
-        <body style="${bodyStyle}">
-          <div style="${containerStyle}">
-            <h2 style="${h2Style}">New Estimate Request Received</h2>
-            
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Damage Information</h3>
-              <p style="${pStyle}"><strong style="${strongStyle}">Location:</strong> ${damage.location}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Specific Location:</strong> ${damage.subLocation}</p>
-              ${damage.hasMultipleWindows ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong> Multiple windows have damage</p>` : ""}
-              <p style="${pStyle}"><strong style="${strongStyle}">Insurance Claim:</strong> ${damage.willClaimInsurance === 'yes' ? 'Yes' : damage.willClaimInsurance === 'no' ? 'No' : 'Not specified'}</p>
-            </div>
-=======
         const result = await new Promise((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             { resource_type: 'auto' },
@@ -62,7 +43,6 @@ export async function POST(request: Request) {
               resolve(result);
             }
           );
->>>>>>> Stashed changes
 
           const bufferStream = require('stream').Readable.from(buffer);
           bufferStream.pipe(uploadStream);
@@ -85,7 +65,6 @@ export async function POST(request: Request) {
         </div>
       `
       : '';
-
 
     // Create email content with images
     const emailContent = `
@@ -139,35 +118,6 @@ export async function POST(request: Request) {
       to: userInfo.email,
       subject: 'Your Auto Glass Estimate Request',
       html: `
-<<<<<<< Updated upstream
-        <body style="${bodyStyle}">
-          <div style="${containerStyle}">
-            <h2 style="${h2Style}">Thank You For Your Request, ${userInfo.firstName}!</h2>
-            
-            <p style="${pStyle}">We've received your auto glass repair estimate request. Our team will review the details and get back to you soon. Here's a summary:</p>
-            
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Damage Details Summary</h3>
-              <p style="${pStyle}"><strong style="${strongStyle}">Location:</strong> ${damage.location}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Specific Location:</strong> ${damage.subLocation}</p>
-              ${damage.hasMultipleWindows ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong> Multiple windows with damage noted</p>` : ""}
-              <p style="${pStyle}"><strong style="${strongStyle}">Insurance Claim:</strong> ${damage.willClaimInsurance === 'yes' ? 'Yes' : damage.willClaimInsurance === 'no' ? 'No' : 'Not specified'}</p>
-              ${userInfo.note ? `<p style="${pStyle}"><strong style="${strongStyle}">Note Provided:</strong><br>${userInfo.note.replace(/\n/g, '<br>')}</p>` : ""}
-            </div>
-            
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Vehicle Information Summary</h3>
-              <p style="${pStyle}">${vehicleInfoHtml}</p>
-            </div>
-            
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Your Contact Information</h3>
-              <p style="${pStyle}"><strong style="${strongStyle}">Name:</strong> ${userInfo.firstName} ${userInfo.lastName}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Email:</strong> ${userInfo.email}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Phone:</strong> ${userInfo.phone}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">ZIP Code:</strong> ${userInfo.zipCode}</p>
-            </div>
-=======
         <h2>Thank you for your estimate request!</h2>
         <p>We have received your request and will review it shortly. Here's a summary of your submission:</p>
         
@@ -184,7 +134,6 @@ export async function POST(request: Request) {
           <p>Make: ${vehicle.make}</p>
           <p>Model: ${vehicle.model}</p>
         `}
->>>>>>> Stashed changes
 
         ${photosHtml}
         
