@@ -33,6 +33,7 @@ const OnlineEstimate = () => {
     phone: "",
     email: "",
     zipCode: "",
+    note: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(
@@ -118,7 +119,14 @@ const OnlineEstimate = () => {
           hasMultipleWindows,
         },
         vehicle: vehicleInfo,
-        userInfo,
+        userInfo: {
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          phone: userInfo.phone,
+          email: userInfo.email,
+          zipCode: userInfo.zipCode,
+          note: userInfo.note,
+        },
       };
 
       const response = await fetch("/api/submit-estimate", {
@@ -635,6 +643,106 @@ const OnlineEstimate = () => {
     </>
   );
 
+  const ContactStep = () => (
+    <>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+      <p className="text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* First Name */}
+        <div>
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+            First Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={userInfo.firstName || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Last Name */}
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={userInfo.lastName || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Phone */}
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            Phone <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={userInfo.phone || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={userInfo.email || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Zip Code */}
+        <div>
+          <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+            ZIP Code <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="zipCode"
+            name="zipCode"
+            value={userInfo.zipCode || ''}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        
+        {/* Added Note Field (spans both columns on md+) */}
+        <div className="md:col-span-2">
+           <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
+             Note (Optional)
+           </label>
+           <textarea
+             id="note"
+             name="note"
+             rows={3} // Adjust rows as needed
+             value={userInfo.note || ''}
+             onChange={handleChange}
+             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+             placeholder="Any additional details? (e.g., preferred contact time, any other information regarding the damage)"
+           />
+        </div>
+      </div>
+    </>
+  );
+
   const SummaryStep = () => {
     const getDamageLocation = () => {
       if (selectedOption === "Front") {
@@ -757,29 +865,30 @@ const OnlineEstimate = () => {
               <User className="w-5 h-5 text-[#2c7a6d]" />
               <h2 className="font-semibold text-lg text-gray-900">Contact Information</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-700">Name:</span>
-                  <span className="text-gray-900">
-                    {userInfo.firstName} {userInfo.lastName}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-700">Phone:</span>
-                  <span className="text-gray-900">{userInfo.phone}</span>
-                </div>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700 w-24">Name:</span>
+                <span className="text-gray-900">{userInfo.firstName} {userInfo.lastName}</span>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-700">Email:</span>
-                  <span className="text-gray-900">{userInfo.email}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-gray-700">ZIP Code:</span>
-                  <span className="text-gray-900">{userInfo.zipCode}</span>
-                </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700 w-24">Phone:</span>
+                <span className="text-gray-900">{userInfo.phone}</span>
               </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700 w-24">Email:</span>
+                <span className="text-gray-900">{userInfo.email}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700 w-24">ZIP Code:</span>
+                <span className="text-gray-900">{userInfo.zipCode}</span>
+              </div>
+              {/* Display Note if it exists */}
+              {userInfo.note && (
+                <div className="flex items-start gap-2 pt-2 border-t border-gray-200 mt-3">
+                  <span className="font-medium text-gray-700 w-24 mt-0.5">Note for our team:</span>
+                  <p className="text-gray-900 flex-1 whitespace-pre-wrap">{userInfo.note}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1100,87 +1209,7 @@ const OnlineEstimate = () => {
                     </div>
                   </>
               )}
-              {currentStep === 3 && (
-                  <>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-                    <p className="text-gray-600 mb-6">
-                      Please provide your contact information for your quote
-                    </p>
-              
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            First Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="firstName"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                            value={userInfo.firstName || ''}
-                            onChange={handleChange}
-                            placeholder="Enter first name"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Last Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="lastName"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                            value={userInfo.lastName || ''}
-                            onChange={handleChange}
-                            placeholder="Enter last name"
-                          />
-                        </div>
-                      </div>
-              
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Phone Number <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                          value={userInfo.phone || ''}
-                          onChange={handleChange}
-                          placeholder="(XXX) XXX-XXXX"
-                        />
-                      </div>
-              
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email Address <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                          value={userInfo.email || ''}
-                          onChange={handleChange}
-                          placeholder="Enter email address"
-                        />
-                      </div>
-              
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          ZIP Code <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="zipCode"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-                          value={userInfo.zipCode || ''}
-                          onChange={handleChange}
-                          placeholder="Enter ZIP code"
-                        />
-                      </div>
-                    </div>
-                  </>
-              )}
+              {currentStep === 3 && <ContactStep />}
               {currentStep === 4 && <SummaryStep />}
 
               {/* Navigation Buttons */}
