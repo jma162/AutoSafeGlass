@@ -94,10 +94,10 @@ const HowItWorks = () => {
             </div>
             <div className="ml-4">
               <h3 className="text-xl font-semibold text-gray-900">
-                Lifetime Warranty
+              Mobile Service Available
               </h3>
               <p className="mt-1 text-gray-600">
-                Guaranteed satisfaction
+              Service at your location
               </p>
             </div>
           </div>

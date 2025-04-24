@@ -1228,8 +1228,8 @@ const OnlineEstimate = () => {
                 },
                 {
                   icon: Shield,
-                  title: "Lifetime Warranty",
-                  desc: "Guaranteed quality work"
+                  title: "Mobile Service Available",
+                  desc: "Service at your location"
                 },
                 {
                   icon: DollarSign,
