@@ -1,8 +1,23 @@
-"use client";
-import { useState, useEffect, useCallback, memo } from "react";
+"use client"; // <<< MUST BE THE VERY FIRST LINE
+
+// Correct imports (ensure memo and useCallback are here if needed)
+import { useState, useEffect, useCallback, memo } from "react"; 
 import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
+
+// Add this interface before the OnlineEstimate component
+interface ContactStepProps {
+  userInfo: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    zipCode: string;
+    note: string;
+  };
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
 
 const OnlineEstimate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -46,6 +61,15 @@ const OnlineEstimate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [vinError, setVinError] = useState("");
 
+  // Memoize the handleChange function
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setUserInfo(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []); // Empty dependency array since setUserInfo is stable
+
   const handleNext = () => {
     if (currentStep === 1) {
       if (selectedOption === "Front" && !showDamageSeverity) {
@@ -85,14 +109,6 @@ const OnlineEstimate = () => {
       return;
     }
     setCurrentStep(currentStep - 1);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserInfo(prev => ({
-      ...prev,
-      [name]: value
-    }));
   };
 
   const handleSubmit = async () => {
@@ -643,105 +659,108 @@ const OnlineEstimate = () => {
     </>
   );
 
-  const ContactStep = () => (
-    <>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
-      <p className="text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* First Name */}
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-            First Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={userInfo.firstName || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
+  const ContactStep = memo(({ userInfo, handleChange }: ContactStepProps) => {
+    console.log("Rendering ContactStep");
+    return (
+      <>
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+        <p className="text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* First Name */}
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              value={userInfo.firstName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+              required
+            />
+          </div>
+          {/* Last Name */}
+          <div>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+              Last Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={userInfo.lastName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+              required
+            />
+          </div>
+          {/* Phone */}
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+              Phone <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={userInfo.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+              required
+            />
+          </div>
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={userInfo.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+              required
+            />
+          </div>
+          {/* Zip Code */}
+          <div>
+            <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+              ZIP Code <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="zipCode"
+              name="zipCode"
+              value={userInfo.zipCode}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+              required
+            />
+          </div>
+          {/* Note Field */}
+          <div className="md:col-span-2">
+             <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
+               Note (Optional)
+             </label>
+             <textarea
+               id="note"
+               name="note"
+               rows={3}
+               value={userInfo.note}
+               onChange={handleChange}
+               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+               placeholder="Any additional details? (e.g., preferred contact time)"
+             />
+          </div>
         </div>
-        {/* Last Name */}
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-            Last Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={userInfo.lastName || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
-        </div>
-        {/* Phone */}
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Phone <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={userInfo.phone || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
-        </div>
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={userInfo.email || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
-        </div>
-        {/* Zip Code */}
-        <div>
-          <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
-            ZIP Code <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="zipCode"
-            name="zipCode"
-            value={userInfo.zipCode || ''}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
-        </div>
-        
-        {/* Added Note Field (spans both columns on md+) */}
-        <div className="md:col-span-2">
-           <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
-             Note (Optional)
-           </label>
-           <textarea
-             id="note"
-             name="note"
-             rows={3} // Adjust rows as needed
-             value={userInfo.note || ''}
-             onChange={handleChange}
-             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-             placeholder="Any additional details? (e.g., preferred contact time, any other information regarding the damage)"
-           />
-        </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  });
+  ContactStep.displayName = 'ContactStep';
 
   const SummaryStep = () => {
     const getDamageLocation = () => {
@@ -1209,7 +1228,7 @@ const OnlineEstimate = () => {
                     </div>
                   </>
               )}
-              {currentStep === 3 && <ContactStep />}
+              {currentStep === 3 && <ContactStep userInfo={userInfo} handleChange={handleChange} />}
               {currentStep === 4 && <SummaryStep />}
 
               {/* Navigation Buttons */}
