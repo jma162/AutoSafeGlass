@@ -399,10 +399,10 @@ const OnlineEstimate = () => {
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Where is your damaged glass?</h2>
           <p className="text-gray-600 mb-8">Select the location of the damage on your vehicle</p>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             {/* Front Option */}
             <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
+              className={`border rounded-lg p-4 cursor-pointer hover:border-emerald-400 transition-colors ${
                 selectedOption === "Front"
                   ? "border-emerald-400 bg-emerald-50"
                   : "border-gray-200"
@@ -410,10 +410,10 @@ const OnlineEstimate = () => {
               onClick={() => setSelectedOption("Front")}
             >
               <div className="flex flex-col items-center">
-                <div className="relative mb-4">
+                <div className="relative mb-2">
                 <svg
-                    width="48"
-                    height="48"
+                    width="36"
+                    height="36"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -435,13 +435,13 @@ const OnlineEstimate = () => {
                     <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
                 {selectedOption === "Front" && (
-                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
+                    <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                    <Check className="h-3 w-3 text-white" />
                   </div>
                 )}
               </div>
-                <span className="font-medium text-gray-900">Front Windshield</span>
-                <p className="text-sm text-gray-500 mt-1 text-center">Damage to the front windshield</p>
+                <span className="font-medium text-gray-900 text-sm">Front Windshield</span>
+                <p className="text-xs text-gray-500 mt-0.5 text-center">Damage to the front windshield</p>
               </div>
             </div>
 
@@ -1310,10 +1310,10 @@ const OnlineEstimate = () => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col items-center text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
               Get Your Free Auto Glass Estimate
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl">
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl">
               Complete the form below to receive a free estimate for your auto glass repair or replacement. 
               Free mobile service available in all service areas.
             </p>
@@ -1360,20 +1360,20 @@ const OnlineEstimate = () => {
                   }
                 ].map((item) => (
                   <div key={item.step} className="flex items-start gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 ${
                       currentStep >= item.step 
                         ? 'bg-[#2c7a6d] text-white' 
                         : 'bg-[#f0f7f5] text-gray-400'
                     }`}>
-                      <item.icon className="w-5 h-5" />
+                      <item.icon className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
                     <div>
-                      <h3 className={`font-medium ${
+                      <h3 className={`text-sm md:text-base font-medium ${
                         currentStep >= item.step ? 'text-gray-900' : 'text-gray-500'
                       }`}>
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-500">{item.desc}</p>
+                      <p className="text-xs md:text-sm text-gray-500">{item.desc}</p>
                     </div>
                   </div>
                 ))}

@@ -109,7 +109,7 @@ const Header = () => {
             {/* CTA Button (Now on the right with links) */}
             <Link
               href="/online-estimate"
-              className="ml-2 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-sm shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 whitespace-nowrap"
+              className="ml-2 px-5 py-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-full font-bold text-sm shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 whitespace-nowrap"
             >
               Get FREE Quote
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -180,7 +180,7 @@ const Header = () => {
                   router.push("/online-estimate")
                   setIsMobileMenuOpen(false)
                 }}
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg py-3 text-lg font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-lg py-3 text-lg font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
               >
                 Get Free Quote
                 <ChevronRight className="w-5 h-5" />
