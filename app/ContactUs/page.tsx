@@ -72,7 +72,7 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-[130px]">
+    <div className="min-h-screen bg-gray-50 pt-[200px]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         {/* 页面标题 */}
         <div className="text-center mb-12">
@@ -188,7 +188,7 @@ const ContactUs = () => {
               <MapContainer
                 center={[center.lat, center.lng]}
                 zoom={11}
-                style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }}
+                style={{ height: "100%", width: "100%", borderRadius: "0.5rem", zIndex: 20 }}
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
