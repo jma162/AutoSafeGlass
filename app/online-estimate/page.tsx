@@ -1,8 +1,8 @@
 "use client"; // <<< MUST BE THE VERY FIRST LINE
 
 // Correct imports (ensure memo and useCallback are here if needed)
-import { useState, useEffect, useCallback, memo } from "react"; 
-import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X } from "lucide-react";
+import { useState, useEffect, useCallback, memo, useRef } from "react"; 
+import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera } from "lucide-react";
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
 
@@ -63,6 +63,10 @@ const OnlineEstimate = () => {
   const [willClaimInsurance, setWillClaimInsurance] = useState<string>("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Memoize the handleChange function
 
@@ -248,6 +252,106 @@ const OnlineEstimate = () => {
       } finally {
         setIsLoading(false);
       }
+    }
+  };
+
+  const startCamera = async () => {
+    // Check if running on mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (!isMobile) {
+      alert('Camera feature is only available on mobile devices. Please access this page on your phone or tablet.');
+      return;
+    }
+
+    try {
+      // Check if mediaDevices is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera access is not supported in this browser');
+      }
+
+      // Request camera permissions
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        } 
+      });
+
+      setCameraStream(stream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      setShowCamera(true);
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      let errorMessage = 'Failed to access camera. ';
+      
+      if (error instanceof Error) {
+        if (error.name === 'NotAllowedError') {
+          errorMessage += 'Please ensure you have granted camera permissions.';
+        } else if (error.name === 'NotFoundError') {
+          errorMessage += 'No camera found. Please check your device.';
+        } else if (error.name === 'NotReadableError') {
+          errorMessage += 'Camera is already in use by another application.';
+        } else if (error.name === 'OverconstrainedError') {
+          errorMessage += 'Camera does not support the requested constraints.';
+        } else {
+          errorMessage += error.message;
+        }
+      }
+      
+      alert(errorMessage);
+    }
+  };
+
+  const stopCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      setCameraStream(null);
+    }
+    setShowCamera(false);
+  };
+
+  const captureImage = async () => {
+    if (!videoRef.current || !canvasRef.current) return;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    if (!context) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const imageBlob = await new Promise<Blob>((resolve) => {
+      canvas.toBlob((blob) => {
+        if (blob) resolve(blob);
+      }, 'image/jpeg');
+    });
+
+    const formData = new FormData();
+    formData.append('image', imageBlob);
+
+    try {
+      const response = await fetch('/api/ocr', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.vin) {
+        setVehicleInfo(prev => ({ ...prev, vin: data.vin }));
+        stopCamera();
+      } else {
+        alert('No VIN detected. Please try again or enter manually.');
+      }
+    } catch (error) {
+      console.error('Error processing image:', error);
+      alert('Failed to process image. Please try again or enter manually.');
     }
   };
 
@@ -1350,36 +1454,42 @@ const OnlineEstimate = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               VIN
                             </label>
-                            <div className="relative">
+                            <div className="flex items-center gap-2">
                               <input
                                 type="text"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                                name="vin"
                                 value={vehicleInfo.vin}
                                 onChange={handleVinChange}
                                 placeholder="Enter VIN"
-                                maxLength={17}
+                                className="flex-1 p-2 border rounded"
                               />
-                              {isLoading && (
-                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                  <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
-                                </div>
-                              )}
+                              <button
+                                onClick={startCamera}
+                                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                              >
+                                <Camera className="w-5 h-5" />
+                              </button>
                             </div>
-                            {vinError && (
-                              <p className="text-red-500 text-sm mt-1">{vinError}</p>
-                            )}
-                            {vehicleInfo.year && (
-                              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                                <h3 className="font-medium mb-2">Vehicle Information</h3>
-                                <div className="grid grid-cols-2 gap-2 text-sm">
-                                  <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
-                                  <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
-                                  <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
-                                  <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                                </div>
+                            {isLoading && (
+                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
                               </div>
                             )}
                           </div>
+                          {vinError && (
+                            <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                          )}
+                          {vehicleInfo.year && (
+                            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                              <h3 className="font-medium mb-2">Vehicle Information</h3>
+                              <div className="grid grid-cols-2 gap-2 text-sm">
+                                <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                                <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                                <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                                <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div className="space-y-4">
@@ -1615,6 +1725,34 @@ const OnlineEstimate = () => {
           </div>
         </div>
       </div>
+
+      {showCamera && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center z-50">
+          <div className="relative w-full max-w-lg">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              className="w-full rounded-lg"
+            />
+            <canvas ref={canvasRef} className="hidden" />
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
+              <button
+                onClick={captureImage}
+                className="p-4 bg-white rounded-full"
+              >
+                <Camera className="w-8 h-8" />
+              </button>
+              <button
+                onClick={stopCamera}
+                className="p-4 bg-red-500 text-white rounded-full"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
