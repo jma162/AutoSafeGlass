@@ -36,7 +36,7 @@ const Partners = () => {
   ];
 
   return (
-    <div className="bg-[#f0f7f5] py-16">
+    <section className="py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-4xl font-[montserratSemiBold] text-[#2c7a6d] text-center mb-12">
           Our Partners
@@ -100,7 +100,7 @@ const Partners = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

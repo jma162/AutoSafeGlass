@@ -28,46 +28,61 @@ const Repair = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-4">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-[montserratSemiBold] text-[#2c7a6d] mb-2">
-          Windshield Damage Types
-        </h2>
-        <p className="text-gray-600">
-          Understanding different types of rock chip damage
-        </p>
-      </div>
+    <section className="py-12 sm:py-16 mt-20 sm:mt-24">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-[montserratSemiBold] text-[#2c7a6d] mb-3">
+            Windshield Damage Types
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Understanding different types of rock chip damage
+          </p>
+        </div>
 
-      {/* Damage Types Grid */}
-      <div className="grid gap-4 md:grid-cols-2 mb-8">
-        {damageTypes.map((type) => (
-          <div key={type.title} className="bg-white rounded-lg shadow-sm p-4 flex gap-4 items-center">
-            <img 
-              src={type.image} 
-              alt={type.title} 
-              className="w-20 h-20 object-contain" 
-            />
-            <div>
-              <h3 className="font-medium text-gray-900 mb-1">{type.title}</h3>
-              <p className="text-sm text-gray-600">{type.description}</p>
+        {/* Damage Types Grid */}
+        <div className="grid gap-6 md:grid-cols-2 mb-12">
+          {damageTypes.map((type) => (
+            <div 
+              key={type.title} 
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 sm:p-6"
+            >
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <div className="w-24 h-24 flex-shrink-0">
+                  <img 
+                    src={type.image} 
+                    alt={type.title} 
+                    className="w-full h-full object-contain" 
+                  />
+                </div>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">
+                    {type.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    {type.description}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Auto Glass Type Section */}
-      <div className="bg-white rounded-lg shadow-sm p-4">
-        <h3 className="text-xl font-[montserratSemiBold] text-gray-700 mb-4 text-center">
-          Type of Auto Glass
-        </h3>
-        <img 
-          src="/CARWINDER.png" 
-          alt="Auto Glass Types" 
-          className="max-w-lg mx-auto w-full" 
-        />
+        {/* Auto Glass Type Section */}
+        <div className="mt-12">
+          <h3 className="text-xl sm:text-2xl font-[montserratSemiBold] text-gray-700 mb-6 text-center">
+            Type of Auto Glass
+          </h3>
+          <div className="max-w-lg mx-auto">
+            <img 
+              src="/CARWINDER.png" 
+              alt="Auto Glass Types" 
+              className="w-full h-auto" 
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

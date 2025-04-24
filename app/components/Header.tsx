@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X, Phone, ChevronRight } from "lucide-react"
+import { Menu, X, Phone, ChevronRight, Clock, Car } from "lucide-react"
 
 const Header = () => {
   const router = useRouter()
@@ -118,71 +118,93 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Menu - 改为从左侧滑出 */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
-          {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm" 
+            onClick={() => setIsMobileMenuOpen(false)} 
           />
           
-          {/* Menu Panel */}
-          <div className="absolute right-0 top-0 h-full w-[300px] bg-white shadow-2xl">
-            <div className="flex flex-col h-full">
-              {/* Simplified Mobile Header */}
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 className="font-semibold text-lg">Menu</h2>
-                <button
-                  className="p-2 text-gray-500 hover:text-gray-700"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <X className="w-6 h-6" />
-                </button>
+          {/* 改为从左侧滑出 */}
+          <div className="absolute left-0 top-0 w-[280px] h-full bg-white shadow-xl flex flex-col">
+            {/* Logo 区域 */}
+            <div className="flex items-center p-4 border-b border-gray-100">
+              <div className="relative w-12 h-12">
+                <Image 
+                  src="/logo.jpg"
+                  alt="AutoSafeGlass Logo"
+                  fill
+                  className="object-contain"
+                />
               </div>
-              
-              {/* Mobile Menu Links */}
-              <div className="flex-1 p-4 space-y-1">
-                {navLinks.map((link) => {
-                  const isActive = pathname === link.href
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className={`flex items-center px-4 py-3 rounded-md font-medium text-base transition-all ${
-                        isActive 
-                          ? "bg-[#f0f7f5] text-[#2c7a6d]" 
-                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  )
-                })}
+              <div className="ml-3">
+                <h1 className="text-lg font-[montserratSemiBold] text-gray-900">
+                  Auto Safe Glass
+                </h1>
+                <p className="text-xs text-[#2c7a6d]">
+                  Professional Auto Glass Services
+                </p>
               </div>
+              {/* 关闭按钮移到右上角 */}
+              <button
+                className="ml-auto p-2 text-gray-600 hover:text-gray-900"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
 
-              {/* Mobile Footer with Buttons */}
-              <div className="p-4 border-t border-gray-200 space-y-3">
-                <div className="p-3 bg-[#f0f7f5] rounded-lg text-center">
-                  <p className="text-sm font-semibold text-[#2c7a6d] animate-pulse">
-                    FREE Mobile Service!
-                  </p>
-                </div>
+            {/* 导航链接 */}
+            <nav className="flex flex-col px-4 py-2">
+              {navLinks.map((link) => (
                 <Link
-                  href="/online-estimate"
-                  className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-semibold shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 block text-center group flex items-center justify-center gap-1.5"
+                  key={link.name}
+                  href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
+                  className={`py-3 text-lg font-medium border-b border-gray-100 ${
+                    pathname === link.href 
+                      ? "text-[#2c7a6d]" 
+                      : "text-gray-600"
+                  }`}
                 >
-                  Get FREE Quote
-                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                  {link.name}
                 </Link>
-                <button
-                  className="w-full p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full font-semibold shadow-sm transition-all duration-300 flex items-center justify-center gap-1.5"
-                  onClick={() => { window.open("tel:+12159045778"); setIsMobileMenuOpen(false); }}
-                >
-                  <Phone className="w-4 h-4" /> Call Us
-                </button>
+              ))}
+            </nav>
+
+            {/* CTA 按钮 */}
+            <div className="px-4 mt-4">
+              <button
+                onClick={() => {
+                  router.push("/online-estimate")
+                  setIsMobileMenuOpen(false)
+                }}
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg py-3 text-lg font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                Get Free Quote
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 联系信息 */}
+            <div className="mt-6 px-4 space-y-3 border-t border-gray-100 pt-4">
+              <a 
+                href="tel:+12159045778" 
+                className="flex items-center gap-3 text-gray-600 hover:text-[#2c7a6d] transition-colors"
+              >
+                <Phone className="w-5 h-5" />
+                <span className="text-lg font-medium">215-904-5778</span>
+              </a>
+              <div className="flex items-center gap-3 text-gray-600">
+                <Clock className="w-5 h-5" />
+                <span className="text-sm">Mon-Sat: 8:00 AM - 6:00 PM</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Car className="w-5 h-5 text-blue-600" />
+                <span className="text-base font-medium text-blue-600">
+                  FREE Mobile Service
+                </span>
               </div>
             </div>
           </div>

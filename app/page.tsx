@@ -6,13 +6,18 @@ import Partners from './components/Partners'
 
 const page = () => {
   return (
-    <>
-    <Banner />
-    <Repair />
-    <HowItWorks />
-    <Partners />
-    {/* <About /> */}
-    </>
+    <main className="flex flex-col">
+      <Banner />
+      <div className="-mt-16 relative z-10">
+        <Repair />
+      </div>
+      <div className="-mt-8">
+        <HowItWorks />
+      </div>
+      <div className="-mt-8">
+        <Partners />
+      </div>
+    </main>
   )
 }
 
