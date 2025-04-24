@@ -52,15 +52,15 @@ const Header = () => {
 
           {/* Contact Info - Re-added FREE Mobile Service */}
           <div className="hidden md:flex items-center gap-4">
-            <div 
+            <a 
+              href="tel:+12159045778"
               className="group flex items-center gap-2 px-4 py-2 bg-[#f0f7f5] rounded-full cursor-pointer hover:bg-[#e0ede9] transition-all duration-200"
-              onClick={() => window.open("tel:+12159045778")}
             >
               <Phone className="w-4 h-4 text-[#2c7a6d]" />
               <p className="text-sm font-semibold text-[#2c7a6d]">
                 215-904-5778
               </p>
-            </div>
+            </a>
             {/* Restored FREE Mobile Service Text */}
             <div className="hidden lg:flex items-center px-4 py-2 bg-[#f0f7f5] rounded-full"> 
               <p className="text-sm font-semibold text-[#2c7a6d] animate-pulse">

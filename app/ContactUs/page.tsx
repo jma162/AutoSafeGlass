@@ -91,7 +91,6 @@ const ContactUs = () => {
           <div className="space-y-4 sm:space-y-6">
             {/* Phone */}
             <div 
-              onClick={() => window.open("tel:+12159045778")}
               className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <div className="bg-blue-50 p-2 rounded-lg">
@@ -99,9 +98,12 @@ const ContactUs = () => {
               </div>
               <div>
                 <p className="text-base text-gray-500">Call us at</p>
-                <p className="text-xl font-[montserratSemiBold] text-gray-900">
+                <a 
+                  href="tel:+12159045778"
+                  className="text-xl font-[montserratSemiBold] text-gray-900 hover:text-blue-600"
+                >
                   215-904-5778
-                </p>
+                </a>
               </div>
             </div>
 
