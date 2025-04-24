@@ -267,7 +267,7 @@ const ContactUs = () => {
           </h2>
           <button
             onClick={() => window.location.href = '/online-estimate'}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-medium"
+            className="inline-flex items-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-3 rounded-lg transition-colors text-lg font-medium"
           >
             Get Free Quote
           </button>

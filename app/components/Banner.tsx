@@ -12,7 +12,7 @@ const Banner = () => {
     {
       id: 1,
       title: "Windshield Replacement",
-      subtitle: "Professional service with lifetime warranty",
+      subtitle: "Professional service",
       image: "/banner.jpeg",
     },
     {
@@ -78,13 +78,13 @@ const Banner = () => {
                     className="relative group active:scale-95 transition-all duration-200"
                   >
                     {/* Outer glow */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-blue-500 to-purple-600 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-[#2c7a6d] via-[#236b5e] to-[#1c5a4e] rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
                     
                     {/* Inner glow */}
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#2c7a6d] to-[#236b5e] rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
                     
                     {/* Button content */}
-                    <div className="relative px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-300 shadow-lg group-hover:shadow-2xl group-active:shadow-inner">
+                    <div className="relative px-8 py-4 bg-[#2c7a6d] hover:bg-[#236b5e] rounded-full transition-all duration-300">
                       <div className="flex items-center justify-center gap-2 sm:gap-3">
                         <span className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
                           Get A Free Quote

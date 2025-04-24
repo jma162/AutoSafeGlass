@@ -142,27 +142,82 @@ const ServicesPage = () => {
 
       {/* Schedule Service Section */}
       <div className="bg-[#f0f7f5] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Schedule Service
-          </h2>
-          <p className="text-xl mb-8" onClick={() => window.open("tel:+12159045778")}>
-            Please Call 215-904-5778
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => window.location.href = '/online-estimate'}
-              className="inline-flex items-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-3 rounded-lg transition-all duration-300 text-lg font-medium group shadow-sm hover:shadow-md"
-            >
-              Get Free Quote
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <a
-              onClick={() => window.open("tel:+12159045778")}
-              className="bg-white text-[#2c7a6d] px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium cursor-pointer"
-            >
-              Call Now
-            </a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12 max-w-4xl mx-auto">
+            <div className="text-center space-y-6 mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                Schedule Service
+              </h2>
+              <p className="text-xl text-gray-600">
+                Professional Auto Glass Service at Your Location
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              {/* Left Column - Contact Info */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 p-4 bg-[#f0f7f5] rounded-lg">
+                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                      Call Us
+                    </h3>
+                    <a 
+                      href="tel:+12159045778"
+                      className="text-xl font-medium text-[#2c7a6d] hover:text-[#236b5e] transition-colors"
+                    >
+                      215-904-5778
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 bg-[#f0f7f5] rounded-lg">
+                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                      Service Hours
+                    </h3>
+                    <div className="space-y-1">
+                      <p className="text-gray-600">
+                        Mon - Sat: 8:00 AM - 6:00 PM
+                      </p>
+                      <p className="text-gray-600">
+                        Sunday: By appointment only
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - CTA Buttons */}
+              <div className="space-y-4">
+                <button
+                  onClick={() => window.location.href = '/online-estimate'}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-4 rounded-lg transition-all duration-300 text-lg font-medium group shadow-sm hover:shadow-md"
+                >
+                  Get Free Quote
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                
+                <a
+                  onClick={() => window.open("tel:+12159045778")}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-white border-2 border-[#2c7a6d] text-[#2c7a6d] px-8 py-4 rounded-lg hover:bg-[#f0f7f5] transition-colors text-lg font-medium cursor-pointer"
+                >
+                  Call Now
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

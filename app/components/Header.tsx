@@ -106,7 +106,7 @@ const Header = () => {
             })}
             <Link
               href="/online-estimate"
-              className="ml-4 px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 group inline-block"
+              className="ml-4 px-8 py-2.5 bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-lg font-medium transition-all duration-300 group inline-block"
             >
               Get FREE Quote
             </Link>
@@ -141,7 +141,7 @@ const Header = () => {
                 </div>
                 <Link
                   href="/online-estimate"
-                  className="w-full p-4 mb-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 block text-center"
+                  className="w-full p-4 mb-4 bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-lg font-medium transition-all duration-300 block text-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get FREE Quote
