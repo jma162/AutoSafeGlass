@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     });
 
     const userMailOptions = {
-      from: `"Kapstone-Clinic" <${'trustmuhammadimedical@gmail.com'}>`,
+      from: `"AutoSafeGlass" <${'trustmuhammadimedical@gmail.com'}>`,
       to: email,
       subject: "Thank you for contacting AutoSafeGlass",
       html: `

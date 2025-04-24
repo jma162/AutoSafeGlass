@@ -2,7 +2,7 @@
 
 // Correct imports (ensure memo and useCallback are here if needed)
 import { useState, useEffect, useCallback, memo } from "react"; 
-import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
 
@@ -60,7 +60,12 @@ const OnlineEstimate = () => {
   const [models, setModels] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [vinError, setVinError] = useState("");
+<<<<<<< Updated upstream
   const [willClaimInsurance, setWillClaimInsurance] = useState<string>("");
+=======
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+>>>>>>> Stashed changes
 
   // Memoize the handleChange function
 
@@ -124,7 +129,6 @@ const OnlineEstimate = () => {
   };
 
   const handleSubmit = async () => {
-    // 只验证联系信息
     if (!validateContactInfo()) {
       return;
     }
@@ -133,6 +137,7 @@ const OnlineEstimate = () => {
     setSubmitStatus(null);
 
     try {
+<<<<<<< Updated upstream
       const formData = {
         damage: {
           location: selectedOption,
@@ -157,13 +162,38 @@ const OnlineEstimate = () => {
           note: userInfo.note,
         },
       };
+=======
+      // Upload photos to Cloudinary
+      // const photoUrls = await Promise.all(
+      //   uploadedPhotos.map(photo => uploadToCloudinary(photo))
+      // );s
+
+      const formData = new FormData();
+      
+      formData.append('damage', JSON.stringify({
+        location: selectedOption,
+        subLocation:
+          selectedOption === "Front"
+            ? selectedSeverity === "large"
+              ? "Large Damage"
+              : "Small Damage"
+            : selectedOption === "Driver Side"
+            ? selectedDriverLocation
+            : selectedPassengerLocation,
+        hasMultipleWindows,
+      }));
+      
+      formData.append('vehicle', JSON.stringify(vehicleInfo));
+      formData.append('userInfo', JSON.stringify(userInfo));
+      // formData.append('photoUrls', JSON.stringify(photoUrls));
+      photos.forEach((photo, index) => {
+        formData.append(`photo${index}`, photo);
+      });
+>>>>>>> Stashed changes
 
       const response = await fetch("/api/submit-estimate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
       if (response.ok) {
@@ -172,6 +202,7 @@ const OnlineEstimate = () => {
         setSubmitStatus("error");
       }
     } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -253,6 +284,32 @@ const OnlineEstimate = () => {
   useEffect(() => {
     fetchYears();
   }, []);
+
+  useEffect(() => {
+    setPreviews(photos.map(photo => URL.createObjectURL(photo)));
+  }, [photos]);
+
+  const handlePhotosChange = (files: FileList | null) => {
+    if (!files) return;
+    
+    const newFiles = Array.from(files);
+    const newPhotos = [...photos, ...newFiles];
+    setPhotos(newPhotos);
+
+    newFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviews(prev => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removePhoto = (index: number) => {
+    setPhotos(prev => prev.filter((_, i) => i !== index));
+    setPreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
 
   const DamageStep = () => (
     <>
@@ -799,6 +856,123 @@ const OnlineEstimate = () => {
   });
   ContactStep.displayName = 'ContactStep';
 
+  const PhotoUploadStep = () => (
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Upload Photos of Damage</h2>
+      <p className="text-gray-600 mb-6">
+        Please upload clear photos of the damage to help us provide a more accurate estimate
+      </p>
+
+      {/* Photo Grid */}
+      {previews.length > 0 && (
+        <div className="mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {previews.map((preview: string, index: number) => (
+              <div key={index} className="relative aspect-square">
+                <img
+                  src={preview}
+                  alt={`Damage preview ${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => removePhoto(index)}
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ))}
+
+            <div className="relative aspect-square">
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                id="add-more-photos"
+                onChange={(e) => handlePhotosChange(e.target.files)}
+              />
+              <label
+                htmlFor="add-more-photos"
+                className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-green-500 transition-colors"
+              >
+                <svg
+                  className="w-8 h-8 text-gray-400 mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                <span className="text-sm text-gray-500">Add More</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Initial Upload Area */}
+      {previews.length === 0 && (
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            id="photo-upload"
+            onChange={(e) => handlePhotosChange(e.target.files)}
+          />
+          <label
+            htmlFor="photo-upload"
+            className="cursor-pointer flex flex-col items-center justify-center"
+          >
+            <svg
+              className="w-12 h-12 text-gray-400 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <p className="text-gray-600 mb-2">Click to upload photos</p>
+            <p className="text-sm text-gray-500">or drag and drop</p>
+          </label>
+        </div>
+      )}
+
+      {/* Help Text */}
+      <p className="text-sm text-gray-500 mt-4">
+        You can upload multiple photos to help us better understand the damage.
+        Supported formats: JPG, PNG
+      </p>
+    </div>
+  );
+
   const SummaryStep = () => {
     const getDamageLocation = () => {
       if (selectedOption === "Front") {
@@ -948,6 +1122,7 @@ const OnlineEstimate = () => {
             </div>
           </div>
 
+<<<<<<< Updated upstream
           {/* Insurance Information */}
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
@@ -963,6 +1138,30 @@ const OnlineEstimate = () => {
               </div>
             </div>
           </div>
+=======
+          {/* Uploaded Photos */}
+          {previews.length > 0 && (
+            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-3 mb-4">
+                <Upload className="w-5 h-5 text-[#2c7a6d]" />
+                <h2 className="font-semibold text-lg text-gray-900">Uploaded Photos</h2>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {previews.map((preview, index) => (
+                  <div key={index} className="relative">
+                    <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+                      <img
+                        src={preview}
+                        alt={`Upload ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+>>>>>>> Stashed changes
         </div>
 
         {/* Submit Button */}
@@ -1087,6 +1286,12 @@ const OnlineEstimate = () => {
                   },
                   {
                     step: 4,
+                    icon: Upload,
+                    title: "Upload Photos",
+                    desc: "Add photos of the damage"
+                  },
+                  {
+                    step: 5,
                     icon: FileText,
                     title: "Review & Submit",
                     desc: "Review your information"
@@ -1380,11 +1585,12 @@ const OnlineEstimate = () => {
                     </div>
                   </>
               )}
-              {currentStep === 4 && <SummaryStep />}
+              {currentStep === 4 && <PhotoUploadStep />}
+              {currentStep === 5 && <SummaryStep />}
 
               {/* Navigation Buttons */}
               <div className="mt-8 flex justify-between items-center pt-6 border-t border-[#e0ede9]">
-                {((currentStep > 1 && currentStep < 4) ||
+                {((currentStep > 1 && currentStep < 5) ||
                   showDamageSeverity ||
                   showDriverSideLocations ||
                   showPassengerSideLocations) && (
@@ -1396,7 +1602,7 @@ const OnlineEstimate = () => {
                     Back
                   </button>
                 )}
-                {currentStep < 4 && (
+                {currentStep < 5 && (
                   <div className={currentStep > 1 ? "ml-auto" : "w-full"}>
                     <button
                       onClick={handleNext}

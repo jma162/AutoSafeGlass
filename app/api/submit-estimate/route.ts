@@ -1,54 +1,41 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
+import { v2 as cloudinary } from 'cloudinary'
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json()
-    const { damage, vehicle, userInfo } = data
-
-    // --- Define Refined Colors and Styles ---
-    const primaryAccentColor = "#7E57C2"; // A slightly softer, elegant purple
-    const headingColor = "#4A148C";    // A deeper purple for main headings
-    const labelColor = "#5E35B1";      // Purple for labels (strong tags)
-    const lightBgColor = "#f9f8fd";   // Very light purple/gray background
-    const borderColor = "#eae6f0";   // Softer border color
-    const textColor = "#333333";      // Dark gray for readability
-    // Modern sans-serif font stack for better email client support
-    const fontFamily = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-
-    const bodyStyle = `background-color: #f4f4f7; margin: 0; padding: 0; font-family: ${fontFamily};`; // Style for the email body itself
-    const containerStyle = `max-width: 600px; margin: 30px auto; padding: 30px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);`;
-    const h2Style = `color: ${headingColor}; margin: 0 0 25px 0; font-size: 26px; font-weight: 600; border-bottom: 2px solid ${primaryAccentColor}; padding-bottom: 10px;`;
-    const h3Style = `color: ${primaryAccentColor}; margin: 25px 0 15px 0; font-size: 18px; font-weight: 600;`;
-    const pStyle = `margin: 0 0 12px 0; line-height: 1.7; font-size: 15px; color: ${textColor};`;
-    const strongStyle = `color: ${labelColor}; font-weight: 600;`; // Styled labels
-    const sectionStyle = `background-color: ${lightBgColor}; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid ${borderColor};`;
-    const listStyle = `margin: 10px 0 15px 5px; padding-left: 20px;`;
-    const listItemStyle = `margin-bottom: 8px; font-size: 15px;`;
-    const footerStyle = `margin-top: 35px; font-size: 13px; color: #888888; text-align: center; border-top: 1px solid ${borderColor}; padding-top: 20px;`;
-    const linkStyle = `color: ${primaryAccentColor}; text-decoration: none; font-weight: 600;`; // Style for links like phone number
-    // --- End Styles ---
+    const formData = await request.formData()
+    const damage = JSON.parse(formData.get('damage') as string)
+    const vehicle = JSON.parse(formData.get('vehicle') as string)
+    const userInfo = JSON.parse(formData.get('userInfo') as string)
+    // const photoUrls = JSON.parse(formData.get('photoUrls') as string)
 
     // Create email transporter
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: "trustmuhammadimedical@gmail.com",
-          pass: "fxjqiyaquedqyyjj",
-        },
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "trustmuhammadimedical@gmail.com",
+        pass: "fxjqiyaquedqyyjj",
+      },
     });
 
-    // Format vehicle information for HTML
-    const vehicleInfoHtml = vehicle.method === "license"
-      ? `<strong style="${strongStyle}">License Plate:</strong> ${vehicle.licensePlate}<br>
-         <strong style="${strongStyle}">State:</strong> ${vehicle.registeredState}<br>
-         ${vehicle.vin ? `<strong style="${strongStyle}">VIN:</strong> ${vehicle.vin}` : ""}`
-      : `<strong style="${strongStyle}">Year:</strong> ${vehicle.year}<br>
-         <strong style="${strongStyle}">Make:</strong> ${vehicle.make}<br>
-         <strong style="${strongStyle}">Model:</strong> ${vehicle.model}`
+    const photoUrls = [];
+    let photoIndex = 0;
+    while (formData.has(`photo${photoIndex}`)) {
+      const photo = formData.get(`photo${photoIndex}`) as File;
+      if (photo) {
+        const bytes = await photo.arrayBuffer();
+        const buffer = Buffer.from(bytes);
 
+<<<<<<< Updated upstream
     // --- Email to the Company ---
     const companyMailOptions = {
       from: `\"Estimate Request\" <${process.env.SMTP_USER || 'trustmuhammadimedical@gmail.com'}>`,
@@ -66,35 +53,93 @@ export async function POST(request: Request) {
               ${damage.hasMultipleWindows ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong> Multiple windows have damage</p>` : ""}
               <p style="${pStyle}"><strong style="${strongStyle}">Insurance Claim:</strong> ${damage.willClaimInsurance === 'yes' ? 'Yes' : damage.willClaimInsurance === 'no' ? 'No' : 'Not specified'}</p>
             </div>
+=======
+        const result = await new Promise((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { resource_type: 'auto' },
+            (error: any, result: any) => {
+              if (error) reject(error);
+              resolve(result);
+            }
+          );
+>>>>>>> Stashed changes
 
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Vehicle Information</h3>
-              <p style="${pStyle}">${vehicleInfoHtml}</p>
-            </div>
-
-            <div style="${sectionStyle}">
-              <h3 style="${h3Style}">Customer Information</h3>
-              <p style="${pStyle}"><strong style="${strongStyle}">Name:</strong> ${userInfo.firstName} ${userInfo.lastName}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Email:</strong> ${userInfo.email}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">Phone:</strong> ${userInfo.phone}</p>
-              <p style="${pStyle}"><strong style="${strongStyle}">ZIP Code:</strong> ${userInfo.zipCode}</p>
-              ${userInfo.note ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong><br>${userInfo.note.replace(/\n/g, '<br>')}</p>` : ""}
-            </div>
-            
-            <div style="${footerStyle}">
-              This email was sent automatically.
-            </div>
-          </div>
-        </body>
-      `,
+          const bufferStream = require('stream').Readable.from(buffer);
+          bufferStream.pipe(uploadStream);
+        });
+        
+        if (result) {
+          photoUrls.push((result as any).secure_url);
+        }
+      }
+      photoIndex++;
     }
 
-    // --- Confirmation Email to the Customer ---
-    const customerMailOptions = {
-      from: `\"AutoSafeGlass\" <${'trustmuhammadimedical@gmail.com'}>`,
+    const photosHtml = photoUrls.length > 0
+      ? `
+        <h3>Damage Photos</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+          ${photoUrls.map(url => `
+            <img src="${url}" alt="Damage Photo" style="max-width: 300px; height: auto; border-radius: 8px;" />
+          `).join('')}
+        </div>
+      `
+      : '';
+
+
+    // Create email content with images
+    const emailContent = `
+      <h2>New Estimate Request</h2>
+      
+      <h3>Damage Information</h3>
+      <p>Location: ${damage.location}</p>
+      <p>Sub-location: ${damage.subLocation}</p>
+      <p>Multiple Windows: ${damage.hasMultipleWindows ? 'Yes' : 'No'}</p>
+      
+      <h3>Vehicle Information</h3>
+      <p>Method: ${vehicle.method}</p>
+      ${vehicle.method === 'license' ? `
+        <p>License Plate: ${vehicle.licensePlate}</p>
+        <p>State: ${vehicle.registeredState}</p>
+        <p>VIN: ${vehicle.vin}</p>
+      ` : `
+        <p>Year: ${vehicle.year}</p>
+        <p>Make: ${vehicle.make}</p>
+        <p>Model: ${vehicle.model}</p>
+      `}
+      
+      <h3>Contact Information</h3>
+      <p>Name: ${userInfo.firstName} ${userInfo.lastName}</p>
+      <p>Phone: ${userInfo.phone}</p>
+      <p>Email: ${userInfo.email}</p>
+      <p>ZIP Code: ${userInfo.zipCode}</p>
+      ${userInfo.note ? `<p>Note: ${userInfo.note}</p>` : ''}
+      
+      <h3>Uploaded Photos</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+        ${photoUrls.map((url: string) => `
+          <div>
+            <img src="${url}" alt="Damage photo" style="width: 100%; height: auto; border-radius: 8px;" />
+          </div>
+        `).join('')}
+      </div>
+    `
+
+    // Send email to admin
+    // await transporter.sendMail({
+    //   from: process.env.SMTP_FROM,
+    //   to: process.env.ADMIN_EMAIL,
+    //   subject: 'New Auto Glass Estimate Request',
+    //   html: emailContent,
+    // })
+
+    // Send confirmation email to user
+    await transporter.sendMail({
+      from: `"AutoSafeGlass" <${'trustmuhammadimedical@gmail.com'}>`,
       to: userInfo.email,
-      subject: "Your Glass Repair Estimate Request - AutoSafeGlass",
+      subject: 'Your Auto Glass Estimate Request',
       html: `
+<<<<<<< Updated upstream
         <body style="${bodyStyle}">
           <div style="${containerStyle}">
             <h2 style="${h2Style}">Thank You For Your Request, ${userInfo.firstName}!</h2>
@@ -122,31 +167,31 @@ export async function POST(request: Request) {
               <p style="${pStyle}"><strong style="${strongStyle}">Phone:</strong> ${userInfo.phone}</p>
               <p style="${pStyle}"><strong style="${strongStyle}">ZIP Code:</strong> ${userInfo.zipCode}</p>
             </div>
+=======
+        <h2>Thank you for your estimate request!</h2>
+        <p>We have received your request and will review it shortly. Here's a summary of your submission:</p>
+        
+        <h3>Damage Information</h3>
+        <p>Location: ${damage.location}</p>
+        <p>Sub-location: ${damage.subLocation}</p>
+        
+        <h3>Vehicle Information</h3>
+        ${vehicle.method === 'license' ? `
+          <p>License Plate: ${vehicle.licensePlate}</p>
+          <p>State: ${vehicle.registeredState}</p>
+        ` : `
+          <p>Year: ${vehicle.year}</p>
+          <p>Make: ${vehicle.make}</p>
+          <p>Model: ${vehicle.model}</p>
+        `}
+>>>>>>> Stashed changes
 
-            <div>
-              <h3 style="${h3Style}">What Happens Next?</h3>
-              <p style="${pStyle}">Our team will carefully review your request and aim to contact you within 24 business hours to:</p>
-              <ul style="${listStyle}">
-                <li style="${listItemStyle}">Provide you with a detailed estimate.</li>
-                <li style="${listItemStyle}">Answer any questions you might have.</li>
-                <li style="${listItemStyle}">Help schedule your repair or replacement if you decide to proceed.</li>
-              </ul>
-              <p style="${pStyle}">If you need immediate assistance or have urgent questions, please don't hesitate to call us directly at <a href="tel:+12159045778" style="${linkStyle}">215-904-5778</a>.</p>
-            </div>
-
-            <p style="margin-top: 25px; ${pStyle}">Best regards,<br>The AutoSafeGlass Team</p>
-
-            <div style="${footerStyle}">
-              AutoSafeGlass | 1200 Route 70 E. #707, Cherry Hill, NJ 08034 | 215-904-5778
-            </div>
-          </div>
-        </body>
+        ${photosHtml}
+        
+        <p>We will contact you shortly with your estimate.</p>
+        <p>If you have any questions, please don't hesitate to contact us.</p>
       `,
-    }
-
-    // Send emails
-    // await transporter.sendMail(companyMailOptions)
-    await transporter.sendMail(customerMailOptions)
+    })
 
     return NextResponse.json({ success: true })
   } catch (error) {
