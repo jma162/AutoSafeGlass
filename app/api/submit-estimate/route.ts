@@ -64,6 +64,7 @@ export async function POST(request: Request) {
               <p style="${pStyle}"><strong style="${strongStyle}">Location:</strong> ${damage.location}</p>
               <p style="${pStyle}"><strong style="${strongStyle}">Specific Location:</strong> ${damage.subLocation}</p>
               ${damage.hasMultipleWindows ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong> Multiple windows have damage</p>` : ""}
+              <p style="${pStyle}"><strong style="${strongStyle}">Insurance Claim:</strong> ${damage.willClaimInsurance === 'yes' ? 'Yes' : damage.willClaimInsurance === 'no' ? 'No' : 'Not specified'}</p>
             </div>
 
             <div style="${sectionStyle}">
@@ -105,6 +106,7 @@ export async function POST(request: Request) {
               <p style="${pStyle}"><strong style="${strongStyle}">Location:</strong> ${damage.location}</p>
               <p style="${pStyle}"><strong style="${strongStyle}">Specific Location:</strong> ${damage.subLocation}</p>
               ${damage.hasMultipleWindows ? `<p style="${pStyle}"><strong style="${strongStyle}">Note:</strong> Multiple windows with damage noted</p>` : ""}
+              <p style="${pStyle}"><strong style="${strongStyle}">Insurance Claim:</strong> ${damage.willClaimInsurance === 'yes' ? 'Yes' : damage.willClaimInsurance === 'no' ? 'No' : 'Not specified'}</p>
               ${userInfo.note ? `<p style="${pStyle}"><strong style="${strongStyle}">Note Provided:</strong><br>${userInfo.note.replace(/\n/g, '<br>')}</p>` : ""}
             </div>
             

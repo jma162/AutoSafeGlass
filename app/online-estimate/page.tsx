@@ -60,12 +60,22 @@ const OnlineEstimate = () => {
   const [models, setModels] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [vinError, setVinError] = useState("");
+  const [willClaimInsurance, setWillClaimInsurance] = useState<string>("");
 
   // Memoize the handleChange function
 
 
   const handleNext = () => {
     if (currentStep === 1) {
+      if (!selectedOption) {
+        return;
+      }
+      
+      if (!willClaimInsurance) {
+        alert("Please indicate if you will be making an insurance claim.");
+        return;
+      }
+
       if (selectedOption === "Front" && !showDamageSeverity) {
         setShowDamageSeverity(true);
         return;
@@ -135,6 +145,7 @@ const OnlineEstimate = () => {
               ? selectedDriverLocation
               : selectedPassengerLocation,
           hasMultipleWindows,
+          willClaimInsurance,
         },
         vehicle: vehicleInfo,
         userInfo: {
@@ -458,6 +469,30 @@ const OnlineEstimate = () => {
                 </span>
               </div>
             </label>
+          </div>
+
+          {/* Insurance Claim Question - 添加必填标记和验证 */}
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Will you be making an insurance claim? <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={willClaimInsurance}
+              onChange={(e) => setWillClaimInsurance(e.target.value)}
+              className={`w-full md:w-64 px-4 py-2.5 bg-white border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                !willClaimInsurance ? 'border-red-300' : 'border-gray-300'
+              }`}
+              required
+            >
+              <option value="">Please select...</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+            {!willClaimInsurance && (
+              <p className="mt-1 text-sm text-red-500">
+                Please indicate if you will be making an insurance claim
+              </p>
+            )}
           </div>
         </>
       )}
@@ -912,6 +947,22 @@ const OnlineEstimate = () => {
               )}
             </div>
           </div>
+
+          {/* Insurance Information */}
+          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <Shield className="w-5 h-5 text-blue-600" />
+              <h2 className="font-semibold text-lg text-gray-900">Insurance Information</h2>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700">Insurance Claim:</span>
+                <span className="text-gray-900">
+                  {willClaimInsurance === 'yes' ? 'Yes' : willClaimInsurance === 'no' ? 'No' : 'Not specified'}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Submit Button */}
@@ -1349,9 +1400,9 @@ const OnlineEstimate = () => {
                   <div className={currentStep > 1 ? "ml-auto" : "w-full"}>
                     <button
                       onClick={handleNext}
-                      disabled={currentStep === 1 && !selectedOption}
+                      disabled={currentStep === 1 && (!selectedOption || !willClaimInsurance)}
                       className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
-                        currentStep === 1 && !selectedOption ? "opacity-50 cursor-not-allowed" : ""
+                        currentStep === 1 && (!selectedOption || !willClaimInsurance) ? "opacity-50 cursor-not-allowed" : ""
                       } ${currentStep === 1 ? "w-full" : ""}`}
                     >
                       <span>Continue</span>
