@@ -48,7 +48,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Contact Info - Simplified */}
+          {/* Contact Info - Re-added FREE Mobile Service */}
           <div className="hidden md:flex items-center gap-4">
             <div 
               className="group flex items-center gap-2 px-4 py-2 bg-[#f0f7f5] rounded-full cursor-pointer hover:bg-[#e0ede9] transition-all duration-200"
@@ -57,6 +57,12 @@ const Header = () => {
               <Phone className="w-4 h-4 text-[#2c7a6d]" />
               <p className="text-sm font-semibold text-[#2c7a6d]">
                 215-904-5778
+              </p>
+            </div>
+            {/* Restored FREE Mobile Service Text */}
+            <div className="hidden lg:flex items-center px-4 py-2 bg-[#f0f7f5] rounded-full"> 
+              <p className="text-sm font-semibold text-[#2c7a6d] animate-pulse">
+                FREE Mobile Service!
               </p>
             </div>
           </div>
@@ -156,6 +162,11 @@ const Header = () => {
 
               {/* Mobile Footer with Buttons */}
               <div className="p-4 border-t border-gray-200 space-y-3">
+                <div className="p-3 bg-[#f0f7f5] rounded-lg text-center">
+                  <p className="text-sm font-semibold text-[#2c7a6d] animate-pulse">
+                    FREE Mobile Service!
+                  </p>
+                </div>
                 <Link
                   href="/online-estimate"
                   className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-semibold shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 block text-center group flex items-center justify-center gap-1.5"
