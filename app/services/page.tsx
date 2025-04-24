@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Clock, Shield, Car, ArrowRight } from 'lucide-react'
+import { Clock, Shield, Car, ArrowRight, Wrench, LayoutGrid, CircleDot, PanelLeftClose } from 'lucide-react'
 
 const ServicesPage = () => {
   const router = useRouter();
@@ -30,27 +30,48 @@ const ServicesPage = () => {
       </div>
 
       {/* Main Services */}
-      <div className="py-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Windshield Replacement */}
-          <div className="bg-[#f0f7f5] p-6 rounded-lg">
-            <Car className="w-8 h-8 text-[#2c7a6d] mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Windshield Replacement</h3>
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <Wrench className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">Windshield Replacement</h3>
             <p className="text-gray-600">Professional windshield replacement with high-quality materials.</p>
           </div>
 
-          {/* Windshield Repair */}
-          <div className="bg-[#f0f7f5] p-6 rounded-lg">
-            <Shield className="w-8 h-8 text-[#2c7a6d] mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Windshield Repair</h3>
+          {/* Rock Chip Repair */}
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <CircleDot className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">Rock Chip Repair</h3>
             <p className="text-gray-600">Quick and effective repair for chips and cracks.</p>
           </div>
 
-          {/* Mobile Service */}
-          <div className="bg-[#f0f7f5] p-6 rounded-lg">
-            <Clock className="w-8 h-8 text-[#2c7a6d] mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Mobile Service</h3>
-            <p className="text-gray-600">Convenient service at your location.</p>
+          {/* Door Glass Replacement */}
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <Shield className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">Door Glass Replacement</h3>
+            <p className="text-gray-600">Expert door window replacement for all vehicle types.</p>
+          </div>
+
+          {/* Back Window Replacement */}
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <LayoutGrid className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">Back Window Replacement</h3>
+            <p className="text-gray-600">Professional back window replacement service.</p>
+          </div>
+
+          {/* Side View Mirror Replacement */}
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <PanelLeftClose className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">Side View Mirror Replacement</h3>
+            <p className="text-gray-600">Complete side mirror replacement and repair services.</p>
+          </div>
+
+          {/* All Auto Glass Replacement */}
+          <div className="bg-[#f0f7f5] p-6 rounded-lg hover:bg-[#e0ede9] transition-all duration-300">
+            <Car className="w-8 h-8 text-[#2c7a6d] mb-4" />
+            <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">All Auto Glass Replacement</h3>
+            <p className="text-gray-600">Comprehensive auto glass replacement services for all needs.</p>
           </div>
         </div>
       </div>
