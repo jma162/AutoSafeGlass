@@ -244,8 +244,22 @@ const ServicesPage = () => {
       </div>
 
       {/* Why Choose Auto Safe Glass Section */}
-      <div className="bg-[#f0f7f5] py-16">
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="relative bg-[#f0f7f5] py-16 overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 w-full h-full">
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-10"
+          >
+            <source src="/video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-[montserratSemiBold] text-[#2c7a6d] text-center mb-12">
             Why Choose Auto Safe Glass?
           </h2>

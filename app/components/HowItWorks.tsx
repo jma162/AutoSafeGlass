@@ -1,110 +1,98 @@
 const HowItWorks = () => {
   return (
-    <div className="max-w-5xl mx-auto py-16 px-4">
-      {/* Logo */}
-      <div className="text-center mb-12">
-        <h2 className="text-gray-900 text-4xl font-bold tracking-tight">
+    <div className="max-w-6xl mx-auto py-20 px-4">
+      {/* Header */}
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-[montserratSemiBold] text-[#2c7a6d] mb-4">
           Why Choose Auto Safe Glass?
         </h2>
-        <p className="mt-4 text-gray-500 text-lg">
+        <p className="text-xl text-gray-600">
           Professional service with guaranteed satisfaction
         </p>
       </div>
 
-      {/* Features in two columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto">
-        {/* Left column */}
-        <div className="space-y-8">
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">›</span>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
-                Complete Auto Glass Solutions
-              </h3>
-              <p className="mt-1 text-gray-600">
-                All your automotive glass needs
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">›</span>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
-                Premium Quality & Safety
-              </h3>
-              <p className="mt-1 text-gray-600">
-                High quality materials and service
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">›</span>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
-                Expert Installation
-              </h3>
-              <p className="mt-1 text-gray-600">
-                Professional installation
-              </p>
-            </div>
+      <div className="flex flex-col lg:flex-row gap-12 items-center">
+        {/* Video Section */}
+        <div className="lg:w-1/2">
+          <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              playsInline
+              className="w-full aspect-video object-cover"
+            >
+              <source src="/video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
 
-        {/* Right column */}
-        <div className="space-y-8">
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">✓</span>
+        {/* Features Section */}
+        <div className="lg:w-1/2 space-y-8">
+          {/* Feature 1 */}
+          <div className="flex items-start space-x-6 group">
+            <div className="w-12 h-12 rounded-full bg-[#f0f7f5] flex items-center justify-center flex-shrink-0">
+              <span className="text-[#2c7a6d] text-2xl font-bold">1</span>
             </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
+            <div>
+              <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">
+                Complete Auto Glass Solutions
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Comprehensive services for all your automotive glass needs, from repairs to full replacements.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 2 */}
+          <div className="flex items-start space-x-6 group">
+            <div className="w-12 h-12 rounded-full bg-[#f0f7f5] flex items-center justify-center flex-shrink-0">
+              <span className="text-[#2c7a6d] text-2xl font-bold">2</span>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">
+                Expert Installation
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                Professional technicians with years of experience ensuring quality service.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 3 */}
+          <div className="flex items-start space-x-6 group">
+            <div className="w-12 h-12 rounded-full bg-[#f0f7f5] flex items-center justify-center flex-shrink-0">
+              <span className="text-[#2c7a6d] text-2xl font-bold">3</span>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">
                 Insurance Friendly
               </h3>
-              <p className="mt-1 text-gray-600">
-                All insurance accepted
+              <p className="text-gray-600 leading-relaxed">
+                We work with all insurance companies and handle the claims process for you.
               </p>
             </div>
           </div>
 
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">✓</span>
+          {/* Feature 4 */}
+          <div className="flex items-start space-x-6 group">
+            <div className="w-12 h-12 rounded-full bg-[#f0f7f5] flex items-center justify-center flex-shrink-0">
+              <span className="text-[#2c7a6d] text-2xl font-bold">4</span>
             </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
+            <div>
+              <h3 className="text-xl font-semibold text-[#2c7a6d] mb-2">
                 Competitive Pricing
               </h3>
-              <p className="mt-1 text-gray-600">
-                Low cost & great service
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start group">
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-              <span className="text-gray-900 text-2xl">✓</span>
-            </div>
-            <div className="ml-4">
-              <h3 className="text-xl font-semibold text-gray-900">
-              Mobile Service Available
-              </h3>
-              <p className="mt-1 text-gray-600">
-              Service at your location
+              <p className="text-gray-600 leading-relaxed">
+                Quality service at affordable rates with flexible payment options.
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HowItWorks
+export default HowItWorks;
