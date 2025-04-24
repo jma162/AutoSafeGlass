@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, memo, useRef } from "react";
 import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera } from "lucide-react";
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Add this interface before the OnlineEstimate component
 interface ContactStepProps {
@@ -20,6 +21,7 @@ interface ContactStepProps {
 }
 
 const OnlineEstimate = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedOption, setSelectedOption] = useState("Back");
   const [hasMultipleWindows, setHasMultipleWindows] = useState(false);
@@ -138,11 +140,6 @@ const OnlineEstimate = () => {
     setSubmitStatus(null);
 
     try {
-      // Upload photos to Cloudinary
-      // const photoUrls = await Promise.all(
-      //   uploadedPhotos.map(photo => uploadToCloudinary(photo))
-      // );s
-
       const formData = new FormData();
       
       formData.append('damage', JSON.stringify({
@@ -160,7 +157,8 @@ const OnlineEstimate = () => {
       
       formData.append('vehicle', JSON.stringify(vehicleInfo));
       formData.append('userInfo', JSON.stringify(userInfo));
-      // formData.append('photoUrls', JSON.stringify(photoUrls));
+      formData.append('willClaimInsurance', willClaimInsurance);
+      
       photos.forEach((photo, index) => {
         formData.append(`photo${index}`, photo);
       });
@@ -172,6 +170,9 @@ const OnlineEstimate = () => {
 
       if (response.ok) {
         setSubmitStatus("success");
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
       } else {
         setSubmitStatus("error");
       }
@@ -1166,33 +1167,22 @@ const OnlineEstimate = () => {
           {/* Contact Information */}
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
-              <User className="w-5 h-5 text-[#2c7a6d]" />
+              <User className="w-5 h-5 text-blue-600" />
               <h2 className="font-semibold text-lg text-gray-900">Contact Information</h2>
             </div>
-            <div className="space-y-3 text-sm">
+            <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-gray-700 w-24">Name:</span>
+                <span className="font-medium text-gray-700">Name:</span>
                 <span className="text-gray-900">{userInfo.firstName} {userInfo.lastName}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-gray-700 w-24">Phone:</span>
-                <span className="text-gray-900">{userInfo.phone}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-gray-700 w-24">Email:</span>
+                <span className="font-medium text-gray-700">Email:</span>
                 <span className="text-gray-900">{userInfo.email}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-gray-700 w-24">ZIP Code:</span>
-                <span className="text-gray-900">{userInfo.zipCode}</span>
+                <span className="font-medium text-gray-700">Phone:</span>
+                <span className="text-gray-900">{userInfo.phone}</span>
               </div>
-              {/* Display Note if it exists */}
-              {userInfo.note && (
-                <div className="flex items-start gap-2 pt-2 border-t border-gray-200 mt-3">
-                  <span className="font-medium text-gray-700 w-24 mt-0.5">Note for our team:</span>
-                  <p className="text-gray-900 flex-1 whitespace-pre-wrap">{userInfo.note}</p>
-                </div>
-              )}
             </div>
           </div>
 
@@ -1211,6 +1201,7 @@ const OnlineEstimate = () => {
               </div>
             </div>
           </div>
+
           {/* Uploaded Photos */}
           {previews.length > 0 && (
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
@@ -1239,7 +1230,7 @@ const OnlineEstimate = () => {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === "success"}
-          className="w-full mt-8 bg-[#f0f7f5] hover:bg-[#e0ede9] text-[#2c7a6d] py-4 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium text-lg border border-[#e0ede9]"
+          className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium text-lg"
         >
           {isSubmitting ? (
             <>
@@ -1656,7 +1647,7 @@ const OnlineEstimate = () => {
                            value={userInfo.note || ''}
                            onChange={handleChange}
                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                           placeholder="Any additional details? (e.g., preferred contact time, any other information regarding the damage)"
+                           placeholder="Any additional details? (e.g., Mobile service or in store service, or any other information regarding the damage)"
                          />
                       </div>
                     </div>
