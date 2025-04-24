@@ -161,8 +161,8 @@ const Header = () => {
                       href={link.href}
                       className={`flex items-center px-5 py-4 rounded-lg font-medium text-base transition-all ${
                         isActive 
-                          ? "bg-blue-50 text-blue-600" 
-                          : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                          ? "bg-[#f0f7f5] text-[#2c7a6d]" 
+                          : "text-gray-600 hover:bg-[#f0f7f5] hover:text-[#2c7a6d]"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >

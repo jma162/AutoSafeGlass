@@ -30,8 +30,8 @@ const ServicesPage = () => {
       </div>
 
       {/* Main Services */}
-      <div className="py-16 max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="py-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Windshield Replacement */}
           <div className="bg-[#f0f7f5] p-6 rounded-lg">
             <Car className="w-8 h-8 text-[#2c7a6d] mb-4" />

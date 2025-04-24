@@ -83,14 +83,11 @@ const ContactUs = () => {
         </div>
 
         {/* 联系信息和地图 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* 联系信息 */}
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          {/* 联系信息卡片 */}
+          <div className="space-y-4 sm:space-y-6">
             {/* 电话 */}
-            <div 
-              className="flex items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
-              onClick={() => window.open("tel:+12159045778")}
-            >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer">
               <div className="bg-blue-50 p-2 rounded-lg">
                 <Phone className="w-6 h-6 text-blue-600" />
               </div>
@@ -103,10 +100,7 @@ const ContactUs = () => {
             </div>
 
             {/* 邮箱 */}
-            <div 
-              className="flex items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
-              onClick={() => handleEmail("info@autosafeglass.com")}
-            >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer">
               <div className="bg-purple-50 p-2 rounded-lg">
                 <Mail className="w-6 h-6 text-purple-600" />
               </div>
@@ -119,10 +113,7 @@ const ContactUs = () => {
             </div>
 
             {/* 总店地址 */}
-            <div 
-              className="flex items-start gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group"
-              onClick={handleMainStoreNavigation}
-            >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group">
               <div className="bg-emerald-50 p-2 rounded-lg mt-1">
                 <MapPin className="w-6 h-6 text-emerald-600" />
               </div>

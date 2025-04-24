@@ -492,7 +492,7 @@ const OnlineEstimate = () => {
               {selectedSeverity === "small" && (
                 <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
-        </div>
+                </div>
               )}
             </div>
             <div>
@@ -539,20 +539,20 @@ const OnlineEstimate = () => {
                 {selectedDriverLocation === location.id && (
                   <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
-              </div>
+                  </div>
                 )}
-                </div>
+              </div>
               <span className="font-medium text-gray-900">{location.label}</span>
               <p className="text-sm text-gray-500 mt-1 text-center">{location.description}</p>
-              </div>
-              </div>
+            </div>
+          </div>
         ))}
       </div>
 
       {/* Multiple Windows Checkbox */}
       <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
-                <input
+          <input
             type="checkbox"
             className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
             checked={hasMultipleWindows}
@@ -565,10 +565,10 @@ const OnlineEstimate = () => {
             <span className="text-sm text-gray-500">
               Select the primary window above and we'll contact you to get more details.
             </span>
-              </div>
+          </div>
         </label>
-            </div>
-          </>
+      </div>
+    </>
   );
 
   const PassengerSideLocationsStep = () => (
@@ -603,7 +603,7 @@ const OnlineEstimate = () => {
                 {selectedPassengerLocation === location.id && (
                   <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
-            </div>
+                  </div>
                 )}
               </div>
               <span className="font-medium text-gray-900">{location.label}</span>
@@ -616,7 +616,7 @@ const OnlineEstimate = () => {
       {/* Multiple Windows Checkbox */}
       <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <label className="flex items-start cursor-pointer">
-              <input
+          <input
             type="checkbox"
             className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
             checked={hasMultipleWindows}
@@ -629,8 +629,8 @@ const OnlineEstimate = () => {
             <span className="text-sm text-gray-500">
               Select the primary window above and we'll contact you to get more details.
             </span>
-            </div>
-              </label>
+          </div>
+        </label>
       </div>
     </>
   );

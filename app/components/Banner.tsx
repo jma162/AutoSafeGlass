@@ -72,10 +72,10 @@ const Banner = () => {
                 </p>
                 
                 {/* CTA Button Container */}
-                <div className="inline-block animate-bounce-slow">
+                <div className="inline-block animate-bounce-slow px-4 sm:px-0">
                   <button
                     onClick={() => router.push("/online-estimate")}
-                    className="relative group active:scale-95 transition-all duration-200"
+                    className="relative group active:scale-95 transition-all duration-200 w-full sm:w-auto"
                   >
                     {/* Outer glow */}
                     <div className="absolute -inset-1 bg-gradient-to-r from-[#2c7a6d] via-[#236b5e] to-[#1c5a4e] rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
@@ -84,12 +84,12 @@ const Banner = () => {
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-[#2c7a6d] to-[#236b5e] rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
                     
                     {/* Button content */}
-                    <div className="relative px-8 py-4 bg-[#2c7a6d] hover:bg-[#236b5e] rounded-full transition-all duration-300">
-                      <div className="flex items-center justify-center gap-2 sm:gap-3">
-                        <span className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
+                    <div className="relative px-6 sm:px-8 py-3 sm:py-4 bg-[#2c7a6d] hover:bg-[#236b5e] rounded-full transition-all duration-300">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-base sm:text-lg md:text-xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
                           Get A Free Quote
                         </span>
-                        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:translate-x-1 group-active:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:translate-x-1 group-active:translate-x-0.5 transition-all" />
                       </div>
                     </div>
 
