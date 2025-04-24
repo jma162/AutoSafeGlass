@@ -832,12 +832,12 @@ const OnlineEstimate = () => {
     console.log("Rendering ContactStep");
     return (
       <>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
-        <p className="text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+        <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+        <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* First Name */}
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
               First Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -852,7 +852,7 @@ const OnlineEstimate = () => {
           </div>
           {/* Last Name */}
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
               Last Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -867,7 +867,7 @@ const OnlineEstimate = () => {
           </div>
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
               Phone <span className="text-red-500">*</span>
             </label>
             <input
@@ -882,7 +882,7 @@ const OnlineEstimate = () => {
           </div>
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -897,7 +897,7 @@ const OnlineEstimate = () => {
           </div>
           {/* Zip Code */}
           <div>
-            <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
               ZIP Code <span className="text-red-500">*</span>
             </label>
             <input
@@ -912,7 +912,7 @@ const OnlineEstimate = () => {
           </div>
           {/* Note Field */}
           <div className="md:col-span-2">
-             <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
+             <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                Note (Optional)
              </label>
              <textarea
@@ -1105,7 +1105,7 @@ const OnlineEstimate = () => {
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <Car className="w-5 h-5 text-[#2c7a6d]" />
-              <h2 className="font-semibold text-lg text-gray-900">Damage Information</h2>
+              <h2 className="font-semibold text-base md:text-lg text-gray-900">Damage Information</h2>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -1125,7 +1125,7 @@ const OnlineEstimate = () => {
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <Car className="w-5 h-5 text-[#2c7a6d]" />
-              <h2 className="font-semibold text-lg text-gray-900">Vehicle Information</h2>
+              <h2 className="font-semibold text-base md:text-lg text-gray-900">Vehicle Information</h2>
             </div>
             <div className="space-y-3">
               {vehicleInfo.method === "license" ? (
@@ -1168,7 +1168,7 @@ const OnlineEstimate = () => {
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <User className="w-5 h-5 text-blue-600" />
-              <h2 className="font-semibold text-lg text-gray-900">Contact Information</h2>
+              <h2 className="font-semibold text-base md:text-lg text-gray-900">Contact Information</h2>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -1190,7 +1190,7 @@ const OnlineEstimate = () => {
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <Shield className="w-5 h-5 text-blue-600" />
-              <h2 className="font-semibold text-lg text-gray-900">Insurance Information</h2>
+              <h2 className="font-semibold text-base md:text-lg text-gray-900">Insurance Information</h2>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -1207,7 +1207,7 @@ const OnlineEstimate = () => {
             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
               <div className="flex items-center gap-3 mb-4">
                 <Upload className="w-5 h-5 text-[#2c7a6d]" />
-                <h2 className="font-semibold text-lg text-gray-900">Uploaded Photos</h2>
+                <h2 className="font-semibold text-base md:text-lg text-gray-900">Uploaded Photos</h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {previews.map((preview, index) => (
@@ -1230,7 +1230,7 @@ const OnlineEstimate = () => {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === "success"}
-          className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium text-lg"
+          className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium text-base md:text-lg"
         >
           {isSubmitting ? (
             <>
@@ -1310,10 +1310,10 @@ const OnlineEstimate = () => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col items-center text-center">
-            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-lg md:text-4xl font-bold text-gray-900 mb-4">
               Get Your Free Auto Glass Estimate
             </h1>
-            <p className="text-base md:text-lg text-gray-600 max-w-2xl">
+            <p className="text-sm md:text-lg text-gray-600 max-w-2xl">
               Complete the form below to receive a free estimate for your auto glass repair or replacement. 
               Free mobile service available in all service areas.
             </p>
@@ -1405,7 +1405,7 @@ const OnlineEstimate = () => {
                     <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
                     <p className="text-gray-600 mb-6">
                       Select one option to provide your vehicle details. We recommend
-                      license plate or VIN to ensure an accurate quote.
+                      entering your VIN # to ensure an accurate quote.
                     </p>
               
                     <div className="space-y-6">
@@ -1460,6 +1460,36 @@ const OnlineEstimate = () => {
                               >
                                 <Camera className="w-5 h-5" />
                               </button>
+                            </div>
+                            <div className="mt-3 p-4 bg-[#f0f7f5] rounded-lg border border-[#e0ede9]">
+                              <div className="flex items-start gap-3">
+                                <Info className="w-5 h-5 text-[#2c7a6d] flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <h4 className="text-sm font-semibold text-[#2c7a6d] mb-2">Where to find your VIN:</h4>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-600">
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                      <span>Driver's side dashboard near windshield</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                      <span>Driver's side door jamb</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                      <span>Vehicle registration card</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                      <span>Insurance card</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                      <span>Vehicle title</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                             {isLoading && (
                               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -1556,12 +1586,12 @@ const OnlineEstimate = () => {
               )}
               {currentStep === 3 && (
                   <>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
-                    <p className="text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+                    <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+                    <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* First Name */}
                       <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                           First Name <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -1576,7 +1606,7 @@ const OnlineEstimate = () => {
                       </div>
                       {/* Last Name */}
                       <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                           Last Name <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -1591,7 +1621,7 @@ const OnlineEstimate = () => {
                       </div>
                       {/* Phone */}
                       <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                           Phone <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -1606,7 +1636,7 @@ const OnlineEstimate = () => {
                       </div>
                       {/* Email */}
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                           Email <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -1621,7 +1651,7 @@ const OnlineEstimate = () => {
                       </div>
                       {/* Zip Code */}
                       <div>
-                        <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                           ZIP Code <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -1637,7 +1667,7 @@ const OnlineEstimate = () => {
                       
                       {/* Added Note Field (spans both columns on md+) */}
                       <div className="md:col-span-2">
-                         <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
+                         <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
                            Note (Optional)
                          </label>
                          <textarea
@@ -1708,8 +1738,8 @@ const OnlineEstimate = () => {
               ].map((feature) => (
                 <div key={feature.title} className="bg-white rounded-lg p-6 text-center">
                   <feature.icon className="w-8 h-8 text-[#2c7a6d] mx-auto mb-3" />
-                  <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
-                  <p className="text-sm text-gray-600">{feature.desc}</p>
+                  <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{feature.title}</h3>
+                  <p className="text-xs md:text-sm text-gray-600">{feature.desc}</p>
                 </div>
               ))}
             </div>
