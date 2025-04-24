@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Clock, Shield, Car, ArrowRight, Wrench, LayoutGrid, CircleDot, PanelLeftClose } from 'lucide-react'
+import { Clock, Shield, Car, ArrowRight, Wrench, LayoutGrid, CircleDot, PanelLeftClose, DollarSign, CheckCircle, Award } from 'lucide-react'
 
 const ServicesPage = () => {
   const router = useRouter();
@@ -237,6 +237,83 @@ const ServicesPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Why Choose Auto Safe Glass Section */}
+      <div className="bg-[#f0f7f5] py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-4xl font-[montserratSemiBold] text-[#2c7a6d] text-center mb-12">
+            Why Choose Auto Safe Glass?
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Quality Service */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Shield className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Quality Service</h3>
+                <p className="text-gray-600">Expert technicians providing professional auto glass services with attention to detail.</p>
+              </div>
+            </div>
+
+            {/* Fast Service */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Clock className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Fast Service</h3>
+                <p className="text-gray-600">Same day service available with quick and efficient installation.</p>
+              </div>
+            </div>
+
+            {/* Free Mobile Service */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Car className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Free Mobile Service</h3>
+                <p className="text-gray-600">We come to you at no additional cost, wherever you are.</p>
+              </div>
+            </div>
+
+            {/* Insurance Accepted */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <DollarSign className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Insurance Accepted</h3>
+                <p className="text-gray-600">We work with all insurance companies and handle the claims process.</p>
+              </div>
+            </div>
+
+            {/* Lifetime Warranty */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <CheckCircle className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Lifetime Warranty</h3>
+                <p className="text-gray-600">All our installations come with a lifetime warranty for your peace of mind.</p>
+              </div>
+            </div>
+
+            {/* Certified Technicians */}
+            <div className="bg-white p-8 rounded-xl hover:bg-[#e0ede9] transition-all duration-300 group hover:shadow-lg">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-[#f0f7f5] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Award className="w-8 h-8 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-[#2c7a6d] mb-3">Certified Technicians</h3>
+                <p className="text-gray-600">Our technicians are certified and experienced in all types of auto glass work.</p>
               </div>
             </div>
           </div>
