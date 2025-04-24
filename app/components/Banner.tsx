@@ -56,24 +56,24 @@ const Banner = () => {
                   onClick={() => router.push("/online-estimate")}
                   className="relative group active:scale-95 transition-all duration-200 w-full sm:w-auto"
                 >
-                  {/* Outer glow */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+                  {/* Outer glow - 增加发光效果 */}
+                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition-all duration-500"></div>
                   
-                  {/* Inner glow */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
+                  {/* Inner glow - 增加内发光 */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur-lg opacity-75 group-hover:opacity-90 transition duration-500"></div>
                   
-                  {/* Button content */}
-                  <div className="relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full transition-all duration-300">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-base sm:text-lg md:text-xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
+                  {/* Button content - 增大按钮尺寸和字体 */}
+                  <div className="relative px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <div className="flex items-center justify-center gap-3">
+                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
                         Get A Free Quote
                       </span>
-                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:translate-x-1 group-active:translate-x-0.5 transition-all" />
+                      <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:translate-x-1.5 group-active:translate-x-0.5 transition-all" />
                     </div>
                   </div>
 
-                  {/* Bottom text */}
-                  <div className="absolute -bottom-6 sm:-bottom-8 left-0 right-0 text-yellow-300 text-xs sm:text-sm font-medium animate-pulse">
+                  {/* Bottom text - 增大字体和发光效果 */}
+                  <div className="absolute -bottom-8 sm:-bottom-10 left-0 right-0 text-yellow-300 text-sm sm:text-base font-semibold animate-pulse drop-shadow-lg">
                     Mobile Service Available
                   </div>
                 </button>
@@ -90,7 +90,7 @@ const Banner = () => {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
           }
         }
         .animate-bounce-slow {
