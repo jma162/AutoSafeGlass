@@ -78,38 +78,42 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation bar */}
-      <nav className="bg-[#f0f7f5] border-t border-[#e0ede9]">
+      {/* Navigation bar - Reduced Height */}
+      <nav className="bg-[#1c5a4e] shadow-lg"> 
         <div className="container mx-auto">
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex justify-center items-center py-2">
+          {/* Desktop Navigation - Reduced vertical padding */}
+          <div className="hidden md:flex justify-center items-center py-1.5"> {/* Reduced py */}
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-6 py-4 font-medium text-base transition-all relative group ${
+                  // Reduced py, slightly smaller text
+                  className={`px-7 py-3 font-semibold text-base text-white transition-opacity duration-200 relative group ${ 
                     isActive 
-                      ? "text-[#2c7a6d]" 
-                      : "text-gray-600 hover:text-[#2c7a6d]"
+                      ? "opacity-100" 
+                      : "opacity-80 hover:opacity-100" 
                   }`}
                 >
                   {link.name}
-                  <span className={`absolute bottom-0 left-0 w-full h-0.5 transform transition-all duration-300 ${
+                   {/* Adjusted underline position */}
+                  <span className={`absolute bottom-1.5 left-0 right-0 mx-auto w-[65%] h-0.5 transition-all duration-300 ${ 
                     isActive 
-                      ? "bg-[#2c7a6d]" 
-                      : "bg-transparent group-hover:bg-[#2c7a6d]/50"
+                      ? "bg-emerald-300" 
+                      : "bg-transparent scale-x-0 group-hover:scale-x-100 group-hover:bg-emerald-200" 
                   }`} />
                 </Link>
               )
             })}
+            {/* Get FREE Quote button - Reduced padding */}
             <Link
               href="/online-estimate"
-              className="ml-6 px-6 py-2.5 bg-gradient-to-r from-[#2c7a6d] to-[#1f645a] hover:from-[#236b5e] hover:to-[#1c5a4e] text-white rounded-full font-semibold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5"
+              // Reduced py
+              className="ml-10 px-6 py-2 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5" 
             >
               Get FREE Quote
-              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" /> {/* Adjusted icon size */}
             </Link>
           </div>
         </div>
