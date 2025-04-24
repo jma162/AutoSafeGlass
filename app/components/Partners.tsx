@@ -43,20 +43,22 @@ const Partners = () => {
         </h2>
         
         {/* Grid for partners cards */}
-        {/* Adjusted grid columns for better spacing with maps */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> 
+        {/* Increased columns on lg screens, reduced gap */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"> 
           {partners.map((partner, index) => (
             <div 
               key={index}
-              // Increased padding slightly
-              className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col" 
+              // Reduced padding
+              className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col" 
             >
-              <div className="flex items-center gap-4 mb-4"> {/* Grouped icon and name */}
-                <div className="w-14 h-14 bg-[#f0f7f5] rounded-full flex items-center justify-center flex-shrink-0"> 
-                  <Building2 className="w-7 h-7 text-[#2c7a6d]" />
+              <div className="flex items-center gap-3 mb-3"> {/* Reduced gap and margin */}
+                {/* Reduced icon size */}
+                <div className="w-12 h-12 bg-[#f0f7f5] rounded-full flex items-center justify-center flex-shrink-0"> 
+                  <Building2 className="w-6 h-6 text-[#2c7a6d]" />
                 </div>
                 <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-[#2c7a6d]">
+                  {/* Reduced text size */}
+                  <h3 className="text-base font-semibold text-[#2c7a6d]"> 
                     {partner.name}
                   </h3>
                   <p className="text-gray-500 text-xs">
@@ -65,9 +67,9 @@ const Partners = () => {
                 </div>
               </div>
               
-              {/* Address Section */}
-              <div className="flex items-start gap-2 mb-4 text-sm"> 
-                <MapPin className="w-4 h-4 text-[#2c7a6d] mt-0.5 flex-shrink-0" />
+              {/* Reduced text size and margin */}
+              <div className="flex items-start gap-1.5 mb-3 text-xs"> 
+                <MapPin className="w-3.5 h-3.5 text-[#2c7a6d] mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-gray-600">{partner.address}</p>
                   <p className="text-gray-600">{partner.city}</p>
@@ -75,13 +77,13 @@ const Partners = () => {
               </div>
 
               {/* Embedded Map */}
-              <div className="mt-auto rounded-lg overflow-hidden border border-gray-200 aspect-video"> {/* Use aspect-video for standard ratio */}
-                {/* Ensure the src is correctly populated */}
+              {/* Use aspect ratio for consistent map size */}
+              <div className="mt-auto rounded-md overflow-hidden border border-gray-200 aspect-w-16 aspect-h-9"> 
                 {partner.mapEmbedUrl ? (
                   <iframe
                     src={partner.mapEmbedUrl} 
                     width="100%"
-                    height="100%" // Let aspect-video control height relative to width
+                    height="100%" 
                     style={{ border: 0 }}
                     allowFullScreen={false}
                     loading="lazy"
@@ -89,7 +91,6 @@ const Partners = () => {
                     title={`${partner.name} Location Map`}
                   ></iframe>
                 ) : (
-                  // Optional: Placeholder if URL is missing
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                     <p className="text-gray-500 text-sm">Map not available</p>
                   </div>
