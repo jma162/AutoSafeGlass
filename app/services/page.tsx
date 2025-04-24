@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { Clock, Shield, Car, ArrowRight } from 'lucide-react'
 
 const ServicesPage = () => {
   const router = useRouter();
@@ -24,11 +25,12 @@ const ServicesPage = () => {
           <p className="text-xl mb-8">
             Auto Safe Glass Co. provides free mobile services to the Philadelphia, South Jersey, Trenton-NJ, Wilmington-DE, and their surrounding areas.
           </p>
-          <button 
-            onClick={() => router.push('/online-estimate')} 
-            className="bg-emerald-500 text-white px-8 py-3 rounded-lg hover:bg-emerald-600 transition-colors text-lg font-medium"
+          <button
+            onClick={() => window.location.href = '/online-estimate'}
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-all duration-300 text-lg font-medium group shadow-sm hover:shadow-md"
           >
             Get Free Quote
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>
@@ -150,19 +152,57 @@ const ServicesPage = () => {
             Please Call 215-904-5778
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => router.push('/online-estimate')} 
-              className="bg-emerald-500 text-white px-8 py-3 rounded-lg hover:bg-emerald-600 transition-colors text-lg font-medium"
+            <button
+              onClick={() => window.location.href = '/online-estimate'}
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-all duration-300 text-lg font-medium group shadow-sm hover:shadow-md"
             >
               Get Free Quote
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <a 
+            <a
               onClick={() => window.open("tel:+12159045778")}
               className="bg-white text-emerald-900 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium"
             >
               Call Now
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* 主标题 */}
+      <div className="text-center mb-16">
+        <h1 className="text-4xl font-[montserratSemiBold] text-[#2c7a6d]">
+          Why Choose Auto Safe Glass?
+        </h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Expert service at your location - home or office
+        </p>
+      </div>
+
+      {/* 服务特点 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="bg-[#f0f7f5] p-6 rounded-lg shadow-sm hover:bg-[#e0ede9] transition-all duration-300">
+          <div className="flex items-center gap-3 mb-3">
+            <Clock className="w-5 h-5 text-[#2c7a6d]" />
+            <h3 className="text-lg font-semibold text-[#2c7a6d]">Fast Service</h3>
+          </div>
+          <p className="text-gray-600">Same day service available at your location</p>
+        </div>
+
+        <div className="bg-[#f0f7f5] p-6 rounded-lg shadow-sm hover:bg-[#e0ede9] transition-all duration-300">
+          <div className="flex items-center gap-3 mb-3">
+            <Shield className="w-5 h-5 text-[#2c7a6d]" />
+            <h3 className="text-lg font-semibold text-[#2c7a6d]">Guaranteed Work</h3>
+          </div>
+          <p className="text-gray-600">Lifetime warranty on all installations</p>
+        </div>
+
+        <div className="bg-[#f0f7f5] p-6 rounded-lg shadow-sm hover:bg-[#e0ede9] transition-all duration-300">
+          <div className="flex items-center gap-3 mb-3">
+            <Car className="w-5 h-5 text-[#2c7a6d]" />
+            <h3 className="text-lg font-semibold text-[#2c7a6d]">All Vehicles</h3>
+          </div>
+          <p className="text-gray-600">Service for all makes and models</p>
         </div>
       </div>
     </div>

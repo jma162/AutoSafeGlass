@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Check, ChevronDown, Loader2, Car, User, FileText } from "lucide-react";
+import { useState, useEffect, useCallback, memo } from "react";
+import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { Clock, Shield, DollarSign } from "lucide-react";
 
 const OnlineEstimate = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -59,6 +60,13 @@ const OnlineEstimate = () => {
         return;
       }
     }
+    
+    if (currentStep === 3) {
+      if (!validateContactInfo()) {
+        return;
+      }
+    }
+    
     setCurrentStep(currentStep + 1);
   };
 
@@ -80,30 +88,15 @@ const OnlineEstimate = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserInfo((prevData) => ({
-      ...prevData,
-      [name]: value,
+    setUserInfo(prev => ({
+      ...prev,
+      [name]: value
     }));
   };
 
   const handleSubmit = async () => {
-    if (
-      userInfo.firstName === "" ||
-      userInfo.lastName === "" ||
-      userInfo.phone === "" ||
-      userInfo.email === "" ||
-      userInfo.zipCode === ""
-    ) {
-      alert("Please fill out all fields");
-      return;
-    }
-
-    if (
-      vehicleInfo.licensePlate === "" ||
-      vehicleInfo.registeredState === "" ||
-      vehicleInfo.vin === ""
-    ) {
-      alert("Please fill out all fields");
+    // 只验证联系信息
+    if (!validateContactInfo()) {
       return;
     }
 
@@ -642,6 +635,237 @@ const OnlineEstimate = () => {
     </>
   );
 
+  const VehicleStep = () => (
+    <>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
+      <p className="text-gray-600 mb-6">
+        Select one option to provide your vehicle details. We recommend
+        license plate or VIN to ensure an accurate quote.
+      </p>
+
+      <div className="space-y-6">
+        {/* Method Selection */}
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            className={`p-4 rounded-lg text-center transition-colors ${
+              vehicleInfo.method === "license"
+                ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+            }`}
+            onClick={() =>
+              setVehicleInfo({ ...vehicleInfo, method: "license" })
+            }
+          >
+            <Car className="w-6 h-6 mx-auto mb-2" />
+            <span className="block font-medium">VIN Check</span>
+          </button>
+          <button
+            className={`p-4 rounded-lg text-center transition-colors ${
+              vehicleInfo.method === "manual"
+                ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+            }`}
+            onClick={() =>
+              setVehicleInfo({ ...vehicleInfo, method: "manual" })
+            }
+          >
+            <Car className="w-6 h-6 mx-auto mb-2" />
+            <span className="block font-medium">Year, Make, Model</span>
+          </button>
+        </div>
+
+        {vehicleInfo.method === "license" ? (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                VIN
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                  value={vehicleInfo.vin}
+                  onChange={handleVinChange}
+                  placeholder="Enter VIN"
+                  maxLength={17}
+                />
+                {isLoading && (
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
+                  </div>
+                )}
+              </div>
+              {vinError && (
+                <p className="text-red-500 text-sm mt-1">{vinError}</p>
+              )}
+              {vehicleInfo.year && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <h3 className="font-medium mb-2">Vehicle Information</h3>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                    <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                    <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                    <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Year
+                </label>
+                <select
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                  value={vehicleInfo.year}
+                  onChange={(e) => {
+                    setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
+                    fetchMakes(e.target.value);
+                  }}
+                >
+                  <option value="">Select Year</option>
+                  {years.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Make
+                </label>
+                <select
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                  value={vehicleInfo.make}
+                  onChange={(e) => {
+                    setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
+                    fetchModels(e.target.value);
+                  }}
+                  disabled={!vehicleInfo.year}
+                >
+                  <option value="">Select Make</option>
+                  {makes.map((make) => (
+                    <option key={make} value={make}>
+                      {make}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Model
+                </label>
+                <select
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                  value={vehicleInfo.model}
+                  onChange={(e) =>
+                    setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
+                  }
+                  disabled={!vehicleInfo.make}
+                >
+                  <option value="">Select Model</option>
+                  {models.map((model) => (
+                    <option key={model} value={model}>
+                      {model}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+
+  const ContactStep = () => (
+    <>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+      <p className="text-gray-600 mb-6">
+        Please provide your contact information for your quote
+      </p>
+
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="firstName"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+              value={userInfo.firstName || ''}
+              onChange={handleChange}
+              placeholder="Enter first name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Last Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+              value={userInfo.lastName || ''}
+              onChange={handleChange}
+              placeholder="Enter last name"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+            value={userInfo.phone || ''}
+            onChange={handleChange}
+            placeholder="(123) 456-7890"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Email Address <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+            value={userInfo.email || ''}
+            onChange={handleChange}
+            placeholder="Enter email address"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            ZIP Code <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="zipCode"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+            value={userInfo.zipCode || ''}
+            onChange={handleChange}
+            placeholder="Enter ZIP code"
+          />
+        </div>
+      </div>
+    </>
+  );
+
   const SummaryStep = () => {
     const getDamageLocation = () => {
       if (selectedOption === "Front") {
@@ -666,457 +890,359 @@ const OnlineEstimate = () => {
 
     return (
       <>
-        <h1 className="text-2xl font-bold text-center mb-6">
-          Review Your Information
+        <h1 className="text-2xl font-bold text-center mb-8">
+          Review Your Estimate Request
         </h1>
 
         {submitStatus === "success" && (
-          <div className="mb-8 p-4 bg-emerald-100 text-emerald-700 rounded-lg">
-            Thank you! Your estimate request has been submitted successfully.
-            We'll send you a confirmation email shortly.
+          <div className="mb-8 p-6 bg-[#f0f7f5] border border-[#e0ede9] rounded-lg">
+            <div className="flex items-center gap-3 text-[#2c7a6d] mb-2">
+              <Check className="w-5 h-5" />
+              <h3 className="font-semibold">Request Submitted Successfully!</h3>
+            </div>
+            <p className="text-gray-600">
+              Thank you for choosing Auto Safe Glass. We'll send you a confirmation email shortly.
+            </p>
           </div>
         )}
 
         {submitStatus === "error" && (
-          <div className="mb-8 p-4 bg-red-100 text-red-700 rounded-lg">
-            There was an error submitting your request. Please try again.
+          <div className="mb-8 p-6 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center gap-3 text-red-600 mb-2">
+              <AlertCircle className="w-5 h-5" />
+              <h3 className="font-semibold">Submission Error</h3>
+            </div>
+            <p className="text-gray-600">
+              There was an error submitting your request. Please try again or contact us directly.
+            </p>
           </div>
         )}
 
         <div className="space-y-6">
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h2 className="font-semibold text-lg mb-3">Damage Information</h2>
-            <div className="space-y-2">
-              <p>
-                <span className="font-medium">Location:</span>{" "}
-                {getDamageLocation()}
-              </p>
+          {/* Damage Information */}
+          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <Car className="w-5 h-5 text-[#2c7a6d]" />
+              <h2 className="font-semibold text-lg text-gray-900">Damage Information</h2>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700">Location:</span>
+                <span className="text-gray-900">{getDamageLocation()}</span>
+              </div>
               {hasMultipleWindows && (
-                <p className="text-emerald-600">Multiple windows have damage</p>
+                <div className="flex items-center gap-2 text-[#2c7a6d]">
+                  <Info className="w-4 h-4" />
+                  <span>Multiple windows have damage</span>
+                </div>
               )}
             </div>
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h2 className="font-semibold text-lg mb-3">Vehicle Information</h2>
-            <div className="space-y-2">
+          {/* Vehicle Information */}
+          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <Car className="w-5 h-5 text-[#2c7a6d]" />
+              <h2 className="font-semibold text-lg text-gray-900">Vehicle Information</h2>
+            </div>
+            <div className="space-y-3">
               {vehicleInfo.method === "license" ? (
                 <>
-                  <p>
-                    <span className="font-medium">License Plate:</span>{" "}
-                    {vehicleInfo.licensePlate}
-                  </p>
-                  <p>
-                    <span className="font-medium">State:</span>{" "}
-                    {vehicleInfo.registeredState}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">License Plate:</span>
+                    <span className="text-gray-900">{vehicleInfo.licensePlate}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">State:</span>
+                    <span className="text-gray-900">{vehicleInfo.registeredState}</span>
+                  </div>
                   {vehicleInfo.vin && (
-                    <p>
-                      <span className="font-medium">VIN:</span>{" "}
-                      {vehicleInfo.vin}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-gray-700">VIN:</span>
+                      <span className="text-gray-900">{vehicleInfo.vin}</span>
+                    </div>
                   )}
                 </>
               ) : (
                 <>
-                  <p>
-                    <span className="font-medium">Year:</span>{" "}
-                    {vehicleInfo.year}
-                  </p>
-                  <p>
-                    <span className="font-medium">Make:</span>{" "}
-                    {vehicleInfo.make}
-                  </p>
-                  <p>
-                    <span className="font-medium">Model:</span>{" "}
-                    {vehicleInfo.model}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">Year:</span>
+                    <span className="text-gray-900">{vehicleInfo.year}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">Make:</span>
+                    <span className="text-gray-900">{vehicleInfo.make}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">Model:</span>
+                    <span className="text-gray-900">{vehicleInfo.model}</span>
+                  </div>
                 </>
               )}
             </div>
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h2 className="font-semibold text-lg mb-3">Contact Information</h2>
-            <div className="space-y-2">
-              <p>
-                <span className="font-medium">Name:</span> {userInfo.firstName}{" "}
-                {userInfo.lastName}
-              </p>
-              <p>
-                <span className="font-medium">Email:</span> {userInfo.email}
-              </p>
-              <p>
-                <span className="font-medium">Phone:</span> {userInfo.phone}
-              </p>
-              <p>
-                <span className="font-medium">ZIP Code:</span>{" "}
-                {userInfo.zipCode}
-              </p>
+          {/* Contact Information */}
+          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <User className="w-5 h-5 text-[#2c7a6d]" />
+              <h2 className="font-semibold text-lg text-gray-900">Contact Information</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">Name:</span>
+                  <span className="text-gray-900">
+                    {userInfo.firstName} {userInfo.lastName}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">Phone:</span>
+                  <span className="text-gray-900">{userInfo.phone}</span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">Email:</span>
+                  <span className="text-gray-900">{userInfo.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">ZIP Code:</span>
+                  <span className="text-gray-900">{userInfo.zipCode}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Submit Button */}
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === "success"}
-          className="w-full mt-8 bg-emerald-600 text-white py-3 px-6 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full mt-8 bg-[#f0f7f5] hover:bg-[#e0ede9] text-[#2c7a6d] py-4 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium text-lg border border-[#e0ede9]"
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Submitting...
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Processing...
             </>
           ) : submitStatus === "success" ? (
-            "Submitted Successfully"
+            <>
+              <Check className="w-5 h-5" />
+              Submitted Successfully
+            </>
           ) : (
-            "Submit Estimate Request"
+            <>
+              <Send className="w-5 h-5" />
+              Submit Estimate Request
+            </>
           )}
         </button>
+
+        {/* Service Note */}
+        <p className="text-center text-gray-500 mt-6">
+          Free mobile service available in all service areas
+        </p>
       </>
     );
   };
 
+  const validateContactInfo = () => {
+    if (!userInfo.firstName.trim()) {
+      alert("Please enter your first name");
+      return false;
+    }
+    if (!userInfo.lastName.trim()) {
+      alert("Please enter your last name");
+      return false;
+    }
+    if (!userInfo.phone.trim()) {
+      alert("Please enter your phone number");
+      return false;
+    }
+    if (!userInfo.email.trim()) {
+      alert("Please enter your email address");
+      return false;
+    }
+    if (!userInfo.zipCode.trim()) {
+      alert("Please enter your ZIP code");
+      return false;
+    }
+    
+    // 验证邮箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userInfo.email)) {
+      alert("Please enter a valid email address");
+      return false;
+    }
+    
+    // 验证电话号码格式（美国格式）
+    const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (!phoneRegex.test(userInfo.phone)) {
+      alert("Please enter a valid phone number");
+      return false;
+    }
+    
+    // 验证邮编格式（美国格式）
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+    if (!zipRegex.test(userInfo.zipCode)) {
+      alert("Please enter a valid ZIP code");
+      return false;
+    }
+
+    return true;
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f0f7f5]">
       {/* Header */}
       <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">Get Your Free Estimate</h1>
-          <p className="text-gray-600 mt-1">Complete the form below to get started</p>
-        </div>
-        </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Progress Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 1 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
-                  }`}>
-                    <Car className="w-4 h-4" />
-        </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">Damage Details</h3>
-                    <p className="text-sm text-gray-500">Select damage location and type</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 2 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
-                  }`}>
-                    <Car className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">Vehicle Information</h3>
-                    <p className="text-sm text-gray-500">Enter your vehicle details</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 3 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
-                  }`}>
-                    <User className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">Contact Information</h3>
-                    <p className="text-sm text-gray-500">Tell us about yourself</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 4 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
-                  }`}>
-                    <FileText className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900">Review & Submit</h3>
-                    <p className="text-sm text-gray-500">Review your information</p>
-                  </div>
-                </div>
-              </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col items-center text-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Get Your Free Auto Glass Estimate
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              Complete the form below to receive a free estimate for your auto glass repair or replacement. 
+              Free mobile service available in all service areas.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Main Content */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm p-8">
-        {currentStep === 1 && <DamageStep />}
-        {currentStep === 2 && (
-          <>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
-                  <p className="text-gray-600 mb-6">
-              Select one option to provide your vehicle details. We recommend
-              license plate or VIN to ensure an accurate quote.
-            </p>
-
-                  <div className="space-y-6">
-              {/* Method Selection */}
-                    <div className="grid grid-cols-2 gap-4">
-                <button
-                        className={`p-4 rounded-lg text-center transition-colors ${
-                    vehicleInfo.method === "license"
-                            ? "bg-emerald-600 text-white shadow-md"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                  onClick={() =>
-                    setVehicleInfo({ ...vehicleInfo, method: "license" })
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Progress Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+              <div className="space-y-6">
+                {[
+                  {
+                    step: 1,
+                    icon: Car,
+                    title: "Damage Details",
+                    desc: "Select damage location and type"
+                  },
+                  {
+                    step: 2,
+                    icon: Car,
+                    title: "Vehicle Information",
+                    desc: "Enter your vehicle details"
+                  },
+                  {
+                    step: 3,
+                    icon: User,
+                    title: "Contact Information",
+                    desc: "Tell us about yourself"
+                  },
+                  {
+                    step: 4,
+                    icon: FileText,
+                    title: "Review & Submit",
+                    desc: "Review your information"
                   }
-                >
-                        <Car className="w-6 h-6 mx-auto mb-2" />
-                        <span className="block font-medium">VIN Check</span>
-                </button>
-                <button
-                        className={`p-4 rounded-lg text-center transition-colors ${
-                    vehicleInfo.method === "manual"
-                            ? "bg-emerald-600 text-white shadow-md"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                  onClick={() =>
-                    setVehicleInfo({ ...vehicleInfo, method: "manual" })
-                  }
-                >
-                        <Car className="w-6 h-6 mx-auto mb-2" />
-                        <span className="block font-medium">Year, Make, Model</span>
-                </button>
-              </div>
-
-              {vehicleInfo.method === "license" ? (
-                  <div className="space-y-4">
+                ].map((item) => (
+                  <div key={item.step} className="flex items-start gap-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                      currentStep >= item.step 
+                        ? 'bg-[#2c7a6d] text-white' 
+                        : 'bg-[#f0f7f5] text-gray-400'
+                    }`}>
+                      <item.icon className="w-5 h-5" />
+                    </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                            VIN
-                      </label>
-                          <div className="relative">
-                      <input
-                        type="text"
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                              value={vehicleInfo.vin}
-                              onChange={handleVinChange}
-                              placeholder="Enter VIN"
-                              maxLength={17}
-                            />
-                            {isLoading && (
-                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <Loader2 className="w-5 h-5 animate-spin text-emerald-600" />
-                    </div>
-                            )}
-                      </div>
-                          {vinError && (
-                            <p className="text-red-500 text-sm mt-1">{vinError}</p>
-                          )}
-                          {vehicleInfo.year && (
-                            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                              <h3 className="font-medium mb-2">Vehicle Information</h3>
-                              <div className="grid grid-cols-2 gap-2 text-sm">
-                                <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
-                                <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
-                                <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
-                                <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                    </div>
-                    </div>
-                          )}
+                      <h3 className={`font-medium ${
+                        currentStep >= item.step ? 'text-gray-900' : 'text-gray-500'
+                      }`}>
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-gray-500">{item.desc}</p>
                     </div>
                   </div>
-              ) : (
-                <div className="space-y-4">
-                        <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Year
-                    </label>
-                            <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                              value={vehicleInfo.year}
-                              onChange={(e) => {
-                                setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
-                                fetchMakes(e.target.value);
-                              }}
-                            >
-                              <option value="">Select Year</option>
-                              {years.map((year) => (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              ))}
-                            </select>
-                  </div>
+                ))}
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Make
-                    </label>
-                            <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                              value={vehicleInfo.make}
-                              onChange={(e) => {
-                                setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
-                                fetchModels(e.target.value);
-                              }}
-                              disabled={!vehicleInfo.year}
-                            >
-                              <option value="">Select Make</option>
-                              {makes.map((make) => (
-                                <option key={make} value={make}>
-                                  {make}
-                                </option>
-                              ))}
-                            </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Model
-                    </label>
-                            <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                              value={vehicleInfo.model}
-                              onChange={(e) =>
-                                setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
-                              }
-                              disabled={!vehicleInfo.make}
-                            >
-                              <option value="">Select Model</option>
-                              {models.map((model) => (
-                                <option key={model} value={model}>
-                                  {model}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-        {currentStep === 3 && (
-          <>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-                  <p className="text-gray-600 mb-6">
-              Please provide your contact information for your quote
-            </p>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                    value={userInfo.firstName}
-                    onChange={handleChange}
-                    placeholder="Enter first name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                    value={userInfo.lastName}
-                    onChange={(e) =>
-                      setUserInfo({ ...userInfo, lastName: e.target.value })
-                    }
-                    placeholder="Enter last name"
-                  />
+              {/* Contact Support */}
+              <div className="mt-8 pt-6 border-t border-[#e0ede9]">
+                <div className="flex flex-col items-center text-center">
+                  <Phone className="w-6 h-6 text-[#2c7a6d] mb-2" />
+                  <p className="text-sm text-gray-600 mb-2">Need help?</p>
+                  <a 
+                    href="tel:+12159045778"
+                    className="text-lg font-bold text-[#2c7a6d] hover:text-[#236b5e]"
+                  >
+                    215-904-5778
+                  </a>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                  value={userInfo.phone}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, phone: e.target.value })
-                  }
-                  placeholder="(123) 456-7890"
-                />
-              </div>
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <div className="bg-white rounded-xl shadow-sm p-8">
+              {/* Step Content */}
+              {currentStep === 1 && <DamageStep />}
+              {currentStep === 2 && <VehicleStep />}
+              {currentStep === 3 && <ContactStep />}
+              {currentStep === 4 && <SummaryStep />}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                  value={userInfo.email}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, email: e.target.value })
-                  }
-                  placeholder="Enter email address"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ZIP Code
-                </label>
-                <input
-                  type="text"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
-                  value={userInfo.zipCode}
-                  onChange={(e) =>
-                    setUserInfo({ ...userInfo, zipCode: e.target.value })
-                  }
-                  placeholder="Enter ZIP code"
-                />
+              {/* Navigation Buttons */}
+              <div className="mt-8 flex justify-between items-center pt-6 border-t border-[#e0ede9]">
+                {((currentStep > 1 && currentStep < 4) ||
+                  showDamageSeverity ||
+                  showDriverSideLocations ||
+                  showPassengerSideLocations) && (
+                  <button
+                    onClick={handleBack}
+                    className="flex items-center gap-2 text-[#2c7a6d] hover:text-[#236b5e] font-medium py-2.5 px-6 rounded-lg transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                    Back
+                  </button>
+                )}
+                {currentStep < 4 && (
+                  <div className={currentStep > 1 ? "ml-auto" : "w-full"}>
+                    <button
+                      onClick={handleNext}
+                      disabled={currentStep === 1 && !selectedOption}
+                      className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+                        currentStep === 1 && !selectedOption ? "opacity-50 cursor-not-allowed" : ""
+                      } ${currentStep === 1 ? "w-full" : ""}`}
+                    >
+                      <span>Continue</span>
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-          </>
-        )}
-        {currentStep === 4 && <SummaryStep />}
 
-        {/* Navigation Buttons */}
-        <div className="mt-8 flex justify-between">
-          {((currentStep > 1 && currentStep < 4) ||
-            showDamageSeverity ||
-            showDriverSideLocations ||
-            showPassengerSideLocations) && (
-            <button
-              onClick={handleBack}
-                    className="text-gray-600 hover:text-gray-800 font-medium py-2 px-8 rounded-lg transition-colors"
-            >
-              Back
-            </button>
-          )}
-          {currentStep < 4 && (
-            <div
-              className={`${
-                currentStep > 1 ||
-                showDamageSeverity ||
-                showDriverSideLocations ||
-                showPassengerSideLocations
-                  ? "ml-auto"
-                  : ""
-              }`}
-            >
-              <button
-                onClick={handleNext}
-                disabled={currentStep === 1 && !selectedOption}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
-              >
-                Next
-              </button>
-            </div>
-          )}
-              </div>
+            {/* Service Features */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: Clock,
+                  title: "Fast Service",
+                  desc: "Same day service available"
+                },
+                {
+                  icon: Shield,
+                  title: "Lifetime Warranty",
+                  desc: "Guaranteed quality work"
+                },
+                {
+                  icon: DollarSign,
+                  title: "Insurance Accepted",
+                  desc: "We work with all insurances"
+                }
+              ].map((feature) => (
+                <div key={feature.title} className="bg-white rounded-lg p-6 text-center">
+                  <feature.icon className="w-8 h-8 text-[#2c7a6d] mx-auto mb-3" />
+                  <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
+                  <p className="text-sm text-gray-600">{feature.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

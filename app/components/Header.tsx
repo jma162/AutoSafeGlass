@@ -40,33 +40,33 @@ const Header = () => {
               <h1 className="text-xl md:text-2xl lg:text-3xl font-[montserratSemiBold] text-gray-900">
                 Auto Safe Glass
               </h1>
-              <p className="text-sm text-gray-500 font-medium hidden md:block">Professional Auto Glass Services</p>
+              <p className="text-sm text-[#2c7a6d] font-medium hidden md:block">Professional Auto Glass Services</p>
             </div>
           </div>
 
           {/* Contact Info - Hidden on mobile */}
           <div className="hidden md:flex items-center gap-6">
             <div 
-              className="group flex items-center gap-4 px-6 py-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-300"
+              className="group flex items-center gap-4 px-6 py-3 bg-[#f0f7f5] rounded-lg cursor-pointer hover:bg-[#e0ede9] transition-all duration-300"
               onClick={() => window.open("tel:+12159045778")}
             >
-              <div className="bg-gray-900 p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
+              <div className="bg-[#2c7a6d] p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
                 <Phone className="w-5 h-5 text-white" />
               </div>
               <p className="text-base font-bold text-gray-900">
                 215-904-5778
               </p>
             </div>
-            <div className="hidden lg:flex items-center px-6 py-3 bg-gray-100 rounded-lg">
+            <div className="hidden lg:flex items-center px-6 py-3 bg-[#f0f7f5] rounded-lg">
               <div>
-                <p className="text-base font-bold text-gray-900">FREE mobile service!</p>
+                <p className="text-base font-bold text-[#2c7a6d]">FREE Mobile Service!</p>
               </div>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2.5 text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+            className="md:hidden p-2.5 text-[#2c7a6d] hover:text-[#236b5e] bg-[#f0f7f5] hover:bg-[#e0ede9] rounded-lg transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -79,7 +79,7 @@ const Header = () => {
       </div>
 
       {/* Navigation bar */}
-      <nav className="bg-gray-50 border-t border-gray-100">
+      <nav className="bg-[#f0f7f5] border-t border-[#e0ede9]">
         <div className="container mx-auto">
           {/* Desktop Navigation */}
           <div className="hidden md:flex justify-center items-center">
@@ -91,19 +91,25 @@ const Header = () => {
                   href={link.href}
                   className={`px-6 py-4 font-medium text-base transition-all relative group ${
                     isActive 
-                      ? "text-gray-900" 
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "text-[#2c7a6d]" 
+                      : "text-gray-600 hover:text-[#2c7a6d]"
                   }`}
                 >
                   {link.name}
                   <span className={`absolute bottom-0 left-0 w-full h-0.5 transform transition-all duration-300 ${
                     isActive 
-                      ? "bg-gray-900" 
-                      : "bg-transparent group-hover:bg-gray-300"
+                      ? "bg-[#2c7a6d]" 
+                      : "bg-transparent group-hover:bg-[#2c7a6d]/50"
                   }`} />
                 </Link>
               )
             })}
+            <Link
+              href="/online-estimate"
+              className="ml-4 px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 group inline-block"
+            >
+              Get FREE Quote
+            </Link>
           </div>
         </div>
       </nav>
@@ -121,20 +127,27 @@ const Header = () => {
           <div className="absolute right-0 top-0 h-full w-[300px] bg-white shadow-2xl">
             <div className="flex flex-col h-full">
               {/* Mobile Contact Info */}
-              <div className="p-6 bg-gray-50">
+              <div className="p-6 bg-[#f0f7f5]">
                 <div 
-                  className="group flex items-center gap-4 p-4 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-300 mb-4"
+                  className="group flex items-center gap-4 p-4 bg-white rounded-lg cursor-pointer hover:bg-[#e0ede9] transition-all duration-300 mb-4"
                   onClick={() => window.open("tel:+12159045778")}
                 >
-                  <div className="bg-gray-900 p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
+                  <div className="bg-[#2c7a6d] p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
                     <Phone className="w-5 h-5 text-white" />
                   </div>
                   <p className="text-base font-bold text-gray-900">
                     215-904-5778
                   </p>
                 </div>
-                <div className="p-4 bg-gray-100 rounded-lg">
-                  <p className="text-base font-bold text-gray-900">FREE mobile service!</p>
+                <Link
+                  href="/online-estimate"
+                  className="w-full p-4 mb-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 block text-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Get FREE Quote
+                </Link>
+                <div className="p-4 bg-white rounded-lg">
+                  <p className="text-base font-bold text-[#2c7a6d]">FREE Mobile Service!</p>
                 </div>
               </div>
 
@@ -148,8 +161,8 @@ const Header = () => {
                       href={link.href}
                       className={`flex items-center px-5 py-4 rounded-lg font-medium text-base transition-all ${
                         isActive 
-                          ? "bg-gray-100 text-gray-900" 
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          ? "bg-blue-50 text-blue-600" 
+                          : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -163,6 +176,23 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      {/* 添加自定义动画 */}
+      <style jsx global>{`
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.95;
+            transform: scale(1.02);
+          }
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 3s infinite;
+        }
+      `}</style>
     </header>
   )
 }
