@@ -255,9 +255,9 @@ const OnlineEstimate = () => {
     fetchYears();
   }, []);
 
-  useEffect(() => {
-    setPreviews(photos.map(photo => URL.createObjectURL(photo)));
-  }, [photos]);
+  // useEffect(() => {
+  //   setPreviews(photos.map(photo => URL.createObjectURL(photo)));
+  // }, [photos]);
 
   const handlePhotosChange = (files: FileList | null) => {
     if (!files) return;
