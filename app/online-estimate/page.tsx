@@ -87,7 +87,7 @@ const OnlineEstimate = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({
       ...prev,
