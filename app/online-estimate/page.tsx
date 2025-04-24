@@ -635,237 +635,6 @@ const OnlineEstimate = () => {
     </>
   );
 
-  const VehicleStep = () => (
-    <>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
-      <p className="text-gray-600 mb-6">
-        Select one option to provide your vehicle details. We recommend
-        license plate or VIN to ensure an accurate quote.
-      </p>
-
-      <div className="space-y-6">
-        {/* Method Selection */}
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            className={`p-4 rounded-lg text-center transition-colors ${
-              vehicleInfo.method === "license"
-                ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
-                : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
-            }`}
-            onClick={() =>
-              setVehicleInfo({ ...vehicleInfo, method: "license" })
-            }
-          >
-            <Car className="w-6 h-6 mx-auto mb-2" />
-            <span className="block font-medium">VIN Check</span>
-          </button>
-          <button
-            className={`p-4 rounded-lg text-center transition-colors ${
-              vehicleInfo.method === "manual"
-                ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
-                : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
-            }`}
-            onClick={() =>
-              setVehicleInfo({ ...vehicleInfo, method: "manual" })
-            }
-          >
-            <Car className="w-6 h-6 mx-auto mb-2" />
-            <span className="block font-medium">Year, Make, Model</span>
-          </button>
-        </div>
-
-        {vehicleInfo.method === "license" ? (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                VIN
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                  value={vehicleInfo.vin}
-                  onChange={handleVinChange}
-                  placeholder="Enter VIN"
-                  maxLength={17}
-                />
-                {isLoading && (
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                    <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
-                  </div>
-                )}
-              </div>
-              {vinError && (
-                <p className="text-red-500 text-sm mt-1">{vinError}</p>
-              )}
-              {vehicleInfo.year && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <h3 className="font-medium mb-2">Vehicle Information</h3>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
-                    <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
-                    <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
-                    <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Year
-                </label>
-                <select
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                  value={vehicleInfo.year}
-                  onChange={(e) => {
-                    setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
-                    fetchMakes(e.target.value);
-                  }}
-                >
-                  <option value="">Select Year</option>
-                  {years.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Make
-                </label>
-                <select
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                  value={vehicleInfo.make}
-                  onChange={(e) => {
-                    setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
-                    fetchModels(e.target.value);
-                  }}
-                  disabled={!vehicleInfo.year}
-                >
-                  <option value="">Select Make</option>
-                  {makes.map((make) => (
-                    <option key={make} value={make}>
-                      {make}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Model
-                </label>
-                <select
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                  value={vehicleInfo.model}
-                  onChange={(e) =>
-                    setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
-                  }
-                  disabled={!vehicleInfo.make}
-                >
-                  <option value="">Select Model</option>
-                  {models.map((model) => (
-                    <option key={model} value={model}>
-                      {model}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </>
-  );
-
-  const ContactStep = () => (
-    <>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-      <p className="text-gray-600 mb-6">
-        Please provide your contact information for your quote
-      </p>
-
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-              value={userInfo.firstName || ''}
-              onChange={handleChange}
-              placeholder="Enter first name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-              value={userInfo.lastName || ''}
-              onChange={handleChange}
-              placeholder="Enter last name"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-            value={userInfo.phone || ''}
-            onChange={handleChange}
-            placeholder="(XXX) XXX-XXXX"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email Address <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-            value={userInfo.email || ''}
-            onChange={handleChange}
-            placeholder="Enter email address"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            ZIP Code <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="zipCode"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
-            value={userInfo.zipCode || ''}
-            onChange={handleChange}
-            placeholder="Enter ZIP code"
-          />
-        </div>
-      </div>
-    </>
-  );
-
   const SummaryStep = () => {
     const getDamageLocation = () => {
       if (selectedOption === "Front") {
@@ -1183,8 +952,235 @@ const OnlineEstimate = () => {
             <div className="bg-white rounded-xl shadow-sm p-8">
               {/* Step Content */}
               {currentStep === 1 && <DamageStep />}
-              {currentStep === 2 && <VehicleStep />}
-              {currentStep === 3 && <ContactStep />}
+              {currentStep === 2 && (
+                  <>
+                    <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
+                    <p className="text-gray-600 mb-6">
+                      Select one option to provide your vehicle details. We recommend
+                      license plate or VIN to ensure an accurate quote.
+                    </p>
+              
+                    <div className="space-y-6">
+                      {/* Method Selection */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <button
+                          className={`p-4 rounded-lg text-center transition-colors ${
+                            vehicleInfo.method === "license"
+                              ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                              : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+                          }`}
+                          onClick={() =>
+                            setVehicleInfo({ ...vehicleInfo, method: "license" })
+                          }
+                        >
+                          <Car className="w-6 h-6 mx-auto mb-2" />
+                          <span className="block font-medium">VIN Check</span>
+                        </button>
+                        <button
+                          className={`p-4 rounded-lg text-center transition-colors ${
+                            vehicleInfo.method === "manual"
+                              ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                              : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+                          }`}
+                          onClick={() =>
+                            setVehicleInfo({ ...vehicleInfo, method: "manual" })
+                          }
+                        >
+                          <Car className="w-6 h-6 mx-auto mb-2" />
+                          <span className="block font-medium">Year, Make, Model</span>
+                        </button>
+                      </div>
+              
+                      {vehicleInfo.method === "license" ? (
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              VIN
+                            </label>
+                            <div className="relative">
+                              <input
+                                type="text"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                                value={vehicleInfo.vin}
+                                onChange={handleVinChange}
+                                placeholder="Enter VIN"
+                                maxLength={17}
+                              />
+                              {isLoading && (
+                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                  <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
+                                </div>
+                              )}
+                            </div>
+                            {vinError && (
+                              <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                            )}
+                            {vehicleInfo.year && (
+                              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <h3 className="font-medium mb-2">Vehicle Information</h3>
+                                <div className="grid grid-cols-2 gap-2 text-sm">
+                                  <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                                  <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                                  <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                                  <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-3 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Year
+                              </label>
+                              <select
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                                value={vehicleInfo.year}
+                                onChange={(e) => {
+                                  setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
+                                  fetchMakes(e.target.value);
+                                }}
+                              >
+                                <option value="">Select Year</option>
+                                {years.map((year) => (
+                                  <option key={year} value={year}>
+                                    {year}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+              
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Make
+                              </label>
+                              <select
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                                value={vehicleInfo.make}
+                                onChange={(e) => {
+                                  setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
+                                  fetchModels(e.target.value);
+                                }}
+                                disabled={!vehicleInfo.year}
+                              >
+                                <option value="">Select Make</option>
+                                {makes.map((make) => (
+                                  <option key={make} value={make}>
+                                    {make}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+              
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Model
+                              </label>
+                              <select
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                                value={vehicleInfo.model}
+                                onChange={(e) =>
+                                  setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
+                                }
+                                disabled={!vehicleInfo.make}
+                              >
+                                <option value="">Select Model</option>
+                                {models.map((model) => (
+                                  <option key={model} value={model}>
+                                    {model}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+              )}
+              {currentStep === 3 && (
+                  <>
+                    <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+                    <p className="text-gray-600 mb-6">
+                      Please provide your contact information for your quote
+                    </p>
+              
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            First Name <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="firstName"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                            value={userInfo.firstName || ''}
+                            onChange={handleChange}
+                            placeholder="Enter first name"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Last Name <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="lastName"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                            value={userInfo.lastName || ''}
+                            onChange={handleChange}
+                            placeholder="Enter last name"
+                          />
+                        </div>
+                      </div>
+              
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Phone Number <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                          value={userInfo.phone || ''}
+                          onChange={handleChange}
+                          placeholder="(XXX) XXX-XXXX"
+                        />
+                      </div>
+              
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Email Address <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                          value={userInfo.email || ''}
+                          onChange={handleChange}
+                          placeholder="Enter email address"
+                        />
+                      </div>
+              
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          ZIP Code <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="zipCode"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors"
+                          value={userInfo.zipCode || ''}
+                          onChange={handleChange}
+                          placeholder="Enter ZIP code"
+                        />
+                      </div>
+                    </div>
+                  </>
+              )}
               {currentStep === 4 && <SummaryStep />}
 
               {/* Navigation Buttons */}
