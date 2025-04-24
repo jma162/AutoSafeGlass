@@ -1,130 +1,284 @@
 'use client'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
+
+// 修复 Leaflet marker 图标问题
+const icon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 const ContactUs = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  const center = { lat: 39.9343, lng: -75.0393 };
+
+  // 添加导航函数
+  const handleNavigation = (address: string, city: string) => {
+    const fullAddress = `${address}, ${city}`;
+    const encodedAddress = encodeURIComponent(fullAddress);
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+  };
+
+  // 添加邮件处理函数
+  const handleEmail = (email: string) => {
+    window.location.href = `mailto:${email}`;
+  };
+
+  // 添加总店导航函数
+  const handleMainStoreNavigation = () => {
+    const address = "1200 Route 70 E. #707, Cherry Hill, NJ 08034";
+    const encodedAddress = encodeURIComponent(address);
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+  };
+
+  // 合作伙伴数据
+  const partners = [
+    {
+      name: "Ken's Auto Inc.",
+      type: "Auto Repair & Auto Glass",
+      address: "341 N. 10th St.",
+      city: "Philadelphia, PA 19107",
+      location: { lat: 39.9577, lng: -75.1567 }
+    },
+    {
+      name: "Maaco Collision Repair & Auto Painting",
+      type: "Auto Body Shop",
+      address: "1750 Pine St.",
+      city: "Philadelphia, PA 19103",
+      location: { lat: 39.9477, lng: -75.1707 }
+    },
+    {
+      name: "Cherry Hill Auto Body",
+      type: "Auto Body & Glass",
+      address: "1500 Route 38",
+      city: "Cherry Hill, NJ 08002",
+      location: { lat: 39.9377, lng: -74.9987 }
+    },
+    {
+      name: "Delaware Valley Auto Glass",
+      type: "Auto Glass Specialist",
+      address: "2300 Market St.",
+      city: "Philadelphia, PA 19103",
+      location: { lat: 39.9527, lng: -75.1777 }
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 页面标题 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            We come to you! We provide free mobile service to the Philadelphia, South Jersey, Trenton-NJ, Wilmington-DE, and their surrounding areas.
-          </p>
-          <p className="text-lg text-gray-600 mt-4">
-            We are open from Monday to Saturday, 8 A.M. to 6 P.M., Sunday by appointment only.
+          <h1 className="text-3xl font-[montserratSemiBold] text-gray-900 mb-4">Contact Us</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            We're here to help with all your auto glass needs. Contact us today for professional service.
           </p>
         </div>
 
-        {/* Contact Information */}
-        <div className="bg-white rounded-xl shadow-sm p-8 mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <Phone className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div onClick={() => window.open("tel:+12159045778")}>
-                    <h3 className="text-lg font-medium text-gray-900">Call today!</h3>
-                    <p className="text-xl font-semibold text-green-600">215-904-5778</p>
-                    <p className="text-gray-600">Auto Safe Glass Co.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <Mail className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                    <p className="text-gray-600">info@autosafeglass.com</p>
-                    <p className="text-gray-600">www.autosafeglass.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <MapPin className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900">Address</h3>
-                    <p className="text-gray-600">1200 Route 70 E. #707</p>
-                    <p className="text-gray-600">Cherry Hill, NJ 08034</p>
-                  </div>
-                </div>
+        {/* 联系信息和地图 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* 联系信息 */}
+          <div className="space-y-6">
+            {/* 电话 */}
+            <div 
+              className="flex items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
+              onClick={() => window.open("tel:+12159045778")}
+            >
+              <div className="bg-blue-50 p-2 rounded-lg">
+                <Phone className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Call us at</p>
+                <p className="text-xl font-[montserratSemiBold] text-gray-900">
+                  215-904-5778
+                </p>
               </div>
             </div>
 
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">Business Hours</h2>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <Clock className="w-6 h-6 text-green-600" />
+            {/* 邮箱 */}
+            <div 
+              className="flex items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
+              onClick={() => handleEmail("info@autosafeglass.com")}
+            >
+              <div className="bg-purple-50 p-2 rounded-lg">
+                <Mail className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Email us at</p>
+                <p className="text-lg font-[montserratSemiBold] text-gray-900">
+                  info@autosafeglass.com
+                </p>
+              </div>
+            </div>
+
+            {/* 总店地址 */}
+            <div 
+              className="flex items-start gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group"
+              onClick={handleMainStoreNavigation}
+            >
+              <div className="bg-emerald-50 p-2 rounded-lg mt-1">
+                <MapPin className="w-6 h-6 text-emerald-600" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-sm text-gray-500">Find us at</p>
+                  <span className="text-xs bg-gray-900 text-white px-2 py-0.5 rounded-full">
+                    Main Store
+                  </span>
+                </div>
+                <p className="text-lg font-[montserratSemiBold] text-gray-900">
+                  1200 Route 70 E. #707
+                </p>
+                <p className="text-lg font-[montserratSemiBold] text-gray-900">
+                  Cherry Hill, NJ 08034
+                </p>
+              </div>
+            </div>
+
+            {/* 营业时间 - 更新配色 */}
+            <div className="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="bg-orange-50 p-2 rounded-lg">
+                  <Clock className="w-6 h-6 text-orange-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-[montserratSemiBold] text-gray-900">
+                    Business Hours
+                  </h3>
+                  <p className="text-sm text-blue-600">Open Today</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {/* 工作日 */}
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 font-medium">Monday - Friday</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-900 font-[montserratSemiBold]">
+                      8:00 AM - 6:00 PM
+                    </span>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Monday - Saturday: 8:00 AM - 6:00 PM</p>
-                    <p className="text-gray-600">Sunday: By appointment only</p>
+                </div>
+
+                {/* 周六 */}
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 font-medium">Saturday</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-900 font-[montserratSemiBold]">
+                      8:00 AM - 6:00 PM
+                    </span>
                   </div>
+                </div>
+
+                {/* 周日 */}
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 font-medium">Sunday</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-900 font-[montserratSemiBold]">
+                      By appointment
+                    </span>
+                  </div>
+                </div>
+
+                {/* 提示信息 */}
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <p className="text-sm text-blue-600 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                    24/7 Emergency Service Available
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Partners Section */}
-        <div className="bg-white rounded-xl shadow-sm p-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-8">Our Partners</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-6 border border-gray-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Ken's Auto Inc.</h3>
-              <p className="text-gray-600 mb-2">(Auto Repair & Auto Glass)</p>
-              <p className="text-gray-600">341 N. 10th St.</p>
-              <p className="text-gray-600">Philadelphia, PA 19107</p>
+          {/* 地图和合作伙伴列表 */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* 地图 */}
+            <div className="bg-white rounded-lg shadow-sm p-1 h-[400px]">
+              <MapContainer
+                center={[center.lat, center.lng]}
+                zoom={11}
+                style={{ height: "100%", width: "100%", borderRadius: "0.5rem" }}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                />
+                {partners.map((partner, index) => (
+                  <Marker
+                    key={index}
+                    position={[partner.location.lat, partner.location.lng]}
+                    icon={icon}
+                  >
+                    <Popup>
+                      <div className="p-2">
+                        <h3 className="font-semibold">{partner.name}</h3>
+                        <p className="text-sm text-emerald-600">{partner.type}</p>
+                        <div 
+                          className="cursor-pointer hover:text-emerald-500 transition-colors"
+                          onClick={() => handleNavigation(partner.address, partner.city)}
+                        >
+                          <p className="text-sm">{partner.address}</p>
+                          <p className="text-sm">{partner.city}</p>
+                        </div>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
             </div>
 
-            <div className="p-6 border border-gray-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Lei's Auto Service Center Inc.</h3>
-              <p className="text-gray-600 mb-2">(Auto Repair, Body & Auto Glass)</p>
-              <p className="text-gray-600">24 S. 42nd St.</p>
-              <p className="text-gray-600">Philadelphia, PA 19104</p>
-            </div>
-
-            <div className="p-6 border border-gray-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">S & D Auto</h3>
-              <p className="text-gray-600 mb-2">(Auto Repair & Auto Glass)</p>
-              <p className="text-gray-600">361 E. Chew Ave.</p>
-              <p className="text-gray-600">Philadelphia, PA 19120</p>
-            </div>
-
-            <div className="p-6 border border-gray-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Dai Auto Repair</h3>
-              <p className="text-gray-600 mb-2">(Auto Repair & Auto Glass)</p>
-              <p className="text-gray-600">4331 Rt. 130 S.</p>
-              <p className="text-gray-600">Edgewater Park, NJ 08010</p>
-            </div>
-
-            <div className="p-6 border border-gray-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Tim's Auto Care</h3>
-              <p className="text-gray-600 mb-2">(Auto Repair & Auto Glass)</p>
-              <p className="text-gray-600">651 Levitt Parkway.</p>
-              <p className="text-gray-600">Willingboro, NJ 08046</p>
+            {/* 合作伙伴列表 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {partners.map((partner, index) => (
+                <div 
+                  key={index}
+                  className="p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors"
+                >
+                  <h3 className="text-lg font-[montserratSemiBold] text-gray-900 mb-1">
+                    {partner.name}
+                  </h3>
+                  <p className="text-sm text-blue-600 mb-2">
+                    {partner.type}
+                  </p>
+                  <div 
+                    className="flex items-start gap-2 cursor-pointer group"
+                    onClick={() => handleNavigation(partner.address, partner.city)}
+                  >
+                    <MapPin className="w-5 h-5 text-gray-400 mt-0.5 group-hover:text-blue-600" />
+                    <div>
+                      <p className="text-gray-600 group-hover:text-gray-900">
+                        {partner.address}
+                      </p>
+                      <p className="text-gray-600 group-hover:text-gray-900">
+                        {partner.city}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-12 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Schedule Service</h2>
-          <p className="text-xl text-gray-600 mb-6">Please Call</p>
-          <a 
-            onClick={() => window.open("tel:+12159045778")}
-            className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors text-lg font-medium"
+        {/* CTA 部分 */}
+        <div className="mt-16 text-center">
+          <h2 className="text-2xl font-[montserratSemiBold] text-gray-900 mb-4">
+            Ready to Get Started?
+          </h2>
+          <button
+            onClick={() => window.location.href = '/online-estimate'}
+            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-medium"
           >
-            215-904-5778
-          </a>
+            Get Free Quote
+          </button>
         </div>
       </div>
     </div>

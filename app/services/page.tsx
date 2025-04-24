@@ -26,7 +26,7 @@ const ServicesPage = () => {
           </p>
           <button 
             onClick={() => router.push('/online-estimate')} 
-            className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors text-lg font-medium"
+            className="bg-emerald-500 text-white px-8 py-3 rounded-lg hover:bg-emerald-600 transition-colors text-lg font-medium"
           >
             Get Free Quote
           </button>
@@ -92,19 +92,19 @@ const ServicesPage = () => {
             </p>
             <div className="space-y-4">
               <div className="flex items-start">
-                <span className="text-green-600 text-xl mr-2">•</span>
+                <span className="text-emerald-500 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Open a claim with your insurance company and tell them that you would like Auto Safe Glass Co. to do the job.
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="text-green-600 text-xl mr-2">•</span>
+                <span className="text-emerald-500 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Make an appointment. Once you provide us the insurance claim number, we are ready to work for you.
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="text-green-600 text-xl mr-2">•</span>
+                <span className="text-emerald-500 text-xl mr-2">•</span>
                 <p className="text-gray-600">
                   Once our technician has completed the job, simply pay us your deductible, and we will take care of the rest.
                 </p>
@@ -152,13 +152,13 @@ const ServicesPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => router.push('/online-estimate')} 
-              className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors text-lg font-medium"
+              className="bg-emerald-500 text-white px-8 py-3 rounded-lg hover:bg-emerald-600 transition-colors text-lg font-medium"
             >
               Get Free Quote
             </button>
             <a 
               onClick={() => window.open("tel:+12159045778")}
-              className="bg-white text-green-900 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium"
+              className="bg-white text-emerald-900 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium"
             >
               Call Now
             </a>

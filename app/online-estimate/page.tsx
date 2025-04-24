@@ -240,9 +240,9 @@ const OnlineEstimate = () => {
           <div className="grid grid-cols-2 gap-4">
             {/* Front Option */}
             <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
                 selectedOption === "Front"
-                  ? "border-green-500 bg-green-50"
+                  ? "border-emerald-400 bg-emerald-50"
                   : "border-gray-200"
               }`}
               onClick={() => setSelectedOption("Front")}
@@ -255,7 +255,7 @@ const OnlineEstimate = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Front" ? "text-green-600" : "text-gray-400"}
+                    className={selectedOption === "Front" ? "text-emerald-500" : "text-gray-400"}
                 >
                   <rect
                     x="4"
@@ -273,7 +273,7 @@ const OnlineEstimate = () => {
                     <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
                 {selectedOption === "Front" && (
-                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
@@ -285,9 +285,9 @@ const OnlineEstimate = () => {
 
             {/* Back Option */}
             <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
                 selectedOption === "Back"
-                  ? "border-green-500 bg-green-50"
+                  ? "border-emerald-400 bg-emerald-50"
                   : "border-gray-200"
               }`}
               onClick={() => setSelectedOption("Back")}
@@ -300,7 +300,7 @@ const OnlineEstimate = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Back" ? "text-green-600" : "text-gray-400"}
+                    className={selectedOption === "Back" ? "text-emerald-500" : "text-gray-400"}
                 >
                   <rect
                     x="4"
@@ -318,7 +318,7 @@ const OnlineEstimate = () => {
                     <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
                 {selectedOption === "Back" && (
-                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
@@ -330,9 +330,9 @@ const OnlineEstimate = () => {
 
             {/* Driver Side Option */}
             <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
                 selectedOption === "Driver Side"
-                  ? "border-green-500 bg-green-50"
+                  ? "border-emerald-400 bg-emerald-50"
                   : "border-gray-200"
               }`}
               onClick={() => setSelectedOption("Driver Side")}
@@ -345,7 +345,7 @@ const OnlineEstimate = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Driver Side" ? "text-green-600" : "text-gray-400"}
+                    className={selectedOption === "Driver Side" ? "text-emerald-500" : "text-gray-400"}
                 >
                   <path
                     d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
@@ -364,7 +364,7 @@ const OnlineEstimate = () => {
                   />
                 </svg>
                 {selectedOption === "Driver Side" && (
-                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
@@ -376,9 +376,9 @@ const OnlineEstimate = () => {
 
             {/* Passenger Side Option */}
             <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
                 selectedOption === "Passenger Side"
-                  ? "border-green-500 bg-green-50"
+                  ? "border-emerald-400 bg-emerald-50"
                   : "border-gray-200"
               }`}
               onClick={() => setSelectedOption("Passenger Side")}
@@ -391,7 +391,7 @@ const OnlineEstimate = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Passenger Side" ? "text-green-600" : "text-gray-400"}
+                    className={selectedOption === "Passenger Side" ? "text-emerald-500" : "text-gray-400"}
                 >
                   <path
                     d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
@@ -410,7 +410,7 @@ const OnlineEstimate = () => {
                   />
                 </svg>
                 {selectedOption === "Passenger Side" && (
-                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
@@ -426,7 +426,7 @@ const OnlineEstimate = () => {
             <label className="flex items-start cursor-pointer">
               <input
                 type="checkbox"
-                className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
+                className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
                 checked={hasMultipleWindows}
                 onChange={(e) => setHasMultipleWindows(e.target.checked)}
               />
@@ -452,8 +452,8 @@ const OnlineEstimate = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
-          className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
-            selectedSeverity === "large" ? "border-green-500 bg-green-50" : "border-gray-200"
+          className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedSeverity === "large" ? "border-emerald-400 bg-emerald-50" : "border-gray-200"
           }`}
           onClick={() => setSelectedSeverity("large")}
         >
@@ -467,7 +467,7 @@ const OnlineEstimate = () => {
                 className="object-contain"
               />
               {selectedSeverity === "large" && (
-                <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
                 </div>
               )}
@@ -482,8 +482,8 @@ const OnlineEstimate = () => {
         </div>
 
         <div
-          className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
-            selectedSeverity === "small" ? "border-green-500 bg-green-50" : "border-gray-200"
+          className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedSeverity === "small" ? "border-emerald-400 bg-emerald-50" : "border-gray-200"
           }`}
           onClick={() => setSelectedSeverity("small")}
         >
@@ -497,7 +497,7 @@ const OnlineEstimate = () => {
                 className="object-contain"
               />
               {selectedSeverity === "small" && (
-                <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                   <Check className="h-4 w-4 text-white" />
         </div>
               )}
@@ -528,9 +528,9 @@ const OnlineEstimate = () => {
         ].map((location) => (
           <div
             key={location.id}
-            className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+            className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
               selectedDriverLocation === location.id
-                ? "border-green-500 bg-green-50"
+                ? "border-emerald-400 bg-emerald-50"
                 : "border-gray-200"
             }`}
             onClick={() => setSelectedDriverLocation(location.id)}
@@ -544,7 +544,7 @@ const OnlineEstimate = () => {
                   className="object-contain"
                 />
                 {selectedDriverLocation === location.id && (
-                  <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                  <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
               </div>
                 )}
@@ -561,7 +561,7 @@ const OnlineEstimate = () => {
         <label className="flex items-start cursor-pointer">
                 <input
             type="checkbox"
-            className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
             checked={hasMultipleWindows}
             onChange={(e) => setHasMultipleWindows(e.target.checked)}
           />
@@ -592,9 +592,9 @@ const OnlineEstimate = () => {
         ].map((location) => (
           <div
             key={location.id}
-            className={`border rounded-lg p-6 cursor-pointer hover:border-green-500 transition-colors ${
+            className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
               selectedPassengerLocation === location.id
-                ? "border-green-500 bg-green-50"
+                ? "border-emerald-400 bg-emerald-50"
                 : "border-gray-200"
             }`}
             onClick={() => setSelectedPassengerLocation(location.id)}
@@ -608,7 +608,7 @@ const OnlineEstimate = () => {
                   className="object-contain"
                 />
                 {selectedPassengerLocation === location.id && (
-                  <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1">
+                  <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
                     <Check className="h-4 w-4 text-white" />
             </div>
                 )}
@@ -625,7 +625,7 @@ const OnlineEstimate = () => {
         <label className="flex items-start cursor-pointer">
               <input
             type="checkbox"
-            className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
             checked={hasMultipleWindows}
             onChange={(e) => setHasMultipleWindows(e.target.checked)}
           />
@@ -671,7 +671,7 @@ const OnlineEstimate = () => {
         </h1>
 
         {submitStatus === "success" && (
-          <div className="mb-8 p-4 bg-green-100 text-green-700 rounded-lg">
+          <div className="mb-8 p-4 bg-emerald-100 text-emerald-700 rounded-lg">
             Thank you! Your estimate request has been submitted successfully.
             We'll send you a confirmation email shortly.
           </div>
@@ -692,7 +692,7 @@ const OnlineEstimate = () => {
                 {getDamageLocation()}
               </p>
               {hasMultipleWindows && (
-                <p className="text-green-600">Multiple windows have damage</p>
+                <p className="text-emerald-600">Multiple windows have damage</p>
               )}
             </div>
           </div>
@@ -760,7 +760,7 @@ const OnlineEstimate = () => {
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || submitStatus === "success"}
-          className="w-full mt-8 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full mt-8 bg-emerald-600 text-white py-3 px-6 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isSubmitting ? (
             <>
@@ -795,7 +795,7 @@ const OnlineEstimate = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 1 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                    currentStep >= 1 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
                     <Car className="w-4 h-4" />
         </div>
@@ -807,7 +807,7 @@ const OnlineEstimate = () => {
 
                 <div className="flex items-center gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 2 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                    currentStep >= 2 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
                     <Car className="w-4 h-4" />
                   </div>
@@ -819,7 +819,7 @@ const OnlineEstimate = () => {
 
                 <div className="flex items-center gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 3 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                    currentStep >= 3 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
                     <User className="w-4 h-4" />
                   </div>
@@ -831,7 +831,7 @@ const OnlineEstimate = () => {
 
                 <div className="flex items-center gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    currentStep >= 4 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400'
+                    currentStep >= 4 ? 'bg-emerald-500 text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
                     <FileText className="w-4 h-4" />
                   </div>
@@ -862,7 +862,7 @@ const OnlineEstimate = () => {
                 <button
                         className={`p-4 rounded-lg text-center transition-colors ${
                     vehicleInfo.method === "license"
-                            ? "bg-green-600 text-white shadow-md"
+                            ? "bg-emerald-600 text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                   onClick={() =>
@@ -875,7 +875,7 @@ const OnlineEstimate = () => {
                 <button
                         className={`p-4 rounded-lg text-center transition-colors ${
                     vehicleInfo.method === "manual"
-                            ? "bg-green-600 text-white shadow-md"
+                            ? "bg-emerald-600 text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                   onClick={() =>
@@ -896,7 +896,7 @@ const OnlineEstimate = () => {
                           <div className="relative">
                       <input
                         type="text"
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                               value={vehicleInfo.vin}
                               onChange={handleVinChange}
                               placeholder="Enter VIN"
@@ -904,7 +904,7 @@ const OnlineEstimate = () => {
                             />
                             {isLoading && (
                               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <Loader2 className="w-5 h-5 animate-spin text-green-600" />
+                                <Loader2 className="w-5 h-5 animate-spin text-emerald-600" />
                     </div>
                             )}
                       </div>
@@ -932,7 +932,7 @@ const OnlineEstimate = () => {
                       Year
                     </label>
                             <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                               value={vehicleInfo.year}
                               onChange={(e) => {
                                 setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
@@ -953,7 +953,7 @@ const OnlineEstimate = () => {
                       Make
                     </label>
                             <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                               value={vehicleInfo.make}
                               onChange={(e) => {
                                 setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
@@ -975,7 +975,7 @@ const OnlineEstimate = () => {
                       Model
                     </label>
                             <select
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                               value={vehicleInfo.model}
                               onChange={(e) =>
                                 setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
@@ -1012,7 +1012,7 @@ const OnlineEstimate = () => {
                   <input
                     type="text"
                     name="firstName"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                     value={userInfo.firstName}
                     onChange={handleChange}
                     placeholder="Enter first name"
@@ -1024,7 +1024,7 @@ const OnlineEstimate = () => {
                   </label>
                   <input
                     type="text"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                     value={userInfo.lastName}
                     onChange={(e) =>
                       setUserInfo({ ...userInfo, lastName: e.target.value })
@@ -1040,7 +1040,7 @@ const OnlineEstimate = () => {
                 </label>
                 <input
                   type="tel"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                   value={userInfo.phone}
                   onChange={(e) =>
                     setUserInfo({ ...userInfo, phone: e.target.value })
@@ -1055,7 +1055,7 @@ const OnlineEstimate = () => {
                 </label>
                 <input
                   type="email"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                   value={userInfo.email}
                   onChange={(e) =>
                     setUserInfo({ ...userInfo, email: e.target.value })
@@ -1070,7 +1070,7 @@ const OnlineEstimate = () => {
                 </label>
                 <input
                   type="text"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-colors"
                   value={userInfo.zipCode}
                   onChange={(e) =>
                     setUserInfo({ ...userInfo, zipCode: e.target.value })
@@ -1110,7 +1110,7 @@ const OnlineEstimate = () => {
               <button
                 onClick={handleNext}
                 disabled={currentStep === 1 && !selectedOption}
-                      className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
               >
                 Next
               </button>
