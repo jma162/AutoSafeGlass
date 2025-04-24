@@ -60,12 +60,13 @@ const Repair = () => {
           ))}
         </div>
 
-        {/* Right Side: Damage Descriptions */}
-        <div className="bg-[#f0f7f5] rounded-lg p-5 shadow-sm">
-          <h3 className="text-lg font-semibold text-[#2c7a6d] mb-4">
+        {/* Right Side: Damage Descriptions - Reduced Padding and Spacing */}
+        <div className="bg-[#f0f7f5] rounded-lg p-4 shadow-sm h-fit"> {/* Reduced padding, added h-fit */}
+          <h3 className="text-lg font-semibold text-[#2c7a6d] mb-3"> {/* Reduced margin */}
             Common Damage Descriptions
           </h3>
-          <ul className="space-y-3">
+          {/* Reduced list spacing */}
+          <ul className="space-y-2"> 
             {damageDescriptions.map((desc) => (
               <li key={desc.title} className="text-sm">
                 <strong className="text-gray-800">{desc.title}:</strong> 
