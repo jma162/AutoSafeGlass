@@ -79,7 +79,7 @@ export async function POST(request: Request) {
           <li>Schedule your repair if you wish to proceed</li>
         </ul>
         
-        <p>If you need immediate assistance, please call us at 1-888-4-FIX-GLASS.</p>
+        <p>If you need immediate assistance, please call us at 215-904-5778.</p>
         
         <p>Best regards,<br>
         The AutoSafeGlass Team</p>

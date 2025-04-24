@@ -95,7 +95,7 @@ const Banner = () => {
 
                     {/* Bottom text */}
                     <div className="absolute -bottom-6 sm:-bottom-8 left-0 right-0 text-yellow-300 text-xs sm:text-sm font-medium animate-pulse">
-                      Free Mobile Service Available
+                      Mobile Service Available
                     </div>
                   </button>
                 </div>
