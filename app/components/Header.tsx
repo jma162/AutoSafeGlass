@@ -75,48 +75,37 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation bar - Bright Green Background */}
-      <nav className="bg-[#66BB6A] shadow">
+      {/* Navigation bar - Theme Dark Green Background */}
+      <nav className="bg-[#236b5e] shadow">
         <div className="container mx-auto px-4">
-          {/* Desktop Navigation: Centered Links, Right Button */}
-          <div className="hidden md:flex justify-between items-center h-14">
-            <div className="w-1/4"></div>
-            
-            {/* Centered Navigation Links */}
-            <div className="flex justify-center items-center gap-2">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`px-5 py-2 font-semibold text-base transition-colors duration-200 relative group rounded-md ${
-                      isActive
-                        ? "text-black"
-                        : "text-gray-800 hover:text-black"
-                    }`}
-                  >
-                    {link.name}
-                    <span className={`absolute bottom-1 left-0 right-0 mx-auto w-[70%] h-0.5 transition-all duration-300 ${
-                      isActive
-                        ? "bg-black scale-x-100"
-                        : "bg-gray-700 scale-x-0 group-hover:scale-x-100"
-                    }`} />
-                  </Link>
-                )
-              })}
-            </div>
+          {/* Desktop Navigation: All items aligned right */}
+          <div className="hidden md:flex justify-end items-center h-14 gap-2">
+            {/* Navigation Links (Now on the right) */}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`px-4 py-1.5 font-semibold text-base transition-all duration-200 relative group rounded-md ${
+                    isActive
+                      ? "bg-[#1c5a4e] text-white"
+                      : "text-green-100 hover:text-white hover:bg-[#1c5a4e]/60"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              )
+            })}
 
-            {/* Right Aligned CTA Button - Keeping Blue */}
-            <div className="flex justify-end w-1/4">
-              <Link
-                href="/online-estimate"
-                className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-sm shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 whitespace-nowrap"
-              >
-                Get FREE Quote
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </div>
+            {/* CTA Button (Now on the right with links) */}
+            <Link
+              href="/online-estimate"
+              className="ml-2 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-sm shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 whitespace-nowrap"
+            >
+              Get FREE Quote
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
         </div>
       </nav>
