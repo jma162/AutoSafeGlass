@@ -14,8 +14,14 @@ const Banner = () => {
     image: "/banner.jpeg",
   }
 
+  // Estimate header height - adjust mt-[130px] if needed based on actual layout
+  const estimatedHeaderHeight = "130px"
+
   return (
-    <div className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] mt-[80px] overflow-hidden">
+    <div 
+      className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden"
+      style={{ marginTop: estimatedHeaderHeight }} // Use style for dynamic margin
+    >
       {/* Single Slide */}
       <div className="relative w-full h-full">
         <div
@@ -51,13 +57,13 @@ const Banner = () => {
                   className="relative group active:scale-95 transition-all duration-200 w-full sm:w-auto"
                 >
                   {/* Outer glow */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#2c7a6d] via-[#236b5e] to-[#1c5a4e] rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
                   
                   {/* Inner glow */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#2c7a6d] to-[#236b5e] rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur opacity-70 group-hover:opacity-90 transition duration-500"></div>
                   
                   {/* Button content */}
-                  <div className="relative px-6 sm:px-8 py-3 sm:py-4 bg-[#2c7a6d] hover:bg-[#236b5e] rounded-full transition-all duration-300">
+                  <div className="relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full transition-all duration-300">
                     <div className="flex items-center justify-center gap-2">
                       <span className="text-base sm:text-lg md:text-xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
                         Get A Free Quote

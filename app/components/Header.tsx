@@ -17,56 +17,53 @@ const Header = () => {
     { name: "Contact Us", href: "/ContactUs" },
   ]
 
+  // Calculate estimated header height for layout padding
+  // Top section: ~96px (py-4 + logo height) + Nav bar: ~60px (py-3 + font) = ~156px
+  // Use a slightly larger value for safety buffer
+  const estimatedHeaderHeight = "160px"
+
   return (
     <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-      {/* Top section with logo and contact info */}
-      <div className="container mx-auto px-4 py-4">
+      {/* Top section: Logo/Brand centered (or left), Contact on right */}
+      <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo and Company Name */}
           <div 
-            className="flex items-center gap-4 cursor-pointer group" 
+            className="flex items-center gap-3 cursor-pointer group"
             onClick={() => router.push("/")}
           >
             <div className="relative overflow-hidden rounded-lg transform transition-transform group-hover:scale-105">
               <Image 
                 src="/logo.jpg"
                 alt="AutoSafeGlass Logo"
-                width={80}
-                height={80}
-                className="w-16 h-16 md:w-20 md:h-20 object-cover"
+                width={60}
+                height={60}
+                className="w-12 h-12 md:w-14 md:h-14 object-cover"
               />
             </div>
             <div className="flex flex-col">
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-[montserratSemiBold] text-gray-900">
+              <h1 className="text-lg md:text-xl lg:text-2xl font-[montserratSemiBold] text-gray-900">
                 Auto Safe Glass
               </h1>
-              <p className="text-sm text-[#2c7a6d] font-medium hidden md:block">Professional Auto Glass Services</p>
             </div>
           </div>
 
-          {/* Contact Info - Hidden on mobile */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Contact Info - Simplified */}
+          <div className="hidden md:flex items-center gap-4">
             <div 
-              className="group flex items-center gap-4 px-6 py-3 bg-[#f0f7f5] rounded-lg cursor-pointer hover:bg-[#e0ede9] transition-all duration-300"
+              className="group flex items-center gap-2 px-4 py-2 bg-[#f0f7f5] rounded-full cursor-pointer hover:bg-[#e0ede9] transition-all duration-200"
               onClick={() => window.open("tel:+12159045778")}
             >
-              <div className="bg-[#2c7a6d] p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
-                <Phone className="w-5 h-5 text-white" />
-              </div>
-              <p className="text-base font-bold text-gray-900">
+              <Phone className="w-4 h-4 text-[#2c7a6d]" />
+              <p className="text-sm font-semibold text-[#2c7a6d]">
                 215-904-5778
               </p>
-            </div>
-            <div className="hidden lg:flex items-center px-6 py-3 bg-[#f0f7f5] rounded-lg">
-              <div>
-                <p className="text-base font-semibold text-[#2c7a6d] animate-pulse">FREE Mobile Service!</p>
-              </div>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2.5 text-[#2c7a6d] hover:text-[#236b5e] bg-[#f0f7f5] hover:bg-[#e0ede9] rounded-lg transition-colors"
+            className="md:hidden p-2 text-[#2c7a6d] hover:text-[#236b5e] bg-[#f0f7f5] hover:bg-[#e0ede9] rounded-lg transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -78,43 +75,48 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation bar - Reduced Height */}
-      <nav className="bg-[#1c5a4e] shadow-lg"> 
-        <div className="container mx-auto">
-          {/* Desktop Navigation - Reduced vertical padding */}
-          <div className="hidden md:flex justify-center items-center py-1.5"> {/* Reduced py */}
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  // Reduced py, slightly smaller text
-                  className={`px-7 py-3 font-semibold text-base text-white transition-opacity duration-200 relative group ${ 
-                    isActive 
-                      ? "opacity-100" 
-                      : "opacity-80 hover:opacity-100" 
-                  }`}
-                >
-                  {link.name}
-                   {/* Adjusted underline position */}
-                  <span className={`absolute bottom-1.5 left-0 right-0 mx-auto w-[65%] h-0.5 transition-all duration-300 ${ 
-                    isActive 
-                      ? "bg-emerald-300" 
-                      : "bg-transparent scale-x-0 group-hover:scale-x-100 group-hover:bg-emerald-200" 
-                  }`} />
-                </Link>
-              )
-            })}
-            {/* Get FREE Quote button - Reduced padding */}
-            <Link
-              href="/online-estimate"
-              // Reduced py
-              className="ml-10 px-6 py-2 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5" 
-            >
-              Get FREE Quote
-              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" /> {/* Adjusted icon size */}
-            </Link>
+      {/* Navigation bar - Bright Green Background */}
+      <nav className="bg-[#66BB6A] shadow">
+        <div className="container mx-auto px-4">
+          {/* Desktop Navigation: Centered Links, Right Button */}
+          <div className="hidden md:flex justify-between items-center h-14">
+            <div className="w-1/4"></div>
+            
+            {/* Centered Navigation Links */}
+            <div className="flex justify-center items-center gap-2">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`px-5 py-2 font-semibold text-base transition-colors duration-200 relative group rounded-md ${
+                      isActive
+                        ? "text-black"
+                        : "text-gray-800 hover:text-black"
+                    }`}
+                  >
+                    {link.name}
+                    <span className={`absolute bottom-1 left-0 right-0 mx-auto w-[70%] h-0.5 transition-all duration-300 ${
+                      isActive
+                        ? "bg-black scale-x-100"
+                        : "bg-gray-700 scale-x-0 group-hover:scale-x-100"
+                    }`} />
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Right Aligned CTA Button - Keeping Blue */}
+            <div className="flex justify-end w-1/4">
+              <Link
+                href="/online-estimate"
+                className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-sm shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 whitespace-nowrap"
+              >
+                Get FREE Quote
+                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -131,52 +133,54 @@ const Header = () => {
           {/* Menu Panel */}
           <div className="absolute right-0 top-0 h-full w-[300px] bg-white shadow-2xl">
             <div className="flex flex-col h-full">
-              {/* Mobile Contact Info */}
-              <div className="p-6 bg-[#f0f7f5]">
-                <div 
-                  className="group flex items-center gap-4 p-4 bg-white rounded-lg cursor-pointer hover:bg-[#e0ede9] transition-all duration-300 mb-4"
-                  onClick={() => window.open("tel:+12159045778")}
-                >
-                  <div className="bg-[#2c7a6d] p-2.5 rounded-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
-                    <Phone className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-base font-bold text-gray-900">
-                    215-904-5778
-                  </p>
-                </div>
-                <Link
-                  href="/online-estimate"
-                  className="w-full p-3 mb-4 bg-gradient-to-r from-[#2c7a6d] to-[#1f645a] hover:from-[#236b5e] hover:to-[#1c5a4e] text-white rounded-full font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 block text-center group flex items-center justify-center gap-1.5"
+              {/* Simplified Mobile Header */}
+              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 className="font-semibold text-lg">Menu</h2>
+                <button
+                  className="p-2 text-gray-500 hover:text-gray-700"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Get FREE Quote
-                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-                <div className="p-4 bg-white rounded-lg text-center">
-                  <p className="text-base font-semibold text-[#2c7a6d] animate-pulse">FREE Mobile Service!</p>
-                </div>
+                  <X className="w-6 h-6" />
+                </button>
               </div>
-
+              
               {/* Mobile Menu Links */}
-              <div className="flex-1 p-6 space-y-2">
+              <div className="flex-1 p-4 space-y-1">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`flex items-center px-5 py-4 rounded-lg font-medium text-base transition-all ${
+                      className={`flex items-center px-4 py-3 rounded-md font-medium text-base transition-all ${
                         isActive 
                           ? "bg-[#f0f7f5] text-[#2c7a6d]" 
-                          : "text-gray-600 hover:bg-[#f0f7f5] hover:text-[#2c7a6d]"
+                          : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.name}
-                      {isActive && <span className="ml-auto">→</span>}
                     </Link>
                   )
                 })}
+              </div>
+
+              {/* Mobile Footer with Buttons */}
+              <div className="p-4 border-t border-gray-200 space-y-3">
+                <Link
+                  href="/online-estimate"
+                  className="w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-semibold shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 block text-center group flex items-center justify-center gap-1.5"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Get FREE Quote
+                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+                <button
+                  className="w-full p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full font-semibold shadow-sm transition-all duration-300 flex items-center justify-center gap-1.5"
+                  onClick={() => { window.open("tel:+12159045778"); setIsMobileMenuOpen(false); }}
+                >
+                  <Phone className="w-4 h-4" /> Call Us
+                </button>
               </div>
             </div>
           </div>

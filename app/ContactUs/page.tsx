@@ -1,5 +1,5 @@
 'use client'
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -72,8 +72,8 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 pt-[130px]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         {/* 页面标题 */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-[montserratSemiBold] text-gray-900 mb-4">Contact Us</h1>
@@ -83,7 +83,7 @@ const ContactUs = () => {
         </div>
 
         {/* 联系信息和地图 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {/* 联系信息卡片 */}
           <div className="space-y-4 sm:space-y-6">
             {/* 电话 */}
@@ -251,17 +251,32 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* CTA 部分 */}
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-[montserratSemiBold] text-gray-900 mb-4">
+        {/* Ready to Get Started Section */}
+        <div className="bg-white rounded-lg shadow-md p-8 sm:p-12 text-center">
+          <h2 className="text-2xl sm:text-3xl font-[montserratSemiBold] text-gray-900 mb-4">
             Ready to Get Started?
           </h2>
-          <button
-            onClick={() => window.location.href = '/online-estimate'}
-            className="inline-flex items-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-3 rounded-lg transition-colors text-lg font-medium"
-          >
-            Get Free Quote
-          </button>
+          <p className="text-base sm:text-lg text-gray-600 max-w-xl mx-auto mb-8">
+            Get a free online quote today or give us a call for immediate assistance.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* Corrected Get Free Quote button to Blue */}
+            <button
+              onClick={() => window.location.href='/online-estimate'}
+              // Applied blue gradient style
+              className="px-7 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 w-full sm:w-auto justify-center"
+            >
+              Get Free Quote
+              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </button>
+            {/* Call Us button styling remains */}
+            <button
+              onClick={() => window.open("tel:+12159045778")}
+              className="px-7 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full font-bold text-base shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 w-full sm:w-auto justify-center"
+            >
+              <Phone className="w-5 h-5 mr-1.5" /> Call Us Now
+            </button>
+          </div>
         </div>
       </div>
     </div>

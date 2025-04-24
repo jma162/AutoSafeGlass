@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Clock, Shield, Car, ArrowRight, Wrench, LayoutGrid, CircleDot, PanelLeftClose, DollarSign, CheckCircle, Award } from 'lucide-react'
+import { Clock, Shield, Car, ArrowRight, Wrench, LayoutGrid, CircleDot, PanelLeftClose, DollarSign, CheckCircle, Award, ChevronRight } from 'lucide-react'
 
 const ServicesPage = () => {
   const router = useRouter();
@@ -20,10 +20,10 @@ const ServicesPage = () => {
           <div className="text-center">
             <button
               onClick={() => window.location.href = '/online-estimate'}
-              className="inline-flex items-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-3 rounded-lg transition-all duration-300 text-lg font-medium"
+              className="px-7 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5"
             >
               Get Free Quote
-              <ArrowRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </button>
           </div>
         </div>
@@ -178,7 +178,7 @@ const ServicesPage = () => {
               {/* Left Column - Contact Info */}
               <div className="space-y-6">
                 <div className="flex items-center gap-4 p-4 bg-[#f0f7f5] rounded-lg">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center font-semibold">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
@@ -218,25 +218,18 @@ const ServicesPage = () => {
                 </div>
               </div>
 
-              {/* Right Column - CTA Buttons */}
-              <div className="space-y-4">
+              {/* Right Column - Button */}
+              <div className="text-center md:text-left">
                 <button
-                  onClick={() => window.location.href = '/online-estimate'}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#2c7a6d] hover:bg-[#236b5e] text-white px-8 py-4 rounded-lg transition-all duration-300 text-lg font-medium group shadow-sm hover:shadow-md"
+                  onClick={() => router.push('/online-estimate')}
+                  className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-2 w-full sm:w-auto justify-center"
                 >
-                  Get Free Quote
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  Get Free Quote Now
+                  <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
                 </button>
-                
-                <a
-                  onClick={() => window.open("tel:+12159045778")}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-white border-2 border-[#2c7a6d] text-[#2c7a6d] px-8 py-4 rounded-lg hover:bg-[#f0f7f5] transition-colors text-lg font-medium cursor-pointer"
-                >
-                  Call Now
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </a>
+                <p className="text-gray-500 text-sm mt-4">
+                  Or call us directly for immediate assistance.
+                </p>
               </div>
             </div>
           </div>
