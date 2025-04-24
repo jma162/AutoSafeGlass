@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X, Phone } from "lucide-react"
+import { Menu, X, Phone, ChevronRight } from "lucide-react"
 
 const Header = () => {
   const router = useRouter()
@@ -29,11 +29,11 @@ const Header = () => {
           >
             <div className="relative overflow-hidden rounded-lg transform transition-transform group-hover:scale-105">
               <Image 
-                src="/autosafelogo.png" 
-                alt="AutoSafeGlass" 
-                width={60} 
-                height={60}
-                className="w-12 h-12 md:w-14 md:h-14 object-cover"
+                src="/logo.jpg"
+                alt="AutoSafeGlass Logo"
+                width={80}
+                height={80}
+                className="w-16 h-16 md:w-20 md:h-20 object-cover"
               />
             </div>
             <div className="flex flex-col">
@@ -59,7 +59,7 @@ const Header = () => {
             </div>
             <div className="hidden lg:flex items-center px-6 py-3 bg-[#f0f7f5] rounded-lg">
               <div>
-                <p className="text-base font-bold text-[#2c7a6d]">FREE Mobile Service!</p>
+                <p className="text-base font-semibold text-[#2c7a6d] animate-pulse">FREE Mobile Service!</p>
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ const Header = () => {
       <nav className="bg-[#f0f7f5] border-t border-[#e0ede9]">
         <div className="container mx-auto">
           {/* Desktop Navigation */}
-          <div className="hidden md:flex justify-center items-center">
+          <div className="hidden md:flex justify-center items-center py-2">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -106,9 +106,10 @@ const Header = () => {
             })}
             <Link
               href="/online-estimate"
-              className="ml-4 px-8 py-2.5 bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-lg font-medium transition-all duration-300 group inline-block"
+              className="ml-6 px-6 py-2.5 bg-gradient-to-r from-[#2c7a6d] to-[#1f645a] hover:from-[#236b5e] hover:to-[#1c5a4e] text-white rounded-full font-semibold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5"
             >
               Get FREE Quote
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
         </div>
@@ -141,13 +142,14 @@ const Header = () => {
                 </div>
                 <Link
                   href="/online-estimate"
-                  className="w-full p-4 mb-4 bg-[#2c7a6d] hover:bg-[#236b5e] text-white rounded-lg font-medium transition-all duration-300 block text-center"
+                  className="w-full p-3 mb-4 bg-gradient-to-r from-[#2c7a6d] to-[#1f645a] hover:from-[#236b5e] hover:to-[#1c5a4e] text-white rounded-full font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 block text-center group flex items-center justify-center gap-1.5"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get FREE Quote
+                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
-                <div className="p-4 bg-white rounded-lg">
-                  <p className="text-base font-bold text-[#2c7a6d]">FREE Mobile Service!</p>
+                <div className="p-4 bg-white rounded-lg text-center">
+                  <p className="text-base font-semibold text-[#2c7a6d] animate-pulse">FREE Mobile Service!</p>
                 </div>
               </div>
 
@@ -179,18 +181,30 @@ const Header = () => {
 
       {/* 添加自定义动画 */}
       <style jsx global>{`
-        @keyframes pulse-slow {
+        @keyframes pulse {
           0%, 100% {
             opacity: 1;
             transform: scale(1);
           }
           50% {
-            opacity: 0.95;
-            transform: scale(1.02);
+            opacity: 0.85;
+            transform: scale(1.03);
           }
         }
-        .animate-pulse-slow {
-          animation: pulse-slow 3s infinite;
+        .animate-pulse {
+          animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        /* Keep bounce-slow if used elsewhere */
+        @keyframes bounce-slow {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-6px);
+          }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s infinite;
         }
       `}</style>
     </header>
