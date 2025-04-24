@@ -27,7 +27,24 @@ export async function POST(request: Request) {
     const damage = JSON.parse(formData.get('damage') as string)
     const vehicle = JSON.parse(formData.get('vehicle') as string)
     const userInfo = JSON.parse(formData.get('userInfo') as string)
-    // const photoUrls = JSON.parse(formData.get('photoUrls') as string)
+    
+    // Add detailed logging
+    console.log('Raw form data:', {
+      damage: formData.get('damage'),
+      vehicle: formData.get('vehicle'),
+      userInfo: formData.get('userInfo')
+    });
+    
+    console.log('Parsed userInfo:', userInfo);
+    console.log('Insurance Claim value type:', typeof userInfo.willMakeInsuranceClaim);
+    console.log('Insurance Claim raw value:', userInfo.willMakeInsuranceClaim);
+    
+    // Convert willMakeInsuranceClaim to boolean if it's a string
+    if (typeof userInfo.willMakeInsuranceClaim === 'string') {
+      userInfo.willMakeInsuranceClaim = userInfo.willMakeInsuranceClaim.toLowerCase() === 'true';
+    }
+    
+    console.log('Processed Insurance Claim value:', userInfo.willMakeInsuranceClaim);
 
     const photoUrls: string[] = [];
     let photoIndex = 0;
@@ -104,6 +121,23 @@ export async function POST(request: Request) {
       return photosHtml;
     };
 
+    // Create company footer
+    const getCompanyFooter = () => `
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <div style="text-align: center;">
+          <h3 style="color: #333; margin-bottom: 10px; font-size: 18px; font-weight: bold;">AutoSafeGlass</h3>
+          <p style="margin: 5px 0; color: #333;">Professional Auto Glass Services</p>
+          <p style="margin: 5px 0; color: #333;">Phone: 215-904-5778</p>
+          <p style="margin: 5px 0; color: #333;">Email: info@autosafeglass.com</p>
+          <p style="margin: 5px 0; color: #333;">Address: 1200 Route 70 E. #707</p>
+          <p style="margin: 5px 0; color: #333;">Cherry Hill, NJ 08034</p>
+        </div>
+        <div style="text-align: center; color: #666; font-size: 12px; margin-top: 10px;">
+          <p>© ${new Date().getFullYear()} AutoSafeGlass. All rights reserved.</p>
+        </div>
+      </div>
+    `;
+
     // Send confirmation email to user
     const userEmailHtml = `
       <!DOCTYPE html>
@@ -115,42 +149,49 @@ export async function POST(request: Request) {
         </head>
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h2 style="color: #2c7a6d; margin-bottom: 20px;">Thank you for your estimate request!</h2>
+            <h2 style="color: #333; margin-bottom: 20px; font-weight: bold;">Thank you for your estimate request!</h2>
             <p>We have received your request and will review it shortly. Here's a summary of your submission:</p>
             
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Damage Information</h3>
-              <p><strong>Location:</strong> ${damage.location}</p>
-              <p><strong>Sub-Location:</strong> ${damage.subLocation}</p>
-              <p><strong>Multiple Windows:</strong> ${damage.hasMultipleWindows ? 'Yes' : 'No'}</p>
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Damage Information</h3>
+              <p><strong style="color: #333;">Location:</strong> <span style="color: #333;">${damage.location}</span></p>
+              <p><strong style="color: #333;">Sub-Location:</strong> <span style="color: #333;">${damage.subLocation}</span></p>
+              <p><strong style="color: #333;">Multiple Windows:</strong> <span style="color: #333;">${damage.hasMultipleWindows ? 'Yes' : 'No'}</span></p>
+              ${userInfo.note ? `<p><strong style="color: #333;">Note:</strong> <span style="color: #333;">${userInfo.note}</span></p>` : ''}
             </div>
 
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Vehicle Information</h3>
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Vehicle Information</h3>
               ${vehicle.method === 'license' ? `
-                <p><strong>License Plate:</strong> ${vehicle.licensePlate}</p>
-                <p><strong>State:</strong> ${vehicle.registeredState}</p>
-                <p><strong>VIN:</strong> ${vehicle.vin}</p>
+                <p><strong style="color: #333;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+                <p><strong style="color: #333;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+                <p><strong style="color: #333;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
               ` : `
-                <p><strong>Year:</strong> ${vehicle.year}</p>
-                <p><strong>Make:</strong> ${vehicle.make}</p>
-                <p><strong>Model:</strong> ${vehicle.model}</p>
+                <p><strong style="color: #333;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+                <p><strong style="color: #333;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+                <p><strong style="color: #333;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
               `}
             </div>
 
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Contact Information</h3>
-              <p><strong>Name:</strong> ${userInfo.firstName} ${userInfo.lastName}</p>
-              <p><strong>Phone:</strong> ${userInfo.phone}</p>
-              <p><strong>Email:</strong> ${userInfo.email}</p>
-              <p><strong>ZIP Code:</strong> ${userInfo.zipCode}</p>
-              ${userInfo.note ? `<p><strong>Note:</strong> ${userInfo.note}</p>` : ''}
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Contact Information</h3>
+              <p><strong style="color: #333;">Name:</strong> <span style="color: #333;">${userInfo.firstName} ${userInfo.lastName}</span></p>
+              <p><strong style="color: #333;">Phone:</strong> <span style="color: #333;">${userInfo.phone}</span></p>
+              <p><strong style="color: #333;">Email:</strong> <span style="color: #333;">${userInfo.email}</span></p>
+              <p><strong style="color: #333;">ZIP Code:</strong> <span style="color: #333;">${userInfo.zipCode}</span></p>
+            </div>
+
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Insurance Information</h3>
+              <p><strong style="color: #333;">Will you be making an insurance claim?:</strong> <span style="color: #333;">${userInfo.willMakeInsuranceClaim ? 'Yes' : 'No'}</span></p>
             </div>
 
             ${getPhotosHtml()}
             
             <p style="margin-top: 20px;">We will contact you shortly with your estimate.</p>
             <p>If you have any questions, please don't hesitate to contact us.</p>
+
+            ${getCompanyFooter()}
           </div>
         </body>
       </html>
@@ -176,38 +217,48 @@ export async function POST(request: Request) {
         </head>
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h2 style="color: #2c7a6d; margin-bottom: 20px;">New Auto Glass Estimate Request</h2>
+            <h2 style="color: #333; margin-bottom: 20px; font-weight: bold;">New Auto Glass Estimate Request</h2>
             
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Contact Information</h3>
-              <p><strong>Name:</strong> ${userInfo.firstName} ${userInfo.lastName}</p>
-              <p><strong>Phone:</strong> ${userInfo.phone}</p>
-              <p><strong>Email:</strong> ${userInfo.email}</p>
-              <p><strong>ZIP Code:</strong> ${userInfo.zipCode}</p>
-              ${userInfo.note ? `<p><strong>Note:</strong> ${userInfo.note}</p>` : ''}
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Contact Information</h3>
+              <p><strong style="color: #333;">Name:</strong> <span style="color: #333;">${userInfo.firstName} ${userInfo.lastName}</span></p>
+              <p><strong style="color: #333;">Phone:</strong> <span style="color: #333;">${userInfo.phone}</span></p>
+              <p><strong style="color: #333;">Email:</strong> <span style="color: #333;">${userInfo.email}</span></p>
+              <p><strong style="color: #333;">ZIP Code:</strong> <span style="color: #333;">${userInfo.zipCode}</span></p>
             </div>
 
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Vehicle Information</h3>
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Insurance Information</h3>
+              <p><strong style="color: #333;">Will you be making an insurance claim?:</strong> <span style="color: #333;">${userInfo.willMakeInsuranceClaim ? 'Yes' : 'No'}</span></p>
+            </div>
+
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Vehicle Information</h3>
               ${vehicle.method === 'license' ? `
-                <p><strong>License Plate:</strong> ${vehicle.licensePlate}</p>
-                <p><strong>State:</strong> ${vehicle.registeredState}</p>
-                <p><strong>VIN:</strong> ${vehicle.vin}</p>
+                <p><strong style="color: #333;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+                <p><strong style="color: #333;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+                <p><strong style="color: #333;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
               ` : `
-                <p><strong>Year:</strong> ${vehicle.year}</p>
-                <p><strong>Make:</strong> ${vehicle.make}</p>
-                <p><strong>Model:</strong> ${vehicle.model}</p>
+                <p><strong style="color: #333;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+                <p><strong style="color: #333;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+                <p><strong style="color: #333;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
               `}
             </div>
 
-            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #2c7a6d; margin-bottom: 15px;">Damage Information</h3>
-              <p><strong>Location:</strong> ${damage.location}</p>
-              <p><strong>Sub-Location:</strong> ${damage.subLocation}</p>
-              <p><strong>Multiple Windows:</strong> ${damage.hasMultipleWindows ? 'Yes' : 'No'}</p>
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+              <h3 style="color: #333; margin-bottom: 10px; font-weight: bold;">Damage Information</h3>
+              <p><strong style="color: #333;">Location:</strong> <span style="color: #333;">${damage.location}</span></p>
+              <p><strong style="color: #333;">Sub-Location:</strong> <span style="color: #333;">${damage.subLocation}</span></p>
+              <p><strong style="color: #333;">Multiple Windows:</strong> <span style="color: #333;">${damage.hasMultipleWindows ? 'Yes' : 'No'}</span></p>
+              ${userInfo.note ? `<p><strong style="color: #333;">Note:</strong> <span style="color: #333;">${userInfo.note}</span></p>` : ''}
             </div>
 
             ${getPhotosHtml()}
+
+            <p style="margin-top: 20px;">Please review this estimate request and contact the customer as soon as possible.</p>
+            <p>Customer's preferred contact method: ${userInfo.phone}</p>
+
+            ${getCompanyFooter()}
           </div>
         </body>
       </html>
