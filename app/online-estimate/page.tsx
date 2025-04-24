@@ -62,13 +62,7 @@ const OnlineEstimate = () => {
   const [vinError, setVinError] = useState("");
 
   // Memoize the handleChange function
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setUserInfo(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }, []); // Empty dependency array since setUserInfo is stable
+
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -109,6 +103,14 @@ const OnlineEstimate = () => {
       return;
     }
     setCurrentStep(currentStep - 1);
+  };
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInfo(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async () => {

@@ -1,45 +1,48 @@
 'use client'
 import { MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
+import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 
-// 修复 Leaflet marker 图标问题
-const icon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
+// Dynamic import for the map with SSR disabled
+const MapWithNoSSR = dynamic(
+  () => import('../components/MapComponent'),
+  { 
+    ssr: false,
+    loading: () => <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">Loading map...</div>
+  }
+);
 
 const ContactUs = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const center = { lat: 39.9343, lng: -75.0393 };
 
-  // 添加导航函数
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Navigation functions with window check
   const handleNavigation = (address: string, city: string) => {
-    const fullAddress = `${address}, ${city}`;
-    const encodedAddress = encodeURIComponent(fullAddress);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+    if (typeof window !== 'undefined') {
+      const fullAddress = `${address}, ${city}`;
+      const encodedAddress = encodeURIComponent(fullAddress);
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+    }
   };
 
-  // 添加邮件处理函数
   const handleEmail = (email: string) => {
-    window.location.href = `mailto:${email}`;
+    if (typeof window !== 'undefined') {
+      window.location.href = `mailto:${email}`;
+    }
   };
 
-  // 添加总店导航函数
   const handleMainStoreNavigation = () => {
-    const address = "1200 Route 70 E. #707, Cherry Hill, NJ 08034";
-    const encodedAddress = encodeURIComponent(address);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+    if (typeof window !== 'undefined') {
+      const address = "1200 Route 70 E. #707, Cherry Hill, NJ 08034";
+      const encodedAddress = encodeURIComponent(address);
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+    }
   };
 
-  // 合作伙伴数据
+  // Partners data
   const partners = [
     {
       name: "Ken's Auto Inc.",
@@ -74,7 +77,7 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-[200px]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-[montserratSemiBold] text-gray-900 mb-4">Contact Us</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -82,12 +85,15 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* 联系信息和地图 */}
+        {/* Contact Info and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {/* 联系信息卡片 */}
+          {/* Contact Info Cards */}
           <div className="space-y-4 sm:space-y-6">
-            {/* 电话 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer">
+            {/* Phone */}
+            <div 
+              onClick={() => window.open("tel:+12159045778")}
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
+            >
               <div className="bg-blue-50 p-2 rounded-lg">
                 <Phone className="w-6 h-6 text-blue-600" />
               </div>
@@ -99,8 +105,11 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* 邮箱 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer">
+            {/* Email */}
+            <div 
+              onClick={() => handleEmail("info@autosafeglass.com")}
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
+            >
               <div className="bg-purple-50 p-2 rounded-lg">
                 <Mail className="w-6 h-6 text-purple-600" />
               </div>
@@ -112,8 +121,11 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* 总店地址 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group">
+            {/* Main Store Address */}
+            <div 
+              onClick={handleMainStoreNavigation}
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group"
+            >
               <div className="bg-emerald-50 p-2 rounded-lg mt-1">
                 <MapPin className="w-6 h-6 text-emerald-600" />
               </div>
@@ -133,7 +145,7 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* 营业时间 - 更新配色 */}
+            {/* Business Hours */}
             <div className="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
               <div className="flex items-center gap-4 mb-6">
                 <div className="bg-orange-50 p-2 rounded-lg">
@@ -148,77 +160,38 @@ const ContactUs = () => {
               </div>
               
               <div className="space-y-3">
-                {/* 工作日 */}
                 <div className="flex items-center justify-between">
                   <p className="text-gray-600 font-medium">Monday - Friday</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-900 font-[montserratSemiBold]">
-                      8:00 AM - 6:00 PM
-                    </span>
-                  </div>
+                  <span className="text-gray-900 font-[montserratSemiBold]">
+                    8:00 AM - 6:00 PM
+                  </span>
                 </div>
 
-                {/* 周六 */}
                 <div className="flex items-center justify-between">
                   <p className="text-gray-600 font-medium">Saturday</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-900 font-[montserratSemiBold]">
-                      8:00 AM - 6:00 PM
-                    </span>
-                  </div>
+                  <span className="text-gray-900 font-[montserratSemiBold]">
+                    8:00 AM - 6:00 PM
+                  </span>
                 </div>
 
-                {/* 周日 */}
                 <div className="flex items-center justify-between">
                   <p className="text-gray-600 font-medium">Sunday</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-900 font-[montserratSemiBold]">
-                      By appointment
-                    </span>
-                  </div>
+                  <span className="text-gray-900 font-[montserratSemiBold]">
+                    By appointment
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 地图和合作伙伴列表 */}
+          {/* Map and Partners List */}
           <div className="lg:col-span-2 space-y-6">
-            {/* 地图 */}
+            {/* Map */}
             <div className="bg-white rounded-lg shadow-sm p-1 h-[400px]">
-              <MapContainer
-                center={[center.lat, center.lng]}
-                zoom={11}
-                style={{ height: "100%", width: "100%", borderRadius: "0.5rem", zIndex: 20 }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                />
-                {partners.map((partner, index) => (
-                  <Marker
-                    key={index}
-                    position={[partner.location.lat, partner.location.lng]}
-                    icon={icon}
-                  >
-                    <Popup>
-                      <div className="p-2">
-                        <h3 className="font-semibold">{partner.name}</h3>
-                        <p className="text-sm text-emerald-600">{partner.type}</p>
-                        <div 
-                          className="cursor-pointer hover:text-emerald-500 transition-colors"
-                          onClick={() => handleNavigation(partner.address, partner.city)}
-                        >
-                          <p className="text-sm">{partner.address}</p>
-                          <p className="text-sm">{partner.city}</p>
-                        </div>
-                      </div>
-                    </Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
+              {isMounted && <MapWithNoSSR partners={partners} />}
             </div>
 
-            {/* 合作伙伴列表 */}
+            {/* Partners List */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {partners.map((partner, index) => (
                 <div 
@@ -260,16 +233,13 @@ const ContactUs = () => {
             Get a free online quote today or give us a call for immediate assistance.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* Corrected Get Free Quote button to Blue */}
             <button
               onClick={() => window.location.href='/online-estimate'}
-              // Applied blue gradient style
               className="px-7 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-base shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 w-full sm:w-auto justify-center"
             >
               Get Free Quote
               <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </button>
-            {/* Call Us button styling remains */}
             <button
               onClick={() => window.open("tel:+12159045778")}
               className="px-7 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full font-bold text-base shadow-sm hover:shadow-md transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-1.5 w-full sm:w-auto justify-center"
