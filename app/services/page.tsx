@@ -15,7 +15,7 @@ const ServicesPage = () => {
             Auto Glass Services
           </h1>
           <p className="text-xl text-gray-600 text-center max-w-4xl mx-auto mb-12">
-            Auto Safe Glass Co. provides free mobile services to the Philadelphia, South Jersey, Trenton-NJ, Wilmington-DE, and their surrounding areas.
+            Auto Safe Glass Co. provides free mobile services to the Philadelphia, South Jersey, and their surrounding areas.
           </p>
           <div className="text-center">
             <button
@@ -125,10 +125,10 @@ const ServicesPage = () => {
             Warranty Policies
           </h2>
           <div className="max-w-3xl mx-auto space-y-8">
-            {/* Limited Warranty */}
+            {/* Lifetime Warranty */}
             <div>
               <h3 className="text-2xl font-semibold text-[#2c7a6d] mb-4">
-                Limited Warranty
+                Lifetime Warranty
               </h3>
               <div className="space-y-4">
                 <p className="text-gray-600">
@@ -154,81 +154,6 @@ const ServicesPage = () => {
                 </p>
                 <p className="text-gray-600">
                   Damage not involving defective workmanship or materials is explicitly excluded from Auto Safe Glass Co. warranty program. Electrical or mechanical components, moving parts or motors, or other non-glass components are only covered by the manufacturer's warranty.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Schedule Service Section */}
-      <div className="bg-[#f0f7f5] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12 max-w-4xl mx-auto">
-            <div className="text-center space-y-6 mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Schedule Service
-              </h2>
-              <p className="text-xl text-gray-600">
-                Professional Auto Glass Service at Your Location
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              {/* Left Column - Contact Info */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 p-4 bg-[#f0f7f5] rounded-lg">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                      Call Us
-                    </h3>
-                    <a 
-                      href="tel:+12159045778"
-                      className="text-xl font-medium text-[#2c7a6d] hover:text-[#236b5e] transition-colors"
-                    >
-                      215-904-5778
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-4 bg-[#f0f7f5] rounded-lg">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[#2c7a6d] text-white rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                      Service Hours
-                    </h3>
-                    <div className="space-y-1">
-                      <p className="text-gray-600">
-                        Mon - Sat: 8:00 AM - 6:00 PM
-                      </p>
-                      <p className="text-gray-600">
-                        Sunday: By appointment only
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column - Button */}
-              <div className="text-center md:text-left">
-                <button
-                  onClick={() => router.push('/online-estimate')}
-                  className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group inline-flex items-center gap-2 w-full sm:w-auto justify-center"
-                >
-                  Get Free Quote Now
-                  <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
-                </button>
-                <p className="text-gray-500 text-sm mt-4">
-                  Or call us directly for immediate assistance.
                 </p>
               </div>
             </div>
@@ -326,7 +251,6 @@ const ServicesPage = () => {
           </div>
         </div>
       </div>
-
     </div>
   )
 }

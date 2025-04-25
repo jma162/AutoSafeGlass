@@ -45,7 +45,7 @@ const Header = () => {
                 Auto Safe Glass
               </h1>
               <p className="text-sm text-[#2c7a6d] font-medium hidden md:block">
-                Professional Auto Glass Services
+              Professional Auto Glass Service at Your Location
               </p>
             </div>
           </div>

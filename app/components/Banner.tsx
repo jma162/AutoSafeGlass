@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 const Banner = () => {
@@ -10,7 +10,7 @@ const Banner = () => {
   const firstSlide = {
     id: 1,
     title: "Windshield Replacement",
-    subtitle: "Professional service",
+    subtitle: "Free Mobile Service",
     image: "/banner.jpeg",
   }
 
@@ -19,8 +19,8 @@ const Banner = () => {
 
   return (
     <div 
-      className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden"
-      style={{ marginTop: estimatedHeaderHeight }} // Use style for dynamic margin
+      className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden mx-auto max-w-[1920px]"
+      style={{ marginTop: estimatedHeaderHeight }}
     >
       {/* Single Slide */}
       <div className="relative w-full h-full">
@@ -41,28 +41,43 @@ const Banner = () => {
           </div>
 
           {/* Content */}
-          <div className="absolute inset-0 flex items-center justify-center px-4">
-            <div className="text-center text-white w-full max-w-3xl mx-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
+          <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 md:px-12">
+            <div className="text-center text-white w-full max-w-3xl mx-auto">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8">
                 {firstSlide.title}
               </h1>
-              <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 md:mb-12 px-2">
-                {firstSlide.subtitle}
-              </p>
+
+              <div className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-4 py-2 mb-6 shadow-md animate-pulse-slow">
+                <p className="text-base sm:text-lg md:text-xl font-bold text-black tracking-wide">
+                  {firstSlide.subtitle}
+                </p>
+              </div>
               
+              <div className="space-y-2 mb-6">
+                <p className="text-white text-base sm:text-lg font-semibold tracking-wide uppercase">Service Areas:</p>
+                <div className="flex items-center justify-center gap-2 text-sm sm:text-base text-white/90">
+                  <span className="font-bold text-base sm:text-lg">•</span>
+                  <span>Philadelphia</span>
+                  <span className="font-bold text-base sm:text-lg">•</span>
+                  <span>South Jersey</span>
+                  <span className="font-bold text-base sm:text-lg">•</span>
+                  <span>Surrounding Areas</span>
+                </div>
+              </div>
+
               {/* CTA Button Container */}
               <div className="inline-block animate-bounce-slow px-4 sm:px-0">
                 <button
                   onClick={() => router.push("/online-estimate")}
                   className="relative group active:scale-95 transition-all duration-200 w-full sm:w-auto"
                 >
-                  {/* Outer glow - 增加发光效果 */}
+                  {/* Outer glow */}
                   <div className="absolute -inset-2 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition-all duration-500"></div>
                   
-                  {/* Inner glow - 增加内发光 */}
+                  {/* Inner glow */}
                   <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur-lg opacity-75 group-hover:opacity-90 transition duration-500"></div>
                   
-                  {/* Button content - 增大按钮尺寸和字体 */}
+                  {/* Button content */}
                   <div className="relative px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
                     <div className="flex items-center justify-center gap-3">
                       <span className="text-lg sm:text-xl md:text-2xl font-bold text-white tracking-wider group-active:translate-y-0.5 transition-transform whitespace-nowrap">
@@ -70,11 +85,6 @@ const Banner = () => {
                       </span>
                       <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:translate-x-1.5 group-active:translate-x-0.5 transition-all" />
                     </div>
-                  </div>
-
-                  {/* Bottom text - 增大字体和发光效果 */}
-                  <div className="absolute -bottom-8 sm:-bottom-10 left-0 right-0 text-yellow-300 text-sm sm:text-base font-semibold animate-pulse drop-shadow-lg">
-                    Mobile Service Available
                   </div>
                 </button>
               </div>
@@ -85,12 +95,39 @@ const Banner = () => {
 
       {/* Add custom animations */}
       <style jsx global>{`
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.85;
+            transform: scale(1.03);
+          }
+        }
+        .animate-pulse {
+          animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.95;
+            transform: scale(1.02);
+          }
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 3s ease-in-out infinite;
+        }
+        /* Keep bounce-slow if used elsewhere */
         @keyframes bounce-slow {
           0%, 100% {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-8px);
+            transform: translateY(-6px);
           }
         }
         .animate-bounce-slow {

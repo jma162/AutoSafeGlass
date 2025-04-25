@@ -83,19 +83,6 @@ const OnlineEstimate = () => {
         alert("Please indicate if you will be making an insurance claim.");
         return;
       }
-
-      if (selectedOption === "Front" && !showDamageSeverity) {
-        setShowDamageSeverity(true);
-        return;
-      }
-      if (selectedOption === "Driver Side" && !showDriverSideLocations) {
-        setShowDriverSideLocations(true);
-        return;
-      }
-      if (selectedOption === "Passenger Side" && !showPassengerSideLocations) {
-        setShowPassengerSideLocations(true);
-        return;
-      }
     }
     
     if (currentStep === 3) {
@@ -108,22 +95,10 @@ const OnlineEstimate = () => {
   };
 
   const handleBack = () => {
-    if (showDamageSeverity) {
-      setShowDamageSeverity(false);
-      return;
-    }
-    if (showDriverSideLocations) {
-      setShowDriverSideLocations(false);
-      return;
-    }
-    if (showPassengerSideLocations) {
-      setShowPassengerSideLocations(false);
-      return;
-    }
     setCurrentStep(currentStep - 1);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({
       ...prev,
@@ -388,246 +363,224 @@ const OnlineEstimate = () => {
 
   const DamageStep = () => (
     <>
-      {showPassengerSideLocations ? (
-        <PassengerSideLocationsStep />
-      ) : showDriverSideLocations ? (
-        <DriverSideLocationsStep />
-      ) : showDamageSeverity ? (
-        <DamageSeverityStep />
-      ) : (
-        <>
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Where is your damaged glass?</h2>
-          <p className="text-gray-600 mb-8">Select the location of the damage on your vehicle</p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Where is your damaged glass?</h2>
+      <p className="text-gray-600 mb-4">Select the location of the damage on your vehicle</p>
 
-          <div className="grid grid-cols-2 gap-3">
-            {/* Front Option */}
-            <div
-              className={`border rounded-lg p-4 cursor-pointer hover:border-emerald-400 transition-colors ${
-                selectedOption === "Front"
-                  ? "border-emerald-400 bg-emerald-50"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Front")}
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-2">
-                <svg
-                    width="36"
-                    height="36"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Front" ? "text-emerald-500" : "text-gray-400"}
-                >
-                  <rect
-                    x="4"
-                    y="6"
-                    width="16"
-                    height="12"
-                    rx="2"
-                      stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                    <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-                {selectedOption === "Front" && (
-                    <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
-                    <Check className="h-3 w-3 text-white" />
-                  </div>
-                )}
-              </div>
-                <span className="font-medium text-gray-900 text-sm">Front Windshield</span>
-                <p className="text-xs text-gray-500 mt-0.5 text-center">Damage to the front windshield</p>
-              </div>
+      <div className="space-y-2 max-w-md mx-auto">
+        {/* Front Option */}
+        <div
+          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedOption === "Front"
+              ? "border-emerald-400 bg-emerald-50"
+              : "border-gray-200"
+          }`}
+          onClick={() => setSelectedOption("Front")}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={selectedOption === "Front" ? "text-emerald-500" : "text-gray-400"}
+              >
+                <rect
+                  x="4"
+                  y="6"
+                  width="16"
+                  height="12"
+                  rx="2"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              {selectedOption === "Front" && (
+                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+              )}
             </div>
-
-            {/* Back Option */}
-            <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
-                selectedOption === "Back"
-                  ? "border-emerald-400 bg-emerald-50"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Back")}
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
-                <svg
-                    width="48"
-                    height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Back" ? "text-emerald-500" : "text-gray-400"}
-                >
-                  <rect
-                    x="4"
-                    y="6"
-                    width="16"
-                    height="12"
-                    rx="2"
-                      stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                    <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-                {selectedOption === "Back" && (
-                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-                <span className="font-medium text-gray-900">Back Window</span>
-                <p className="text-sm text-gray-500 mt-1 text-center">Damage to the rear window</p>
-              </div>
-            </div>
-
-            {/* Driver Side Option */}
-            <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
-                selectedOption === "Driver Side"
-                  ? "border-emerald-400 bg-emerald-50"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Driver Side")}
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
-                <svg
-                    width="48"
-                    height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Driver Side" ? "text-emerald-500" : "text-gray-400"}
-                >
-                  <path
-                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                      stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                    <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                  <path
-                    d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
-                      fill="currentColor"
-                      stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-                {selectedOption === "Driver Side" && (
-                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-                <span className="font-medium text-gray-900">Driver Side</span>
-                <p className="text-sm text-gray-500 mt-1 text-center">Damage to driver side windows</p>
-              </div>
-            </div>
-
-            {/* Passenger Side Option */}
-            <div
-              className={`border rounded-lg p-6 cursor-pointer hover:border-emerald-400 transition-colors ${
-                selectedOption === "Passenger Side"
-                  ? "border-emerald-400 bg-emerald-50"
-                  : "border-gray-200"
-              }`}
-              onClick={() => setSelectedOption("Passenger Side")}
-            >
-              <div className="flex flex-col items-center">
-                <div className="relative mb-4">
-                <svg
-                    width="48"
-                    height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                    className={selectedOption === "Passenger Side" ? "text-emerald-500" : "text-gray-400"}
-                >
-                  <path
-                    d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                      stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                    <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                  <path
-                    d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
-                      fill="currentColor"
-                      stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-                {selectedOption === "Passenger Side" && (
-                    <div className="absolute -top-2 -right-2 bg-emerald-500 rounded-full p-1">
-                    <Check className="h-4 w-4 text-white" />
-                  </div>
-                )}
-              </div>
-                <span className="font-medium text-gray-900">Passenger Side</span>
-                <p className="text-sm text-gray-500 mt-1 text-center">Damage to passenger side windows</p>
-              </div>
+            <div className="flex-grow">
+              <span className="font-medium text-gray-900 text-sm">Front Windshield</span>
+              <p className="text-xs text-gray-500">Damage to the front windshield</p>
             </div>
           </div>
+        </div>
 
-          {/* Multiple Windows Checkbox */}
-          <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <label className="flex items-start cursor-pointer">
-              <input
-                type="checkbox"
-                className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
-                checked={hasMultipleWindows}
-                onChange={(e) => setHasMultipleWindows(e.target.checked)}
-              />
-              <div className="ml-3">
-                <span className="text-sm font-medium text-gray-900 block">
-                  I have multiple windows with damage
-                </span>
-                <span className="text-sm text-gray-500">
-                  Select the primary window above and we'll contact you to get more details.
-                </span>
-              </div>
-            </label>
+        {/* Back Option */}
+        <div
+          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedOption === "Back"
+              ? "border-emerald-400 bg-emerald-50"
+              : "border-gray-200"
+          }`}
+          onClick={() => setSelectedOption("Back")}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={selectedOption === "Back" ? "text-emerald-500" : "text-gray-400"}
+              >
+                <rect
+                  x="4"
+                  y="6"
+                  width="16"
+                  height="12"
+                  rx="2"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              {selectedOption === "Back" && (
+                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+              )}
+            </div>
+            <div className="flex-grow">
+              <span className="font-medium text-gray-900 text-sm">Back Window</span>
+              <p className="text-xs text-gray-500">Damage to the rear window</p>
+            </div>
           </div>
+        </div>
 
-          {/* Insurance Claim Question - 添加必填标记和验证 */}
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Will you be making an insurance claim? <span className="text-red-500">*</span>
-            </label>
-            <select
-              value={willClaimInsurance}
-              onChange={(e) => setWillClaimInsurance(e.target.value)}
-              className={`w-full md:w-64 px-4 py-2.5 bg-white border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                !willClaimInsurance ? 'border-red-300' : 'border-gray-300'
-              }`}
-              required
-            >
-              <option value="">Please select...</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-            {!willClaimInsurance && (
-              <p className="mt-1 text-sm text-red-500">
-                Please indicate if you will be making an insurance claim
-              </p>
-            )}
+        {/* Driver Side Option */}
+        <div
+          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedOption === "Driver Side"
+              ? "border-emerald-400 bg-emerald-50"
+              : "border-gray-200"
+          }`}
+          onClick={() => setSelectedOption("Driver Side")}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={selectedOption === "Driver Side" ? "text-emerald-500" : "text-gray-400"}
+              >
+                <path
+                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                />
+              </svg>
+              {selectedOption === "Driver Side" && (
+                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+              )}
+            </div>
+            <div className="flex-grow">
+              <span className="font-medium text-gray-900 text-sm">Driver Side</span>
+              <p className="text-xs text-gray-500">Damage to driver side windows</p>
+            </div>
           </div>
-        </>
-      )}
+        </div>
+
+        {/* Passenger Side Option */}
+        <div
+          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+            selectedOption === "Passenger Side"
+              ? "border-emerald-400 bg-emerald-50"
+              : "border-gray-200"
+          }`}
+          onClick={() => setSelectedOption("Passenger Side")}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={selectedOption === "Passenger Side" ? "text-emerald-500" : "text-gray-400"}
+              >
+                <path
+                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
+                <path
+                  d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  strokeWidth="0.5"
+                />
+              </svg>
+              {selectedOption === "Passenger Side" && (
+                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+              )}
+            </div>
+            <div className="flex-grow">
+              <span className="font-medium text-gray-900 text-sm">Passenger Side</span>
+              <p className="text-xs text-gray-500">Damage to passenger side windows</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Insurance Claim Question */}
+      <div className="mt-4 max-w-md mx-auto">
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Insurance Claim? <span className="text-red-500">*</span>
+        </label>
+        <select
+          value={willClaimInsurance}
+          onChange={(e) => setWillClaimInsurance(e.target.value)}
+          className={`w-full px-3 py-2 bg-white border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            !willClaimInsurance ? 'border-red-300' : 'border-gray-300'
+          }`}
+          required
+        >
+          <option value="">Select...</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        {!willClaimInsurance && (
+          <p className="mt-1 text-sm text-red-500">
+            Please indicate if you will be making an insurance claim
+          </p>
+        )}
+      </div>
     </>
   );
 
@@ -741,26 +694,6 @@ const OnlineEstimate = () => {
           </div>
         ))}
       </div>
-
-      {/* Multiple Windows Checkbox */}
-      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-        <label className="flex items-start cursor-pointer">
-          <input
-            type="checkbox"
-            className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
-            checked={hasMultipleWindows}
-            onChange={(e) => setHasMultipleWindows(e.target.checked)}
-          />
-          <div className="ml-3">
-            <span className="text-sm font-medium text-gray-900 block">
-              I have multiple windows with damage
-            </span>
-            <span className="text-sm text-gray-500">
-              Select the primary window above and we'll contact you to get more details.
-            </span>
-          </div>
-        </label>
-      </div>
     </>
   );
 
@@ -804,26 +737,6 @@ const OnlineEstimate = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Multiple Windows Checkbox */}
-      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-        <label className="flex items-start cursor-pointer">
-          <input
-            type="checkbox"
-            className="mt-1 h-4 w-4 text-emerald-500 border-gray-300 rounded"
-            checked={hasMultipleWindows}
-            onChange={(e) => setHasMultipleWindows(e.target.checked)}
-          />
-          <div className="ml-3">
-            <span className="text-sm font-medium text-gray-900 block">
-              I have multiple windows with damage
-            </span>
-            <span className="text-sm text-gray-500">
-              Select the primary window above and we'll contact you to get more details.
-            </span>
-          </div>
-        </label>
       </div>
     </>
   );
@@ -1112,12 +1025,6 @@ const OnlineEstimate = () => {
                 <span className="font-medium text-gray-700">Location:</span>
                 <span className="text-gray-900">{getDamageLocation()}</span>
               </div>
-              {hasMultipleWindows && (
-                <div className="flex items-center gap-2 text-[#2c7a6d]">
-                  <Info className="w-4 h-4" />
-                  <span>Multiple windows have damage</span>
-                </div>
-              )}
             </div>
           </div>
 
@@ -1249,11 +1156,6 @@ const OnlineEstimate = () => {
             </>
           )}
         </button>
-
-        {/* Service Note */}
-        <p className="text-center text-gray-500 mt-6">
-          Free mobile service available in all service areas
-        </p>
       </>
     );
   };
@@ -1308,445 +1210,280 @@ const OnlineEstimate = () => {
     <div className="min-h-screen bg-[#f0f7f5]">
       {/* Header */}
       <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex flex-col items-center text-center">
-            <h1 className="text-lg md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">
               Get Your Free Auto Glass Estimate
             </h1>
-            <p className="text-sm md:text-lg text-gray-600 max-w-2xl">
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 max-w-md">
               Complete the form below to receive a free estimate for your auto glass repair or replacement. 
-              Free mobile service available in all service areas.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Progress Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
-              <div className="space-y-6">
-                {[
-                  {
-                    step: 1,
-                    icon: Car,
-                    title: "Damage Details",
-                    desc: "Select damage location and type"
-                  },
-                  {
-                    step: 2,
-                    icon: Car,
-                    title: "Vehicle Information",
-                    desc: "Enter your vehicle details"
-                  },
-                  {
-                    step: 3,
-                    icon: User,
-                    title: "Contact Information",
-                    desc: "Tell us about yourself"
-                  },
-                  {
-                    step: 4,
-                    icon: Upload,
-                    title: "Upload Photos",
-                    desc: "Add photos of the damage"
-                  },
-                  {
-                    step: 5,
-                    icon: FileText,
-                    title: "Review & Submit",
-                    desc: "Review your information"
-                  }
-                ].map((item) => (
-                  <div key={item.step} className="flex items-start gap-4">
-                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 ${
-                      currentStep >= item.step 
-                        ? 'bg-[#2c7a6d] text-white' 
-                        : 'bg-[#f0f7f5] text-gray-400'
-                    }`}>
-                      <item.icon className="w-4 h-4 md:w-5 md:h-5" />
-                    </div>
-                    <div>
-                      <h3 className={`text-sm md:text-base font-medium ${
-                        currentStep >= item.step ? 'text-gray-900' : 'text-gray-500'
-                      }`}>
-                        {item.title}
-                      </h3>
-                      <p className="text-xs md:text-sm text-gray-500">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Contact Support */}
-              <div className="mt-8 pt-6 border-t border-[#e0ede9]">
-                <div className="flex flex-col items-center text-center">
-                  <Phone className="w-6 h-6 text-[#2c7a6d] mb-2" />
-                  <p className="text-sm text-gray-600 mb-2">Need help?</p>
-                  <a 
-                    href="tel:+12159045778"
-                    className="text-lg font-bold text-[#2c7a6d] hover:text-[#236b5e]"
-                  >
-                    215-904-5778
-                  </a>
-                </div>
-              </div>
+      {/* Main Content */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        {/* Progress Steps */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 mt-4 sm:mt-8">
+          <div className="relative">
+            {/* Progress Line */}
+            <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200">
+              <div 
+                className="h-full bg-[#2c7a6d] transition-all duration-500"
+                style={{ width: `${(currentStep - 1) * 25}%` }}
+              />
             </div>
-          </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl shadow-sm p-8">
-              {/* Step Content */}
-              {currentStep === 1 && <DamageStep />}
-              {currentStep === 2 && (
-                  <>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-6">Vehicle Information</h2>
-                    <p className="text-gray-600 mb-6">
-                      Select one option to provide your vehicle details. We recommend
-                      entering your VIN # to ensure an accurate quote.
-                    </p>
-              
-                    <div className="space-y-6">
-                      {/* Method Selection */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <button
-                          className={`p-4 rounded-lg text-center transition-colors ${
-                            vehicleInfo.method === "license"
-                              ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
-                              : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
-                          }`}
-                          onClick={() =>
-                            setVehicleInfo({ ...vehicleInfo, method: "license" })
-                          }
-                        >
-                          <Car className="w-6 h-6 mx-auto mb-2" />
-                          <span className="block font-medium">VIN Check</span>
-                        </button>
-                        <button
-                          className={`p-4 rounded-lg text-center transition-colors ${
-                            vehicleInfo.method === "manual"
-                              ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
-                              : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
-                          }`}
-                          onClick={() =>
-                            setVehicleInfo({ ...vehicleInfo, method: "manual" })
-                          }
-                        >
-                          <Car className="w-6 h-6 mx-auto mb-2" />
-                          <span className="block font-medium">Year, Make, Model</span>
-                        </button>
-                      </div>
-              
-                      {vehicleInfo.method === "license" ? (
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              VIN
-                            </label>
-                            <div className="flex items-center gap-2">
-                              <input
-                                type="text"
-                                name="vin"
-                                value={vehicleInfo.vin}
-                                onChange={handleVinChange}
-                                placeholder="Enter VIN"
-                                className="flex-1 p-2 border rounded"
-                              />
-                              <button
-                                onClick={startCamera}
-                                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                              >
-                                <Camera className="w-5 h-5" />
-                              </button>
-                            </div>
-                            <div className="mt-3 p-4 bg-[#f0f7f5] rounded-lg border border-[#e0ede9]">
-                              <div className="flex items-start gap-3">
-                                <Info className="w-5 h-5 text-[#2c7a6d] flex-shrink-0 mt-0.5" />
-                                <div>
-                                  <h4 className="text-sm font-semibold text-[#2c7a6d] mb-2">Where to find your VIN:</h4>
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-600">
-                                    <div className="flex items-start gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
-                                      <span>Driver's side dashboard near windshield</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
-                                      <span>Driver's side door jamb</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
-                                      <span>Vehicle registration card</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
-                                      <span>Insurance card</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
-                                      <span>Vehicle title</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            {isLoading && (
-                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
-                              </div>
-                            )}
-                          </div>
-                          {vinError && (
-                            <p className="text-red-500 text-sm mt-1">{vinError}</p>
-                          )}
-                          {vehicleInfo.year && (
-                            <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                              <h3 className="font-medium mb-2">Vehicle Information</h3>
-                              <div className="grid grid-cols-2 gap-2 text-sm">
-                                <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
-                                <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
-                                <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
-                                <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-3 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Year
-                              </label>
-                              <select
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                                value={vehicleInfo.year}
-                                onChange={(e) => {
-                                  setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
-                                  fetchMakes(e.target.value);
-                                }}
-                              >
-                                <option value="">Select Year</option>
-                                {years.map((year) => (
-                                  <option key={year} value={year}>
-                                    {year}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-              
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Make
-                              </label>
-                              <select
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                                value={vehicleInfo.make}
-                                onChange={(e) => {
-                                  setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
-                                  fetchModels(e.target.value);
-                                }}
-                                disabled={!vehicleInfo.year}
-                              >
-                                <option value="">Select Make</option>
-                                {makes.map((make) => (
-                                  <option key={make} value={make}>
-                                    {make}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-              
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Model
-                              </label>
-                              <select
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                                value={vehicleInfo.model}
-                                onChange={(e) =>
-                                  setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
-                                }
-                                disabled={!vehicleInfo.make}
-                              >
-                                <option value="">Select Model</option>
-                                {models.map((model) => (
-                                  <option key={model} value={model}>
-                                    {model}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </>
-              )}
-              {currentStep === 3 && (
-                  <>
-                    <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
-                    <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* First Name */}
-                      <div>
-                        <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                          First Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          id="firstName"
-                          name="firstName"
-                          value={userInfo.firstName || ''}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        />
-                      </div>
-                      {/* Last Name */}
-                      <div>
-                        <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                          Last Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          id="lastName"
-                          name="lastName"
-                          value={userInfo.lastName || ''}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        />
-                      </div>
-                      {/* Phone */}
-                      <div>
-                        <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                          Phone <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={userInfo.phone || ''}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        />
-                      </div>
-                      {/* Email */}
-                      <div>
-                        <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                          Email <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={userInfo.email || ''}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        />
-                      </div>
-                      {/* Zip Code */}
-                      <div>
-                        <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                          ZIP Code <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          id="zipCode"
-                          name="zipCode"
-                          value={userInfo.zipCode || ''}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        />
-                      </div>
-                      
-                      {/* Added Note Field (spans both columns on md+) */}
-                      <div className="md:col-span-2">
-                         <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-                           Note (Optional)
-                         </label>
-                         <textarea
-                           id="note"
-                           name="note"
-                           rows={3} // Adjust rows as needed
-                           value={userInfo.note || ''}
-                           onChange={handleChange}
-                           className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                           placeholder="Any additional details? (e.g., Mobile service or in store service, or any other information regarding the damage)"
-                         />
-                      </div>
-                    </div>
-                  </>
-              )}
-              {currentStep === 4 && <PhotoUploadStep />}
-              {currentStep === 5 && <SummaryStep />}
-
-              {/* Navigation Buttons */}
-              <div className="mt-8 flex justify-between items-center pt-6 border-t border-[#e0ede9]">
-                {((currentStep > 1 && currentStep < 5) ||
-                  showDamageSeverity ||
-                  showDriverSideLocations ||
-                  showPassengerSideLocations) && (
-                  <button
-                    onClick={handleBack}
-                    className="flex items-center gap-2 text-[#2c7a6d] hover:text-[#236b5e] font-medium py-2.5 px-6 rounded-lg transition-colors"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                    Back
-                  </button>
-                )}
-                {currentStep < 5 && (
-                  <div className={currentStep > 1 ? "ml-auto" : "w-full"}>
-                    <button
-                      onClick={handleNext}
-                      disabled={currentStep === 1 && (!selectedOption || !willClaimInsurance)}
-                      className={`flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
-                        currentStep === 1 && (!selectedOption || !willClaimInsurance) ? "opacity-50 cursor-not-allowed" : ""
-                      } ${currentStep === 1 ? "w-full" : ""}`}
-                    >
-                      <span>Continue</span>
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Service Features */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div className="relative flex justify-between">
               {[
-                {
-                  icon: Clock,
-                  title: "Fast Service",
-                  desc: "Same day service available"
-                },
-                {
-                  icon: Shield,
-                  title: "Mobile Service Available",
-                  desc: "Service at your location"
-                },
-                {
-                  icon: DollarSign,
-                  title: "Insurance Accepted",
-                  desc: "We work with all insurances"
-                }
-              ].map((feature) => (
-                <div key={feature.title} className="bg-white rounded-lg p-6 text-center">
-                  <feature.icon className="w-8 h-8 text-[#2c7a6d] mx-auto mb-3" />
-                  <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">{feature.title}</h3>
-                  <p className="text-xs md:text-sm text-gray-600">{feature.desc}</p>
+                { step: 1, icon: Car, title: "Damage" },
+                { step: 2, icon: Car, title: "Vehicle" },
+                { step: 3, icon: User, title: "Contact" },
+                { step: 4, icon: Upload, title: "Photos" },
+                { step: 5, icon: FileText, title: "Review" }
+              ].map((item) => (
+                <div 
+                  key={item.step} 
+                  className="flex flex-col items-center"
+                >
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mb-1 sm:mb-2 transition-all duration-300 ${
+                    currentStep >= item.step 
+                      ? 'bg-[#2c7a6d] text-white shadow-lg scale-110' 
+                      : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    <item.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                  </div>
+                  <span className={`text-[10px] sm:text-xs font-medium transition-colors duration-300 ${
+                    currentStep >= item.step 
+                      ? 'text-[#2c7a6d]' 
+                      : 'text-gray-500'
+                  }`}>
+                    {item.title}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+        {/* Step Content */}
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
+          {currentStep === 1 && <DamageStep />}
+          {currentStep === 2 && (
+            <>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Vehicle Information</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+                Select one option to provide your vehicle details. We recommend
+                entering your VIN # to ensure an accurate quote.
+              </p>
+          
+              <div className="space-y-4 sm:space-y-6">
+                {/* Method Selection */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <button
+                    className={`p-3 sm:p-4 rounded-lg text-center transition-colors ${
+                      vehicleInfo.method === "license"
+                        ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                        : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+                    }`}
+                    onClick={() =>
+                      setVehicleInfo({ ...vehicleInfo, method: "license" })
+                    }
+                  >
+                    <Car className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2" />
+                    <span className="block text-sm sm:text-base font-medium">VIN Check</span>
+                  </button>
+                  <button
+                    className={`p-3 sm:p-4 rounded-lg text-center transition-colors ${
+                      vehicleInfo.method === "manual"
+                        ? "bg-[#f0f7f5] text-[#2c7a6d] border-2 border-[#2c7a6d]"
+                        : "bg-[#f0f7f5] text-gray-700 hover:bg-[#e0ede9] border border-[#e0ede9]"
+                    }`}
+                    onClick={() =>
+                      setVehicleInfo({ ...vehicleInfo, method: "manual" })
+                    }
+                  >
+                    <Car className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2" />
+                    <span className="block text-sm sm:text-base font-medium">Year, Make, Model</span>
+                  </button>
+                </div>
+          
+                {vehicleInfo.method === "license" ? (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        VIN
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          name="vin"
+                          value={vehicleInfo.vin}
+                          onChange={handleVinChange}
+                          placeholder="Enter VIN"
+                          className="flex-1 p-2 border rounded"
+                        />
+                        <button
+                          onClick={startCamera}
+                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                          <Camera className="w-5 h-5" />
+                        </button>
+                      </div>
+                      <div className="mt-3 p-4 bg-[#f0f7f5] rounded-lg border border-[#e0ede9]">
+                        <div className="flex items-start gap-3">
+                          <Info className="w-5 h-5 text-[#2c7a6d] flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="text-sm font-semibold text-[#2c7a6d] mb-2">Where to find your VIN:</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-600">
+                              <div className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                <span>Driver's side dashboard near windshield</span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                <span>Driver's side door jamb</span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                <span>Vehicle registration card</span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                <span>Insurance card</span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a6d] mt-1.5"></div>
+                                <span>Vehicle title</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {isLoading && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <Loader2 className="w-5 h-5 animate-spin text-[#2c7a6d]" />
+                        </div>
+                      )}
+                    </div>
+                    {vinError && (
+                      <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                    )}
+                    {vehicleInfo.year && (
+                      <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 className="font-medium mb-2">Vehicle Information</h3>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <p><span className="font-medium">Year:</span> {vehicleInfo.year}</p>
+                          <p><span className="font-medium">Make:</span> {vehicleInfo.make}</p>
+                          <p><span className="font-medium">Model:</span> {vehicleInfo.model}</p>
+                          <p><span className="font-medium">Body Style:</span> {vehicleInfo.bodyStyle}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Year
+                        </label>
+                        <select
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                          value={vehicleInfo.year}
+                          onChange={(e) => {
+                            setVehicleInfo(prev => ({ ...prev, year: e.target.value }));
+                            fetchMakes(e.target.value);
+                          }}
+                        >
+                          <option value="">Select Year</option>
+                          {years.map((year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+            
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Make
+                        </label>
+                        <select
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                          value={vehicleInfo.make}
+                          onChange={(e) => {
+                            setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
+                            fetchModels(e.target.value);
+                          }}
+                          disabled={!vehicleInfo.year}
+                        >
+                          <option value="">Select Make</option>
+                          {makes.map((make) => (
+                            <option key={make} value={make}>
+                              {make}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+            
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Model
+                        </label>
+                        <select
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                          value={vehicleInfo.model}
+                          onChange={(e) =>
+                            setVehicleInfo(prev => ({ ...prev, model: e.target.value }))
+                          }
+                          disabled={!vehicleInfo.make}
+                        >
+                          <option value="">Select Model</option>
+                          {models.map((model) => (
+                            <option key={model} value={model}>
+                              {model}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          {currentStep === 3 && <ContactStep userInfo={userInfo} handleChange={handleChange} />}
+          {currentStep === 4 && <PhotoUploadStep />}
+          {currentStep === 5 && <SummaryStep />}
+
+          {/* Navigation Buttons */}
+          <div className="mt-4 sm:mt-6 space-y-3 max-w-md mx-auto">
+            {currentStep < 5 && (
+              <button
+                onClick={handleNext}
+                disabled={currentStep === 1 && (!selectedOption || !willClaimInsurance)}
+                className="w-full max-w-[200px] mx-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <span>Continue</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            )}
+            {currentStep > 1 && (
+              <button
+                onClick={handleBack}
+                className="w-full max-w-[200px] mx-auto border border-gray-300 text-gray-700 font-medium py-2 px-4 sm:px-6 rounded-lg flex items-center justify-center gap-2 text-sm transition-all duration-200 hover:bg-gray-50"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Back</span>
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
+      {/* Camera Modal */}
       {showCamera && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center z-50">
           <div className="relative w-full max-w-lg">

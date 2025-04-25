@@ -1,33 +1,8 @@
 'use client'
 import { MapPin, Phone, Mail, Clock, ChevronRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-
-// Dynamic import for the map with SSR disabled
-const MapWithNoSSR = dynamic(
-  () => import('../components/MapComponent'),
-  { 
-    ssr: false,
-    loading: () => <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">Loading map...</div>
-  }
-);
 
 const ContactUs = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Navigation functions with window check
-  const handleNavigation = (address: string, city: string) => {
-    if (typeof window !== 'undefined') {
-      const fullAddress = `${address}, ${city}`;
-      const encodedAddress = encodeURIComponent(fullAddress);
-      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
-    }
-  };
-
   const handleEmail = (email: string) => {
     if (typeof window !== 'undefined') {
       window.location.href = `mailto:${email}`;
@@ -42,38 +17,6 @@ const ContactUs = () => {
     }
   };
 
-  // Partners data
-  const partners = [
-    {
-      name: "Ken's Auto Inc.",
-      type: "Auto Repair & Auto Glass",
-      address: "341 N. 10th St.",
-      city: "Philadelphia, PA 19107",
-      location: { lat: 39.9577, lng: -75.1567 }
-    },
-    {
-      name: "Maaco Collision Repair & Auto Painting",
-      type: "Auto Body Shop",
-      address: "1750 Pine St.",
-      city: "Philadelphia, PA 19103",
-      location: { lat: 39.9477, lng: -75.1707 }
-    },
-    {
-      name: "Cherry Hill Auto Body",
-      type: "Auto Body & Glass",
-      address: "1500 Route 38",
-      city: "Cherry Hill, NJ 08002",
-      location: { lat: 39.9377, lng: -74.9987 }
-    },
-    {
-      name: "Delaware Valley Auto Glass",
-      type: "Auto Glass Specialist",
-      address: "2300 Market St.",
-      city: "Philadelphia, PA 19103",
-      location: { lat: 39.9527, lng: -75.1777 }
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 pt-[200px]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
@@ -85,9 +28,8 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* Contact Info and Map */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {/* Contact Info Cards */}
+        {/* Contact Info */}
+        <div className="max-w-2xl mx-auto">
           <div className="space-y-4 sm:space-y-6">
             {/* Phone */}
             <div 
@@ -148,7 +90,7 @@ const ContactUs = () => {
             </div>
 
             {/* Business Hours */}
-            <div className="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
+            <div className="p-6 rounded-lg bg-white shadow-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="bg-orange-50 p-2 rounded-lg">
                   <Clock className="w-6 h-6 text-orange-600" />
@@ -168,66 +110,13 @@ const ContactUs = () => {
                     8:00 AM - 6:00 PM
                   </span>
                 </div>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-medium">Saturday</p>
-                  <span className="text-gray-900 font-[montserratSemiBold]">
-                    8:00 AM - 6:00 PM
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-medium">Sunday</p>
-                  <span className="text-gray-900 font-[montserratSemiBold]">
-                    By appointment
-                  </span>
-                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Map and Partners List */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Map */}
-            <div className="bg-white rounded-lg shadow-sm p-1 h-[400px]">
-              {isMounted && <MapWithNoSSR partners={partners} />}
-            </div>
-
-            {/* Partners List */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {partners.map((partner, index) => (
-                <div 
-                  key={index}
-                  className="p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors"
-                >
-                  <h3 className="text-lg font-[montserratSemiBold] text-gray-900 mb-1">
-                    {partner.name}
-                  </h3>
-                  <p className="text-sm text-blue-600 mb-2">
-                    {partner.type}
-                  </p>
-                  <div 
-                    className="flex items-start gap-2 cursor-pointer group"
-                    onClick={() => handleNavigation(partner.address, partner.city)}
-                  >
-                    <MapPin className="w-5 h-5 text-gray-400 mt-0.5 group-hover:text-blue-600" />
-                    <div>
-                      <p className="text-gray-600 group-hover:text-gray-900">
-                        {partner.address}
-                      </p>
-                      <p className="text-gray-600 group-hover:text-gray-900">
-                        {partner.city}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
 
         {/* Ready to Get Started Section */}
-        <div className="bg-white rounded-lg shadow-md p-8 sm:p-12 text-center">
+        <div className="text-center mt-12">
           <h2 className="text-2xl sm:text-3xl font-[montserratSemiBold] text-gray-900 mb-4">
             Ready to Get Started?
           </h2>
