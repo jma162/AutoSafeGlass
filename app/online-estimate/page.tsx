@@ -1222,7 +1222,7 @@ const OnlineEstimate = () => {
   };
 
   const handleStepClick = (step: number) => {
-    if (canNavigateToStep(step, true)) {
+    if (canNavigateToStep(step)) {
       setCurrentStep(step);
     }
   };
@@ -1264,7 +1264,7 @@ const OnlineEstimate = () => {
                 { step: 4, icon: Upload, title: "Photos" },
                 { step: 5, icon: FileText, title: "Review" }
               ].map((item) => {
-                const isClickable = canNavigateToStep(item.step, false);
+                const isClickable = canNavigateToStep(item.step);
                 return (
                   <button 
                     key={item.step}

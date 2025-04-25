@@ -11,20 +11,23 @@ export async function POST(request: Request) {
     }
 
     const worker = await createWorker('eng');
-    const buffer = await image.arrayBuffer();
-    const imageData = new Uint8Array(buffer);
+    
+    // Convert the File to a data URL that Tesseract can process
+    const arrayBuffer = await image.arrayBuffer();
+    const base64Image = Buffer.from(arrayBuffer).toString('base64');
+    const imageUrl = `data:${image.type};base64,${base64Image}`;
 
-    const { data: { text } } = await worker.recognize(imageData);
+    const { data: { text } } = await worker.recognize(imageUrl);
     await worker.terminate();
 
     // Extract VIN pattern (17 characters, alphanumeric except I, O, Q)
     const vinPattern = /[A-HJ-NPR-Z0-9]{17}/i;
     const matches = text.match(vinPattern);
-    const vin = matches ? matches[0] : null;
+    const vin = matches ? matches[0].toUpperCase() : null;
 
     return NextResponse.json({ vin });
   } catch (error) {
     console.error('OCR Error:', error);
     return NextResponse.json({ error: 'Failed to process image' }, { status: 500 });
   }
-} 
+}
