@@ -2,7 +2,7 @@
 
 // Correct imports (ensure memo and useCallback are here if needed)
 import { useState, useEffect, useCallback, memo, useRef } from "react"; 
-import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera } from "lucide-react";
+import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -70,34 +70,66 @@ const OnlineEstimate = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Memoize the handleChange function
+  // Add these functions near the top of the component
+  const formatPhoneNumber = (value: string) => {
+    const phoneNumber = value.replace(/\D/g, '');
+    if (phoneNumber.length <= 3) {
+      return phoneNumber;
+    } else if (phoneNumber.length <= 6) {
+      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+    } else {
+      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Modify the handleChange function
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setUserInfo(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    if (name === 'phone') {
+      const formattedPhone = formatPhoneNumber(value);
+      setUserInfo(prev => ({
+        ...prev,
+        [name]: formattedPhone
+      }));
+    } else if (name === 'email') {
+      // Convert email to lowercase
+      const formattedEmail = value.toLowerCase().trim();
+      setUserInfo(prev => ({
+        ...prev,
+        [name]: formattedEmail
+      }));
+    } else {
+      setUserInfo(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   }, []);
 
   const handleNext = () => {
     if (currentStep === 1) {
-      if (!selectedOption) {
-        return;
+      if (validateStep(1)) {
+        setCurrentStep(2);
       }
-      
-      if (!willClaimInsurance) {
-        alert("Please indicate if you will be making an insurance claim.");
-        return;
+    } else if (currentStep === 2) {
+      if (validateStep(2)) {
+        setCurrentStep(3);
       }
+    } else if (currentStep === 3) {
+      if (validateContactInfo()) {
+        setCurrentStep(4);
+      }
+    } else if (currentStep === 4) {
+      setCurrentStep(5);
+    } else if (currentStep === 5) {
+      handleSubmit();
     }
-    
-    if (currentStep === 3) {
-      if (!validateContactInfo()) {
-        return;
-      }
-    }
-    
-    setCurrentStep(currentStep + 1);
   };
 
   const handleBack = () => {
@@ -474,7 +506,7 @@ const OnlineEstimate = () => {
 
 
   const DamageStep = () => (
-    <>
+    <div className="space-y-6 px-4 sm:px-0">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Where is your damaged glass? <span className="text-red-500">*</span></h2>
       <p className="text-gray-600 mb-4">Select the location of the damage on your vehicle</p>
 
@@ -491,48 +523,59 @@ const OnlineEstimate = () => {
         </div>
 
         {/* Right side - Selection */}
-        <div className="space-y-2">
-          <select
-            value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors"
-            required
-          >
-            <option value="">Please select</option>
-            <option value="Windshield">Windshield</option>
-            <option value="Driver side front door">Driver side front door</option>
-            <option value="Driver side rear door">Driver side rear door</option>
-            <option value="Driver side vent">Driver side vent</option>
-            <option value="Driver side quarter">Driver side quarter</option>
-            <option value="Driver side mirror">Driver side mirror</option>
-            <option value="Passenger side front door">Passenger side front door</option>
-            <option value="Passenger side rear door">Passenger side rear door</option>
-            <option value="Passenger side vent">Passenger side vent</option>
-            <option value="Passenger side quarter">Passenger side quarter</option>
-            <option value="Passenger side mirror">Passenger side mirror</option>
-            <option value="Back window">Back window</option>
-            <option value="Rock chip repair">Rock chip repair</option>
-          </select>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="damage-location" className="block text-sm font-medium text-gray-700">
+              Select the location of damage on your vehicle <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="damage-location"
+              value={selectedOption}
+              onChange={(e) => setSelectedOption(e.target.value)}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors ${
+                !selectedOption && currentStep === 1 ? 'border-red-300' : 'border-gray-300'
+              }`}
+              required
+            >
+              <option value="">Please select</option>
+              <option value="Windshield">Windshield</option>
+              <option value="Driver side front door">Driver side front door</option>
+              <option value="Driver side rear door">Driver side rear door</option>
+              <option value="Driver side vent">Driver side vent</option>
+              <option value="Driver side quarter">Driver side quarter</option>
+              <option value="Driver side mirror">Driver side mirror</option>
+              <option value="Passenger side front door">Passenger side front door</option>
+              <option value="Passenger side rear door">Passenger side rear door</option>
+              <option value="Passenger side vent">Passenger side vent</option>
+              <option value="Passenger side quarter">Passenger side quarter</option>
+              <option value="Passenger side mirror">Passenger side mirror</option>
+              <option value="Back window">Back window</option>
+              <option value="Rock chip repair">Rock chip repair</option>
+            </select>
+            {!selectedOption && currentStep === 1 && (
+              <p className="mt-1 text-sm text-red-500">Please select the damage location</p>
+            )}
+          </div>
+
+          {/* Insurance Claim Question */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Will you be making an insurance claim? <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={willClaimInsurance}
+              onChange={(e) => setWillClaimInsurance(e.target.value)}
+              className="w-full px-4 py-3 shadow-sm rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors outline-none"
+              required
+            >
+              <option value="">Select...</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
         </div>
       </div>
-
-      {/* Insurance Claim Question */}
-      <div className="mt-4 max-w-md mx-auto">
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Will you be making an insurance claim? <span className="text-red-500">*</span>
-        </label>
-        <select
-          value={willClaimInsurance}
-          onChange={(e) => setWillClaimInsurance(e.target.value)}
-          className="w-full px-3 py-2 bg-white rounded-lg shadow-sm focus:ring-2 focus:ring-[#236b5e] outline-none"
-          required
-        >
-          <option value="">Select...</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </div>
-    </>
+    </div>
   );
 
   const DamageSeverityStep = () => (
@@ -694,7 +737,7 @@ const OnlineEstimate = () => {
 
   const ContactStep = memo(({ userInfo, handleChange }: ContactStepProps) => (
     <>
-      <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+      <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information <span className="text-red-500">*</span></h2>
       <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* First Name */}
@@ -708,7 +751,7 @@ const OnlineEstimate = () => {
             name="firstName"
             value={userInfo.firstName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
             required
           />
         </div>
@@ -723,7 +766,7 @@ const OnlineEstimate = () => {
             name="lastName"
             value={userInfo.lastName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
             required
           />
         </div>
@@ -732,45 +775,59 @@ const OnlineEstimate = () => {
           <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
             Phone <span className="text-red-500">*</span>
           </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={userInfo.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
+          <div className="relative">
+            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={userInfo.phone}
+              onChange={handleChange}
+              placeholder="XXX-XXX-XXXX"
+              maxLength={12}
+              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+              required
+            />
+          </div>
         </div>
         {/* Email */}
         <div>
           <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
             Email <span className="text-red-500">*</span>
           </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={userInfo.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={userInfo.email}
+              onChange={handleChange}
+              placeholder="example@email.com"
+              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+              required
+            />
+          </div>
         </div>
-        {/* Zip Code */}
+        {/* ZIP Code */}
         <div>
           <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
             ZIP Code <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            id="zipCode"
-            name="zipCode"
-            value={userInfo.zipCode}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-            required
-          />
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              id="zipCode"
+              name="zipCode"
+              value={userInfo.zipCode}
+              onChange={handleChange}
+              placeholder="XXXXX"
+              maxLength={5}
+              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+              required
+            />
+          </div>
         </div>
         {/* Note Field */}
         <div className="md:col-span-2">
@@ -783,7 +840,7 @@ const OnlineEstimate = () => {
             rows={3}
             value={userInfo.note}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
             placeholder="Any additional details? (e.g., preferred contact time)"
           />
         </div>
@@ -796,10 +853,53 @@ const OnlineEstimate = () => {
 
   const PhotoUploadStep = () => (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Upload Photos of Damage</h2>
-      <p className="text-gray-600 mb-6">
-        Please upload clear photos of the damage to help us provide a more accurate estimate
-      </p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Photos of Damage</h2>
+      
+      <div className="bg-[#f0f7f5] p-6 rounded-lg border border-[#e0ede9] mb-6">
+        <h3 className="text-lg font-medium text-[#2c7a6d] mb-3">Why Photos Are Important</h3>
+        <ul className="space-y-3 text-gray-600">
+          <li className="flex items-start gap-2">
+            <div className="w-5 h-5 rounded-full bg-[#2c7a6d] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Check className="w-3 h-3 text-white" />
+            </div>
+            <span>Help us provide a more accurate estimate for your repair</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <div className="w-5 h-5 rounded-full bg-[#2c7a6d] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Check className="w-3 h-3 text-white" />
+            </div>
+            <span>Allow our technicians to better prepare for your service</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <div className="w-5 h-5 rounded-full bg-[#2c7a6d] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Check className="w-3 h-3 text-white" />
+            </div>
+            <span>Speed up the repair process by helping us identify needed parts in advance</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="bg-blue-50 p-6 rounded-lg border border-blue-100 mb-6">
+        <h3 className="text-lg font-medium text-blue-700 mb-3">Photo Tips</h3>
+        <ul className="space-y-2 text-gray-600">
+          <li className="flex items-start gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
+            <span>Take photos in good lighting conditions</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
+            <span>Include both close-up shots of the damage and wider shots showing its location</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
+            <span>Ensure the damage is clearly visible and in focus</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
+            <span>Try to capture any cracks or chips from multiple angles</span>
+          </li>
+        </ul>
+      </div>
 
       {/* Photo Grid */}
       {previews.length > 0 && (
@@ -817,20 +917,7 @@ const OnlineEstimate = () => {
                   onClick={() => removePhoto(index)}
                   className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             ))}
@@ -846,21 +933,9 @@ const OnlineEstimate = () => {
               />
               <label
                 htmlFor="add-more-photos"
-                className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-green-500 transition-colors"
+                className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#2c7a6d] transition-colors"
               >
-                <svg
-                  className="w-8 h-8 text-gray-400 mb-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
+                <Upload className="w-8 h-8 text-gray-400 mb-2" />
                 <span className="text-sm text-gray-500">Add More</span>
               </label>
             </div>
@@ -883,30 +958,15 @@ const OnlineEstimate = () => {
             htmlFor="photo-upload"
             className="cursor-pointer flex flex-col items-center justify-center"
           >
-            <svg
-              className="w-12 h-12 text-gray-400 mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <p className="text-gray-600 mb-2">Click to upload photos</p>
+            <Camera className="w-12 h-12 text-gray-400 mb-4" />
+            <p className="text-gray-600 mb-2 font-medium">Click to upload photos</p>
             <p className="text-sm text-gray-500">or drag and drop</p>
           </label>
         </div>
       )}
 
-      {/* Help Text */}
       <p className="text-sm text-gray-500 mt-4">
-        You can upload multiple photos to help us better understand the damage.
-        Supported formats: JPG, PNG
+        Supported formats: JPG, PNG. Maximum file size: 10MB per image.
       </p>
     </div>
   );
@@ -1111,49 +1171,60 @@ const OnlineEstimate = () => {
   };
 
   const validateContactInfo = () => {
-    if (!userInfo.firstName.trim()) {
-      alert("Please enter your first name");
-      return false;
-    }
-    if (!userInfo.lastName.trim()) {
-      alert("Please enter your last name");
-      return false;
-    }
-    if (!userInfo.phone.trim()) {
-      alert("Please enter your phone number");
-      return false;
-    }
-    if (!userInfo.email.trim()) {
-      alert("Please enter your email address");
-      return false;
-    }
-    if (!userInfo.zipCode.trim()) {
-      alert("Please enter your ZIP code");
-      return false;
-    }
-    
-    // 验证邮箱格式
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(userInfo.email)) {
-      alert("Please enter a valid email address");
-      return false;
-    }
-    
-    // 验证电话号码格式（美国格式）
-    const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    if (!phoneRegex.test(userInfo.phone)) {
-      alert("Please enter a valid phone number");
-      return false;
-    }
-    
-    // 验证邮编格式（美国格式）
-    const zipRegex = /^\d{5}(-\d{4})?$/;
-    if (!zipRegex.test(userInfo.zipCode)) {
-      alert("Please enter a valid ZIP code");
-      return false;
-    }
+    const errors = {
+      firstName: !userInfo.firstName.trim(),
+      lastName: !userInfo.lastName.trim(),
+      phone: !userInfo.phone.trim() || !/^\d{3}-\d{3}-\d{4}$/.test(userInfo.phone),
+      email: !userInfo.email.trim() || !validateEmail(userInfo.email),
+      zipCode: !userInfo.zipCode.trim() || !/^\d{5}(-\d{4})?$/.test(userInfo.zipCode)
+    };
 
+    return !Object.values(errors).some(error => error);
+  };
+
+  const validateStep = (step: number) => {
+    switch (step) {
+      case 1:
+        return true; // First step is always accessible
+      case 2:
+        // Check if damage location and insurance info are selected
+        return selectedOption !== "" && willClaimInsurance !== "";
+      case 3:
+        // Check if vehicle info is complete
+        if (!validateStep(2)) return false;
+        return vehicleInfo.method === "license" 
+          ? (vehicleInfo.vin !== "")
+          : (vehicleInfo.year !== "" && vehicleInfo.make !== "" && vehicleInfo.model !== "");
+      case 4:
+        // Check if contact info is complete
+        if (!validateStep(3)) return false;
+        return validateContactInfo();
+      case 5:
+        // Check if photos are added (optional)
+        if (!validateStep(4)) return false;
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const canNavigateToStep = (targetStep: number) => {
+    // Can always go back to previous steps
+    if (targetStep < currentStep) return true;
+    
+    // For forward navigation, check all previous steps
+    for (let step = 1; step <= targetStep; step++) {
+      if (!validateStep(step)) {
+        return false;
+      }
+    }
     return true;
+  };
+
+  const handleStepClick = (step: number) => {
+    if (canNavigateToStep(step, true)) {
+      setCurrentStep(step);
+    }
   };
 
   return (
@@ -1192,27 +1263,34 @@ const OnlineEstimate = () => {
                 { step: 3, icon: User, title: "Contact" },
                 { step: 4, icon: Upload, title: "Photos" },
                 { step: 5, icon: FileText, title: "Review" }
-              ].map((item) => (
-                <div 
-                  key={item.step} 
-                  className="flex flex-col items-center"
-                >
-                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mb-1 sm:mb-2 transition-all duration-300 ${
-                    currentStep >= item.step 
-                      ? 'bg-[#2c7a6d] text-white shadow-lg scale-110' 
-                      : 'bg-gray-100 text-gray-400'
-                  }`}>
-                    <item.icon className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </div>
-                  <span className={`text-[10px] sm:text-xs font-medium transition-colors duration-300 ${
-                    currentStep >= item.step 
-                      ? 'text-[#2c7a6d]' 
-                      : 'text-gray-500'
-                  }`}>
-                    {item.title}
-                  </span>
-                </div>
-              ))}
+              ].map((item) => {
+                const isClickable = canNavigateToStep(item.step, false);
+                return (
+                  <button 
+                    key={item.step}
+                    onClick={() => handleStepClick(item.step)}
+                    disabled={!isClickable}
+                    className={`flex flex-col items-center ${
+                      isClickable ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed opacity-60'
+                    }`}
+                  >
+                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mb-1 sm:mb-2 transition-all duration-300 ${
+                      currentStep >= item.step 
+                        ? 'bg-[#2c7a6d] text-white shadow-lg scale-110' 
+                        : 'bg-gray-100 text-gray-400'
+                    }`}>
+                      <item.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </div>
+                    <span className={`text-[10px] sm:text-xs font-medium transition-colors duration-300 ${
+                      currentStep >= item.step 
+                        ? 'text-[#2c7a6d]' 
+                        : 'text-gray-500'
+                    }`}>
+                      {item.title}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -1409,23 +1487,23 @@ const OnlineEstimate = () => {
           {currentStep === 5 && <SummaryStep />}
 
           {/* Navigation Buttons */}
-          <div className="mt-4 sm:mt-6 space-y-3 max-w-md mx-auto">
+          <div className="mt-8 flex flex-row-reverse justify-center gap-4">
             {currentStep < 5 && (
               <button
                 onClick={handleNext}
                 disabled={currentStep === 1 && (!selectedOption || !willClaimInsurance)}
-                className="w-full max-w-[200px] mx-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-lg flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md min-w-[140px]"
               >
                 <span>Continue</span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5" />
               </button>
             )}
-            {currentStep > 1 && (
+            {currentStep > 1 && currentStep < 5 && (
               <button
                 onClick={handleBack}
-                className="w-full max-w-[200px] mx-auto border border-gray-300 text-gray-700 font-medium py-2 px-4 sm:px-6 rounded-lg flex items-center justify-center gap-2 text-sm transition-all duration-200 hover:bg-gray-50"
+                className="border-2 border-gray-300 text-gray-600 font-medium py-3 px-8 rounded-lg flex items-center justify-center gap-2 text-base transition-all duration-200 hover:bg-gray-50 min-w-[140px]"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-5 h-5" />
                 <span>Back</span>
               </button>
             )}
