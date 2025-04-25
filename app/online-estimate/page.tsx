@@ -25,7 +25,6 @@ const OnlineEstimate = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedOption, setSelectedOption] = useState("Back");
-  const [hasMultipleWindows, setHasMultipleWindows] = useState(false);
   const [showDamageSeverity, setShowDamageSeverity] = useState(false);
   const [showDriverSideLocations, setShowDriverSideLocations] = useState(false);
   const [showPassengerSideLocations, setShowPassengerSideLocations] =
@@ -72,7 +71,13 @@ const OnlineEstimate = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Memoize the handleChange function
-
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setUserInfo(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
 
   const handleNext = () => {
     if (currentStep === 1) {
@@ -99,14 +104,6 @@ const OnlineEstimate = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setUserInfo(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   const handleSubmit = async () => {
     if (!validateContactInfo()) {
       return;
@@ -119,16 +116,7 @@ const OnlineEstimate = () => {
       const formData = new FormData();
       
       formData.append('damage', JSON.stringify({
-        location: selectedOption,
-        subLocation:
-          selectedOption === "Front"
-            ? selectedSeverity === "large"
-              ? "Large Damage"
-              : "Small Damage"
-            : selectedOption === "Driver Side"
-            ? selectedDriverLocation
-            : selectedPassengerLocation,
-        hasMultipleWindows,
+        location: selectedOption
       }));
       
       formData.append('vehicle', JSON.stringify(vehicleInfo));
@@ -493,9 +481,9 @@ const OnlineEstimate = () => {
       <div className="space-y-2 max-w-md mx-auto">
         {/* Front Option */}
         <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
             selectedOption === "Front"
-              ? "border-emerald-400 bg-emerald-50"
+              ? "border-[#236b5e] bg-[#f0f7f5]"
               : "border-gray-200"
           }`}
           onClick={() => setSelectedOption("Front")}
@@ -508,7 +496,7 @@ const OnlineEstimate = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Front" ? "text-emerald-500" : "text-gray-400"}
+                className={selectedOption === "Front" ? "text-[#236b5e]" : "text-gray-400"}
               >
                 <rect
                   x="4"
@@ -526,7 +514,7 @@ const OnlineEstimate = () => {
                 <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
               </svg>
               {selectedOption === "Front" && (
-                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
                   <Check className="h-3 w-3 text-white" />
                 </div>
               )}
@@ -540,9 +528,9 @@ const OnlineEstimate = () => {
 
         {/* Back Option */}
         <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
             selectedOption === "Back"
-              ? "border-emerald-400 bg-emerald-50"
+              ? "border-[#236b5e] bg-[#f0f7f5]"
               : "border-gray-200"
           }`}
           onClick={() => setSelectedOption("Back")}
@@ -555,7 +543,7 @@ const OnlineEstimate = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Back" ? "text-emerald-500" : "text-gray-400"}
+                className={selectedOption === "Back" ? "text-[#236b5e]" : "text-gray-400"}
               >
                 <rect
                   x="4"
@@ -573,7 +561,7 @@ const OnlineEstimate = () => {
                 <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
               </svg>
               {selectedOption === "Back" && (
-                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
                   <Check className="h-3 w-3 text-white" />
                 </div>
               )}
@@ -587,9 +575,9 @@ const OnlineEstimate = () => {
 
         {/* Driver Side Option */}
         <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
             selectedOption === "Driver Side"
-              ? "border-emerald-400 bg-emerald-50"
+              ? "border-[#236b5e] bg-[#f0f7f5]"
               : "border-gray-200"
           }`}
           onClick={() => setSelectedOption("Driver Side")}
@@ -602,7 +590,7 @@ const OnlineEstimate = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Driver Side" ? "text-emerald-500" : "text-gray-400"}
+                className={selectedOption === "Driver Side" ? "text-[#236b5e]" : "text-gray-400"}
               >
                 <path
                   d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
@@ -621,7 +609,7 @@ const OnlineEstimate = () => {
                 />
               </svg>
               {selectedOption === "Driver Side" && (
-                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
                   <Check className="h-3 w-3 text-white" />
                 </div>
               )}
@@ -635,9 +623,9 @@ const OnlineEstimate = () => {
 
         {/* Passenger Side Option */}
         <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-emerald-400 transition-colors ${
+          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
             selectedOption === "Passenger Side"
-              ? "border-emerald-400 bg-emerald-50"
+              ? "border-[#236b5e] bg-[#f0f7f5]"
               : "border-gray-200"
           }`}
           onClick={() => setSelectedOption("Passenger Side")}
@@ -650,7 +638,7 @@ const OnlineEstimate = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Passenger Side" ? "text-emerald-500" : "text-gray-400"}
+                className={selectedOption === "Passenger Side" ? "text-[#236b5e]" : "text-gray-400"}
               >
                 <path
                   d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
@@ -669,7 +657,7 @@ const OnlineEstimate = () => {
                 />
               </svg>
               {selectedOption === "Passenger Side" && (
-                <div className="absolute -top-1 -right-1 bg-emerald-500 rounded-full p-0.5">
+                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
                   <Check className="h-3 w-3 text-white" />
                 </div>
               )}
@@ -685,25 +673,18 @@ const OnlineEstimate = () => {
       {/* Insurance Claim Question */}
       <div className="mt-4 max-w-md mx-auto">
         <label className="block text-sm font-medium text-gray-900 mb-2">
-          Insurance Claim? <span className="text-red-500">*</span>
+          Will you be making an insurance claim? <span className="text-red-500">*</span>
         </label>
         <select
           value={willClaimInsurance}
           onChange={(e) => setWillClaimInsurance(e.target.value)}
-          className={`w-full px-3 py-2 bg-white border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-            !willClaimInsurance ? 'border-red-300' : 'border-gray-300'
-          }`}
+          className="w-full px-3 py-2 bg-white rounded-lg shadow-sm focus:ring-2 focus:ring-[#236b5e] outline-none"
           required
         >
           <option value="">Select...</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
         </select>
-        {!willClaimInsurance && (
-          <p className="mt-1 text-sm text-red-500">
-            Please indicate if you will be making an insurance claim
-          </p>
-        )}
       </div>
     </>
   );
@@ -865,106 +846,105 @@ const OnlineEstimate = () => {
     </>
   );
 
-  const ContactStep = memo(({ userInfo, handleChange }: ContactStepProps) => {
-    console.log("Rendering ContactStep");
-    return (
-      <>
-        <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
-        <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* First Name */}
-          <div>
-            <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={userInfo.firstName}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-              required
-            />
-          </div>
-          {/* Last Name */}
-          <div>
-            <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={userInfo.lastName}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-              required
-            />
-          </div>
-          {/* Phone */}
-          <div>
-            <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-              Phone <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={userInfo.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-              required
-            />
-          </div>
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={userInfo.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-              required
-            />
-          </div>
-          {/* Zip Code */}
-          <div>
-            <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-              ZIP Code <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="zipCode"
-              name="zipCode"
-              value={userInfo.zipCode}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-              required
-            />
-          </div>
-          {/* Note Field */}
-          <div className="md:col-span-2">
-             <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-               Note (Optional)
-             </label>
-             <textarea
-               id="note"
-               name="note"
-               rows={3}
-               value={userInfo.note}
-               onChange={handleChange}
-               className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-               placeholder="Any additional details? (e.g., preferred contact time)"
-             />
-          </div>
+  const ContactStep = memo(({ userInfo, handleChange }: ContactStepProps) => (
+    <>
+      <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information</h2>
+      <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* First Name */}
+        <div>
+          <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            First Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={userInfo.firstName}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
         </div>
-      </>
-    );
+        {/* Last Name */}
+        <div>
+          <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={userInfo.lastName}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Phone */}
+        <div>
+          <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            Phone <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={userInfo.phone}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={userInfo.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Zip Code */}
+        <div>
+          <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            ZIP Code <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="zipCode"
+            name="zipCode"
+            value={userInfo.zipCode}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          />
+        </div>
+        {/* Note Field */}
+        <div className="md:col-span-2">
+          <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+            Note (Optional)
+          </label>
+          <textarea
+            id="note"
+            name="note"
+            rows={3}
+            value={userInfo.note}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+            placeholder="Any additional details? (e.g., preferred contact time)"
+          />
+        </div>
+      </div>
+    </>
+  ), (prevProps, nextProps) => {
+    return JSON.stringify(prevProps.userInfo) === JSON.stringify(nextProps.userInfo);
   });
   ContactStep.displayName = 'ContactStep';
 

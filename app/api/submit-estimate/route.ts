@@ -159,8 +159,6 @@ export async function POST(request: Request) {
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
               <h3 style="color: #2c7a6d; margin-bottom: 10px; font-weight: bold; font-size: 16px;">Damage Information</h3>
               <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Location:</strong> <span style="color: #333;">${damage.location}</span></p>
-              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Sub-Location:</strong> <span style="color: #333;">${damage.subLocation}</span></p>
-              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Multiple Windows:</strong> <span style="color: #333;">${damage.hasMultipleWindows ? 'Yes' : 'No'}</span></p>
               ${userInfo.note ? `<p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Note:</strong> <span style="color: #333;">${userInfo.note}</span></p>` : ''}
             </div>
 
@@ -252,8 +250,6 @@ export async function POST(request: Request) {
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
               <h3 style="color: #2c7a6d; margin-bottom: 10px; font-weight: bold; font-size: 16px;">Damage Information</h3>
               <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Location:</strong> <span style="color: #333;">${damage.location}</span></p>
-              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Sub-Location:</strong> <span style="color: #333;">${damage.subLocation}</span></p>
-              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Multiple Windows:</strong> <span style="color: #333;">${damage.hasMultipleWindows ? 'Yes' : 'No'}</span></p>
               ${userInfo.note ? `<p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Note:</strong> <span style="color: #333;">${userInfo.note}</span></p>` : ''}
             </div>
 
