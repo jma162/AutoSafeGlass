@@ -475,198 +475,44 @@ const OnlineEstimate = () => {
 
   const DamageStep = () => (
     <>
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Where is your damaged glass?</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Where is your damaged glass? <span className="text-red-500">*</span></h2>
       <p className="text-gray-600 mb-4">Select the location of the damage on your vehicle</p>
 
-      <div className="space-y-2 max-w-md mx-auto">
-        {/* Front Option */}
-        <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
-            selectedOption === "Front"
-              ? "border-[#236b5e] bg-[#f0f7f5]"
-              : "border-gray-200"
-          }`}
-          onClick={() => setSelectedOption("Front")}
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Front" ? "text-[#236b5e]" : "text-gray-400"}
-              >
-                <rect
-                  x="4"
-                  y="6"
-                  width="16"
-                  height="12"
-                  rx="2"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              {selectedOption === "Front" && (
-                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
-                  <Check className="h-3 w-3 text-white" />
-                </div>
-              )}
-            </div>
-            <div className="flex-grow">
-              <span className="font-medium text-gray-900 text-sm">Front Windshield</span>
-              <p className="text-xs text-gray-500">Damage to the front windshield</p>
-            </div>
-          </div>
+      <div className="grid md:grid-cols-2 gap-6 items-center">
+        {/* Left side - Image */}
+        <div className="relative h-[400px] w-full">
+          <Image
+            src="/CARWINDER.png"
+            alt="Car damage location reference"
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
 
-        {/* Back Option */}
-        <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
-            selectedOption === "Back"
-              ? "border-[#236b5e] bg-[#f0f7f5]"
-              : "border-gray-200"
-          }`}
-          onClick={() => setSelectedOption("Back")}
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Back" ? "text-[#236b5e]" : "text-gray-400"}
-              >
-                <rect
-                  x="4"
-                  y="6"
-                  width="16"
-                  height="12"
-                  rx="2"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path d="M4 12H20" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M8 6V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M16 6V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M4 9H20" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M4 15H20" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              {selectedOption === "Back" && (
-                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
-                  <Check className="h-3 w-3 text-white" />
-                </div>
-              )}
-            </div>
-            <div className="flex-grow">
-              <span className="font-medium text-gray-900 text-sm">Back Window</span>
-              <p className="text-xs text-gray-500">Damage to the rear window</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Driver Side Option */}
-        <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
-            selectedOption === "Driver Side"
-              ? "border-[#236b5e] bg-[#f0f7f5]"
-              : "border-gray-200"
-          }`}
-          onClick={() => setSelectedOption("Driver Side")}
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Driver Side" ? "text-[#236b5e]" : "text-gray-400"}
-              >
-                <path
-                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                <path
-                  d="M9 10.5C9 10.2239 9.22386 10 9.5 10H12.5C12.7761 10 13 10.2239 13 10.5V11.5C13 11.7761 12.7761 12 12.5 12H9.5C9.22386 12 9 11.7761 9 11.5V10.5Z"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                />
-              </svg>
-              {selectedOption === "Driver Side" && (
-                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
-                  <Check className="h-3 w-3 text-white" />
-                </div>
-              )}
-            </div>
-            <div className="flex-grow">
-              <span className="font-medium text-gray-900 text-sm">Driver Side</span>
-              <p className="text-xs text-gray-500">Damage to driver side windows</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Passenger Side Option */}
-        <div
-          className={`border rounded-lg p-3 cursor-pointer hover:border-[#236b5e] transition-colors ${
-            selectedOption === "Passenger Side"
-              ? "border-[#236b5e] bg-[#f0f7f5]"
-              : "border-gray-200"
-          }`}
-          onClick={() => setSelectedOption("Passenger Side")}
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className={selectedOption === "Passenger Side" ? "text-[#236b5e]" : "text-gray-400"}
-              >
-                <path
-                  d="M3 10C3 8.89543 3.89543 8 5 8H19C20.1046 8 21 8.89543 21 10V16C21 17.1046 20.1046 18 19 18H5C3.89543 18 3 17.1046 3 16V10Z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path d="M7 8V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M17 8V18" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M7 12H17" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M7 15H17" stroke="currentColor" strokeWidth="1.5" />
-                <path
-                  d="M11 10.5C11 10.2239 11.2239 10 11.5 10H14.5C14.7761 10 15 10.2239 15 10.5V11.5C15 11.7761 14.7761 12 14.5 12H11.5C11.2239 12 11 11.7761 11 11.5V10.5Z"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                />
-              </svg>
-              {selectedOption === "Passenger Side" && (
-                <div className="absolute -top-1 -right-1 bg-[#236b5e] rounded-full p-0.5">
-                  <Check className="h-3 w-3 text-white" />
-                </div>
-              )}
-            </div>
-            <div className="flex-grow">
-              <span className="font-medium text-gray-900 text-sm">Passenger Side</span>
-              <p className="text-xs text-gray-500">Damage to passenger side windows</p>
-            </div>
-          </div>
+        {/* Right side - Selection */}
+        <div className="space-y-2">
+          <select
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors"
+            required
+          >
+            <option value="">Please select</option>
+            <option value="Windshield">Windshield</option>
+            <option value="Driver side front door">Driver side front door</option>
+            <option value="Driver side rear door">Driver side rear door</option>
+            <option value="Driver side vent">Driver side vent</option>
+            <option value="Driver side quarter">Driver side quarter</option>
+            <option value="Driver side mirror">Driver side mirror</option>
+            <option value="Passenger side front door">Passenger side front door</option>
+            <option value="Passenger side rear door">Passenger side rear door</option>
+            <option value="Passenger side vent">Passenger side vent</option>
+            <option value="Passenger side quarter">Passenger side quarter</option>
+            <option value="Passenger side mirror">Passenger side mirror</option>
+            <option value="Back window">Back window</option>
+            <option value="Rock chip repair">Rock chip repair</option>
+          </select>
         </div>
       </div>
 
