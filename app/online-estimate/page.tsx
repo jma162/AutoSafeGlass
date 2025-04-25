@@ -6,6 +6,7 @@ import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Se
 import Image from "next/image";
 import { Clock, Shield, DollarSign } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from 'react-hot-toast';
 
 // Add this interface before the OnlineEstimate component
 interface ContactStepProps {
@@ -145,15 +146,129 @@ const OnlineEstimate = () => {
 
       if (response.ok) {
         setSubmitStatus("success");
+        toast.custom((t) => (
+          <div className="fixed inset-0 flex items-center justify-center z-[9999] mt-[60px]">
+            <div className="absolute inset-0 bg-black/20" />
+            <div
+              className={`${
+                t.visible ? 'animate-enter' : 'animate-leave'
+              } relative z-[10000] max-w-md w-full bg-white shadow-xl rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 mx-4 my-4`}
+            >
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                      <Check className="h-6 w-6 text-green-600" />
+                    </div>
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Request Submitted Successfully!
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      We will contact you soon.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-blue-600 hover:text-blue-500 focus:outline-none"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        ), {
+          duration: 4000,
+        });
         setTimeout(() => {
           router.push('/');
         }, 2000);
       } else {
         setSubmitStatus("error");
+        toast.custom((t) => (
+          <div className="fixed inset-0 flex items-center justify-center z-[9999] mt-[60px]">
+            <div className="absolute inset-0 bg-black/20" />
+            <div
+              className={`${
+                t.visible ? 'animate-enter' : 'animate-leave'
+              } relative z-[10000] max-w-md w-full bg-white shadow-xl rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 mx-4 my-4`}
+            >
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                      <AlertCircle className="h-6 w-6 text-red-600" />
+                    </div>
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Submission Error
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Please try again or contact us directly.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-red-600 hover:text-red-500 focus:outline-none"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        ), {
+          duration: 4000,
+        });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus("error");
+      toast.custom((t) => (
+        <div className="fixed inset-0 flex items-center justify-center z-[9999] mt-[60px]">
+          <div className="absolute inset-0 bg-black/20" />
+          <div
+            className={`${
+              t.visible ? 'animate-enter' : 'animate-leave'
+            } relative z-[10000] max-w-md w-full bg-white shadow-xl rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 mx-4 my-4`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 pt-0.5">
+                  <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                    <AlertCircle className="h-6 w-6 text-red-600" />
+                  </div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    An error occurred
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Please try again later.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-red-600 hover:text-red-500 focus:outline-none"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      ), {
+        duration: 4000,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -163,6 +278,7 @@ const OnlineEstimate = () => {
     try {
       const response = await fetch('/api/car-data?type=years');
       const data = await response.json();
+      console.log("🚀 ~ fetchYears ~ data:", data)
       setYears(data.map((item: any) => item.Model_Year).sort((a: string, b: string) => parseInt(b) - parseInt(a)));
     } catch (error) {
       console.error('Error fetching years:', error);
@@ -190,11 +306,19 @@ const OnlineEstimate = () => {
     try {
       const response = await fetch(`/api/car-data?type=models&make=${make}`);
       const data = await response.json();
+      console.log("🚀 ~ fetchModels ~ data:", data)
       if (data.error) {
         console.error('Error fetching models:', data.error);
         return;
       }
-      setModels(data.map((item: any) => item.Model_Name).sort());
+      // Filter out null/undefined values and ensure unique values
+      const validModels = data
+        .filter((item: any) => item && item.Model_Name)
+        .map((item: any) => item.Model_Name)
+        .filter((model: string) => model !== null && model !== undefined)
+        .filter((model: string, index: number, self: string[]) => self.indexOf(model) === index)
+        .sort();
+      setModels(validModels);
     } catch (error) {
       console.error('Error fetching models:', error);
     }
@@ -1441,7 +1565,7 @@ const OnlineEstimate = () => {
                           disabled={!vehicleInfo.make}
                         >
                           <option value="">Select Model</option>
-                          {models.map((model) => (
+                          {models && models.length > 0 && models.map((model) => (
                             <option key={model} value={model}>
                               {model}
                             </option>

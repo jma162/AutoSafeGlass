@@ -65,29 +65,6 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* Main Store Address */}
-            <div 
-              onClick={handleMainStoreNavigation}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors cursor-pointer group"
-            >
-              <div className="bg-emerald-50 p-2 rounded-lg mt-1">
-                <MapPin className="w-6 h-6 text-emerald-600" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <p className="text-base text-gray-500">Find us at</p>
-                  <span className="text-xs bg-gray-900 text-white px-2 py-0.5 rounded-full">
-                    Main Store
-                  </span>
-                </div>
-                <p className="text-base font-[montserratSemiBold] text-gray-900">
-                  1200 Route 70 E. #707
-                </p>
-                <p className="text-base font-[montserratSemiBold] text-gray-900">
-                  Cherry Hill, NJ 08034
-                </p>
-              </div>
-            </div>
 
             {/* Business Hours */}
             <div className="p-6 rounded-lg bg-white shadow-sm">
