@@ -735,122 +735,6 @@ const OnlineEstimate = () => {
     </>
   );
 
-  const ContactStep = memo(({ userInfo, handleChange }: ContactStepProps) => (
-    <>
-      <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information <span className="text-red-500">*</span></h2>
-      <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* First Name */}
-        <div>
-          <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            First Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={userInfo.firstName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-            required
-          />
-        </div>
-        {/* Last Name */}
-        <div>
-          <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            Last Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={userInfo.lastName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-            required
-          />
-        </div>
-        {/* Phone */}
-        <div>
-          <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            Phone <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={userInfo.phone}
-              onChange={handleChange}
-              placeholder="XXX-XXX-XXXX"
-              maxLength={12}
-              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-              required
-            />
-          </div>
-        </div>
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            Email <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={userInfo.email}
-              onChange={handleChange}
-              placeholder="example@email.com"
-              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-              required
-            />
-          </div>
-        </div>
-        {/* ZIP Code */}
-        <div>
-          <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            ZIP Code <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              id="zipCode"
-              name="zipCode"
-              value={userInfo.zipCode}
-              onChange={handleChange}
-              placeholder="XXXXX"
-              maxLength={5}
-              className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-              required
-            />
-          </div>
-        </div>
-        {/* Note Field */}
-        <div className="md:col-span-2">
-          <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
-            Note (Optional)
-          </label>
-          <textarea
-            id="note"
-            name="note"
-            rows={3}
-            value={userInfo.note}
-            onChange={handleChange}
-            className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
-            placeholder="Any additional details? (e.g., preferred contact time)"
-          />
-        </div>
-      </div>
-    </>
-  ), (prevProps, nextProps) => {
-    return JSON.stringify(prevProps.userInfo) === JSON.stringify(nextProps.userInfo);
-  });
-  ContactStep.displayName = 'ContactStep';
-
   const PhotoUploadStep = () => (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Upload Photos of Damage</h2>
@@ -1482,7 +1366,118 @@ const OnlineEstimate = () => {
               </div>
             </>
           )}
-          {currentStep === 3 && <ContactStep userInfo={userInfo} handleChange={handleChange} />}
+          {currentStep === 3 && (
+              <>
+                <h2 className="text-base md:text-xl font-semibold text-gray-900 mb-6">Your Contact Information <span className="text-red-500">*</span></h2>
+                <p className="text-sm md:text-base text-gray-600 mb-8">Please provide your contact details so we can reach you about your estimate.</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* First Name */}
+                  <div>
+                    <label htmlFor="firstName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      First Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      value={userInfo.firstName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                      required
+                    />
+                  </div>
+                  {/* Last Name */}
+                  <div>
+                    <label htmlFor="lastName" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      Last Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      value={userInfo.lastName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                      required
+                    />
+                  </div>
+                  {/* Phone */}
+                  <div>
+                    <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      Phone <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={userInfo.phone}
+                        onChange={handleChange}
+                        placeholder="XXX-XXX-XXXX"
+                        maxLength={12}
+                        className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                        required
+                      />
+                    </div>
+                  </div>
+                  {/* Email */}
+                  <div>
+                    <label htmlFor="email" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={userInfo.email}
+                        onChange={handleChange}
+                        placeholder="example@email.com"
+                        className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                        required
+                      />
+                    </div>
+                  </div>
+                  {/* ZIP Code */}
+                  <div>
+                    <label htmlFor="zipCode" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      ZIP Code <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="text"
+                        id="zipCode"
+                        name="zipCode"
+                        value={userInfo.zipCode}
+                        onChange={handleChange}
+                        placeholder="XXXXX"
+                        maxLength={5}
+                        className="w-full pl-10 pr-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                        required
+                      />
+                    </div>
+                  </div>
+                  {/* Note Field */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="note" className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
+                      Note (Optional)
+                    </label>
+                    <textarea
+                      id="note"
+                      name="note"
+                      rows={3}
+                      value={userInfo.note}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 shadow-sm rounded-md focus:ring-[#236b5e] focus:border-[#236b5e] outline-none"
+                      placeholder="Any additional details? (e.g., preferred contact time)"
+                    />
+                  </div>
+                </div>
+              </>
+          ) }
           {currentStep === 4 && <PhotoUploadStep />}
           {currentStep === 5 && <SummaryStep />}
 
