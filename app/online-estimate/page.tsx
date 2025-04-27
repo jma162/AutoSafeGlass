@@ -1187,22 +1187,14 @@ const OnlineEstimate = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         VIN <span className="text-red-500">*</span>
                       </label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          name="vin"
-                          value={vehicleInfo.vin}
-                          onChange={handleVinChange}
-                          placeholder="Enter VIN"
-                          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
-                        />
-                        <button
-                          onClick={startCamera}
-                          className="px-4 py-3 bg-[#2c7a6d] text-white rounded-lg hover:bg-[#236b5e] transition-colors flex items-center justify-center"
-                        >
-                          <Camera className="w-5 h-5" />
-                        </button>
-                      </div>
+                      <input
+                        type="text"
+                        name="vin"
+                        value={vehicleInfo.vin}
+                        onChange={handleVinChange}
+                        placeholder="Enter VIN"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                      />
                       <div className="mt-3 p-4 bg-[#f0f7f5] rounded-lg border border-[#e0ede9]">
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 text-[#2c7a6d] flex-shrink-0 mt-0.5" />
