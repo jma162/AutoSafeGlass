@@ -1,10 +1,10 @@
 "use client"; // <<< MUST BE THE VERY FIRST LINE
 
 // Correct imports (ensure memo and useCallback are here if needed)
-import { useState, useEffect, useCallback, memo, useRef } from "react"; 
-import { Check, ChevronDown, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera, Mail, MapPin } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react"; 
+import { Check, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
-import { Clock, Shield, DollarSign } from "lucide-react";
+import { Shield} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-hot-toast';
 
