@@ -30,38 +30,38 @@ const Banner = () => {
         >
           {/* Background Image */}
           <div
-            className="absolute inset-0 w-full h-full bg-cover bg-center"
+            className="absolute inset-0 w-full h-full bg-cover bg-center brightness-140"
             style={{
               backgroundImage: `url(${firstSlide.image})`,
               backgroundPosition: 'center center'
             }}
           >
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black opacity-40"></div>
+            <div className="absolute inset-0 bg-black opacity-20"></div>
           </div>
 
           {/* Content */}
           <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 md:px-12">
             <div className="text-center text-white w-full max-w-3xl mx-auto">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                 {firstSlide.title}
               </h1>
 
               <div className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-4 py-2 mb-6 shadow-md animate-pulse-slow">
-                <p className="text-base sm:text-lg md:text-xl font-bold text-black tracking-wide">
+                <p className="text-base sm:text-lg md:text-xl font-bold text-black tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
                   {firstSlide.subtitle}
                 </p>
               </div>
               
               <div className="space-y-2 mb-6">
-                <p className="text-white text-base sm:text-lg font-semibold tracking-wide uppercase">Service Areas:</p>
-                <div className="flex items-center justify-center gap-2 text-sm sm:text-base text-white/90">
-                  <span className="font-bold text-base sm:text-lg">•</span>
-                  <span>Philadelphia</span>
-                  <span className="font-bold text-base sm:text-lg">•</span>
-                  <span>South Jersey</span>
-                  <span className="font-bold text-base sm:text-lg">•</span>
-                  <span>Surrounding Areas</span>
+                <p className="text-white text-base sm:text-lg font-semibold tracking-wide uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Service Areas:</p>
+                <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
+                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
+                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Philadelphia</span>
+                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
+                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">South Jersey</span>
+                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
+                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Surrounding Areas</span>
                 </div>
               </div>
 

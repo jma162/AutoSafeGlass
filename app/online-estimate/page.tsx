@@ -34,7 +34,7 @@ const OnlineEstimate = () => {
   const [selectedPassengerLocation, setSelectedPassengerLocation] =
     useState("");
   const [vehicleInfo, setVehicleInfo] = useState({
-    method: "license", // or "vin"
+    method: "manual", // or "vin"
     licensePlate: "",
     registeredState: "",
     vin: "",
@@ -376,21 +376,7 @@ const OnlineEstimate = () => {
   };
 
   const startCamera = async () => {
-    // Check if running on mobile device
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (!isMobile) {
-      alert('Camera feature is only available on mobile devices. Please access this page on your phone or tablet.');
-      return;
-    }
-
     try {
-      // Check if mediaDevices is supported
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera access is not supported in this browser');
-      }
-
-      // Request camera permissions
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
           facingMode: 'environment',
@@ -398,31 +384,15 @@ const OnlineEstimate = () => {
           height: { ideal: 1080 }
         } 
       });
-
-      setCameraStream(stream);
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        setCameraStream(stream);
+        setShowCamera(true);
       }
-      setShowCamera(true);
     } catch (error) {
       console.error('Error accessing camera:', error);
-      let errorMessage = 'Failed to access camera. ';
-      
-      if (error instanceof Error) {
-        if (error.name === 'NotAllowedError') {
-          errorMessage += 'Please ensure you have granted camera permissions.';
-        } else if (error.name === 'NotFoundError') {
-          errorMessage += 'No camera found. Please check your device.';
-        } else if (error.name === 'NotReadableError') {
-          errorMessage += 'Camera is already in use by another application.';
-        } else if (error.name === 'OverconstrainedError') {
-          errorMessage += 'Camera does not support the requested constraints.';
-        } else {
-          errorMessage += error.message;
-        }
-      }
-      
-      alert(errorMessage);
+      alert('Failed to access camera. Please make sure you have granted camera permissions.');
     }
   };
 
@@ -892,6 +862,11 @@ const OnlineEstimate = () => {
             <p className="text-gray-600">
               Thank you for choosing Auto Safe Glass. We'll send you a confirmation email shortly.
             </p>
+            {vehicleInfo.vin && vehicleInfo.vin.trim() !== "" && (
+              <p className="text-gray-600 mt-2">
+                Your VIN: <span className="font-medium">{vehicleInfo.vin}</span>
+              </p>
+            )}
           </div>
         )}
 
@@ -929,38 +904,23 @@ const OnlineEstimate = () => {
               <h2 className="font-semibold text-base md:text-lg text-gray-900">Vehicle Information</h2>
             </div>
             <div className="space-y-3">
-              {vehicleInfo.method === "license" ? (
-                <>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">License Plate:</span>
-                    <span className="text-gray-900">{vehicleInfo.licensePlate}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">State:</span>
-                    <span className="text-gray-900">{vehicleInfo.registeredState}</span>
-                  </div>
-                  {vehicleInfo.vin && (
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-700">VIN:</span>
-                      <span className="text-gray-900">{vehicleInfo.vin}</span>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">Year:</span>
-                    <span className="text-gray-900">{vehicleInfo.year}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">Make:</span>
-                    <span className="text-gray-900">{vehicleInfo.make}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-700">Model:</span>
-                    <span className="text-gray-900">{vehicleInfo.model}</span>
-                  </div>
-                </>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700">Year:</span>
+                <span className="text-gray-900">{vehicleInfo.year}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700">Make:</span>
+                <span className="text-gray-900">{vehicleInfo.make}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-gray-700">Model:</span>
+                <span className="text-gray-900">{vehicleInfo.model}</span>
+              </div>
+              {vehicleInfo.vin && vehicleInfo.vin.trim() !== "" && (
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-700">VIN:</span>
+                  <span className="text-gray-900">{vehicleInfo.vin}</span>
+                </div>
               )}
             </div>
           </div>
@@ -1225,7 +1185,7 @@ const OnlineEstimate = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        VIN
+                        VIN <span className="text-red-500">*</span>
                       </label>
                       <div className="flex items-center gap-2">
                         <input
@@ -1234,11 +1194,11 @@ const OnlineEstimate = () => {
                           value={vehicleInfo.vin}
                           onChange={handleVinChange}
                           placeholder="Enter VIN"
-                          className="flex-1 p-2 border rounded"
+                          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
                         />
                         <button
                           onClick={startCamera}
-                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                          className="px-4 py-3 bg-[#2c7a6d] text-white rounded-lg hover:bg-[#236b5e] transition-colors flex items-center justify-center"
                         >
                           <Camera className="w-5 h-5" />
                         </button>
@@ -1299,7 +1259,7 @@ const OnlineEstimate = () => {
                     <div className="grid grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Year
+                          Year <span className="text-red-500">*</span>
                         </label>
                         <select
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
@@ -1320,7 +1280,7 @@ const OnlineEstimate = () => {
             
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Make
+                          Make <span className="text-red-500">*</span>
                         </label>
                         <select
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
@@ -1342,7 +1302,7 @@ const OnlineEstimate = () => {
             
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Model
+                          Model <span className="text-red-500">*</span>
                         </label>
                         <select
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
@@ -1360,6 +1320,32 @@ const OnlineEstimate = () => {
                           ))}
                         </select>
                       </div>
+                    </div>
+
+                    {/* VIN Input */}
+                    <div className="mt-4">
+                      <div className="mb-2">
+                        <div className="flex items-center gap-2 bg-[#f0f7f5] p-3 rounded-lg border border-[#e0ede9]">
+                          <Info className="w-5 h-5 text-[#2c7a6d] flex-shrink-0" />
+                          <p className="text-sm text-[#2c7a6d] font-medium">
+                            Please provide VIN for an accurate quote
+                          </p>
+                        </div>
+                      </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        VIN <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="vin"
+                        value={vehicleInfo.vin}
+                        onChange={handleVinChange}
+                        placeholder="Enter VIN"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c7a6d] focus:border-transparent transition-colors"
+                      />
+                      {vinError && (
+                        <p className="text-red-500 text-sm mt-1">{vinError}</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1508,27 +1494,30 @@ const OnlineEstimate = () => {
 
       {/* Camera Modal */}
       {showCamera && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center z-50">
-          <div className="relative w-full max-w-lg">
+        <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center">
+          <div className="relative w-full max-w-2xl mx-4">
             <video
               ref={videoRef}
               autoPlay
               playsInline
               className="w-full rounded-lg"
             />
-            <canvas ref={canvasRef} className="hidden" />
+            <canvas
+              ref={canvasRef}
+              className="hidden"
+            />
             <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
               <button
                 onClick={captureImage}
-                className="p-4 bg-white rounded-full"
+                className="bg-white p-4 rounded-full shadow-lg"
               >
-                <Camera className="w-8 h-8" />
+                <Camera className="w-6 h-6" />
               </button>
               <button
                 onClick={stopCamera}
-                className="p-4 bg-red-500 text-white rounded-full"
+                className="bg-red-500 text-white p-4 rounded-full shadow-lg"
               >
-                <X className="w-8 h-8" />
+                <X className="w-6 h-6" />
               </button>
             </div>
           </div>

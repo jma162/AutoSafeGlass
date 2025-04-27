@@ -129,14 +129,12 @@ export async function POST(request: Request) {
         <div style="text-align: center; margin-bottom: 15px;">
           <h3 style="color: #2c7a6d; margin-bottom: 8px; font-size: 16px; font-weight: bold;">AutoSafeGlass</h3>
           <p style="margin: 4px 0; color: #333; font-size: 14px;">Professional Auto Glass Services</p>
-          <p style="margin: 4px 0; color: #333; font-size: 14px;">Phone: <a href="tel:+12159045778" style="color: #2c7a6d; text-decoration: none;">215-904-5778</a></p>
-          <p style="margin: 4px 0; color: #333; font-size: 14px;">Email: <a href="mailto:info@autosafeglass.com" style="color: #2c7a6d; text-decoration: none;">info@autosafeglass.com</a></p>
-          <p style="margin: 4px 0; color: #333; font-size: 14px;">Address: 1200 Route 70 E. #707</p>
-          <p style="margin: 4px 0; color: #333; font-size: 14px;">Cherry Hill, NJ 08034</p>
+          <p style="margin: 4px 0; color: #333; font-size: 14px;">
+            <a href="tel:+12159045778" style="color: #2c7a6d; text-decoration: none;">215-904-5778</a>
+          </p>
         </div>
         <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-          <p style="color: #666; font-size: 12px; margin: 4px 0;">© ${new Date().getFullYear()} AutoSafeGlass. All rights reserved.</p>
-          <p style="color: #666; font-size: 12px; margin: 4px 0;">Professional Auto Glass Repair & Replacement Services</p>
+          <p style="color: #666; font-size: 12px; margin: 4px 0;">© ${new Date().getFullYear()} Auto Safe Glass. All rights reserved.</p>
           <p style="color: #666; font-size: 12px; margin: 4px 0;">Licensed & Insured | Free Mobile Service Available</p>
         </div>
       </div>
@@ -164,15 +162,10 @@ export async function POST(request: Request) {
 
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
               <h3 style="color: #2c7a6d; margin-bottom: 10px; font-weight: bold; font-size: 16px;">Vehicle Information</h3>
-              ${vehicle.method === 'license' ? `
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
-              ` : `
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
-              `}
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
+              ${vehicle.vin ? `<p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">VIN:</strong> <span style="color: #333;">${vehicle.vin}</span></p>` : ''}
             </div>
 
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
@@ -236,15 +229,10 @@ export async function POST(request: Request) {
 
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
               <h3 style="color: #2c7a6d; margin-bottom: 10px; font-weight: bold; font-size: 16px;">Vehicle Information</h3>
-              ${vehicle.method === 'license' ? `
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
-              ` : `
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
-                <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
-              `}
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Year:</strong> <span style="color: #333;">${vehicle.year}</span></p>
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Make:</strong> <span style="color: #333;">${vehicle.make}</span></p>
+              <p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">Model:</strong> <span style="color: #333;">${vehicle.model}</span></p>
+              ${vehicle.vin ? `<p style="font-size: 14px; margin: 8px 0;"><strong style="color: #2c7a6d;">VIN:</strong> <span style="color: #333;">${vehicle.vin}</span></p>` : ''}
             </div>
 
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 3px solid #2c7a6d;">
