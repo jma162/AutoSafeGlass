@@ -309,32 +309,30 @@ const OnlineEstimate = () => {
     try {
       const response = await fetch(`/api/car-data?type=makes&year=${year}`);
       const data = await response.json();
-      console.log(data, 'data');
       if (data.error) {
         console.error('Error fetching makes:', data.error);
         return;
       }
       // Sort makes alphabetically
-      const sortedMakes = data.map((item: any) => item.MakeName).sort();
+      const sortedMakes = data.map((item: any) => item.make_display).sort();
       setMakes(sortedMakes);
     } catch (error) {
       console.error('Error fetching makes:', error);
     }
   };
 
-  const fetchModels = async (make: string) => {
+  const fetchModels = async (make: string, year: string) => {
     try {
-      const response = await fetch(`/api/car-data?type=models&make=${make}`);
+      const response = await fetch(`/api/car-data?type=models&make=${make}&year=${year}`);
       const data = await response.json();
-      console.log("🚀 ~ fetchModels ~ data:", data)
       if (data.error) {
         console.error('Error fetching models:', data.error);
         return;
       }
       // Filter out null/undefined values and ensure unique values
       const validModels = data
-        .filter((item: any) => item && item.Model_Name)
-        .map((item: any) => item.Model_Name)
+        .filter((item: any) => item && item.model_name)
+        .map((item: any) => item.model_name)
         .filter((model: string) => model !== null && model !== undefined)
         .filter((model: string, index: number, self: string[]) => self.indexOf(model) === index)
         .sort();
@@ -1279,7 +1277,7 @@ const OnlineEstimate = () => {
                           value={vehicleInfo.make}
                           onChange={(e) => {
                             setVehicleInfo(prev => ({ ...prev, make: e.target.value }));
-                            fetchModels(e.target.value);
+                            fetchModels(e.target.value, vehicleInfo.year);
                           }}
                           disabled={!vehicleInfo.year}
                         >

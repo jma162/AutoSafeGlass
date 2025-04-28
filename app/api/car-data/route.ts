@@ -18,20 +18,20 @@ export async function GET(request: Request) {
         return NextResponse.json(years);
       case 'makes':
         // Fetch all makes and filter by year
-        url = 'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json';
+        url = `https://www.carqueryapi.com/api/0.3/?cmd=getMakes&year=${year}&sold_in_us=1`;
         const makesResponse = await fetch(url);
         const makesData = await makesResponse.json();
-        if (makesData.Results) {
-          return NextResponse.json(makesData.Results);
+        if (makesData.Makes) {
+          return NextResponse.json(makesData.Makes);
         }
         break;
       case 'models':
         // Fetch all models for the make
-        url = `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${make}?format=json`;
+        url = `https://www.carqueryapi.com/api/0.3/?cmd=getModels&make=${make}&year=${year}&sold_in_us=1`;
         const modelsResponse = await fetch(url);
         const modelsData = await modelsResponse.json();
-        if (modelsData.Results) {
-          return NextResponse.json(modelsData.Results);
+        if (modelsData.Models) {
+          return NextResponse.json(modelsData.Models);
         }
         break;
       default:
