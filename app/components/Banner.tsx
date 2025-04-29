@@ -54,14 +54,16 @@ const Banner = () => {
               </div>
               
               <div className="space-y-2 mb-6">
-                <p className="text-white text-base sm:text-lg font-semibold tracking-wide uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Service Areas:</p>
-                <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
-                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
-                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Philadelphia</span>
-                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
-                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">South Jersey</span>
-                  <span className="font-bold text-base sm:text-lg text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">•</span>
-                  <span className="text-white font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Surrounding Areas</span>
+                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3 inline-block">
+                  <p className="text-white text-lg sm:text-xl font-bold tracking-wide uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Service Areas:</p>
+                  <div className="flex items-center justify-center gap-2 text-base sm:text-lg mt-2">
+                    <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
+                    <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Philadelphia</span>
+                    <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
+                    <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">South Jersey</span>
+                    <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
+                    <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Surrounding Areas</span>
+                  </div>
                 </div>
               </div>
 
