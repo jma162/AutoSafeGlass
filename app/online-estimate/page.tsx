@@ -1030,19 +1030,21 @@ const OnlineEstimate = () => {
         return true; // First step is always accessible
       case 2:
         // Check if damage location and insurance info are selected
-        return selectedOption !== "" && willClaimInsurance !== "";
-      case 3:
+        if (selectedOption === "" || willClaimInsurance === "") return false;
         // Check if vehicle info is complete
-        if (!validateStep(2)) return false;
         return vehicleInfo.method === "license" 
           ? (vehicleInfo.vin !== "")
           : (vehicleInfo.year !== "" && vehicleInfo.make !== "" && vehicleInfo.model !== "");
-      case 4:
+      case 3:
         // Check if contact info is complete
-        if (!validateStep(3)) return false;
+        if (!validateStep(2)) return false;
         return validateContactInfo();
-      case 5:
+      case 4:
         // Check if photos are added (optional)
+        if (!validateStep(3)) return false;
+        return true;
+      case 5:
+        // Check if vehicle info is complete
         if (!validateStep(4)) return false;
         return true;
       default:
