@@ -818,7 +818,7 @@ const OnlineEstimate = () => {
       )}
 
       <p className="text-sm text-gray-500 mt-4">
-        Supported formats: JPG, PNG. Maximum file size: 10MB per image.
+       Maximum file size: 10MB per image.
       </p>
     </div>
   );
