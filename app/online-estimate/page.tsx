@@ -307,29 +307,39 @@ const OnlineEstimate = () => {
 
   const fetchMakes = async (year: string) => {
     try {
-      const response = await fetch(`/api/car-data?type=makes&year=${year}`);
+      setMakes(['Loading...']);
+      
+      const response = await fetch(`/api/car-data?type=makes&year=${year}`, {
+        next: { revalidate: 86400 } // Cache for 24 hours
+      });
       const data = await response.json();
       if (data.error) {
         console.error('Error fetching makes:', data.error);
+        setMakes([]);
         return;
       }
       setMakes(data);
     } catch (error) {
       console.error('Error fetching makes:', error);
+      setMakes([]);
     }
   };
 
   const fetchModels = async (make: string, year: string) => {
     if (!make || !year) {
-      console.log('Make and year are required to fetch models');
       setModels([]);
       return;
     }
     try {
-      const response = await fetch(`/api/car-data?type=models&make=${make}&year=${year}`);
+      setModels(['Loading...']);
+      
+      const response = await fetch(`/api/car-data?type=models&make=${make}&year=${year}`, {
+        next: { revalidate: 3600 }
+      });
       const data = await response.json();
       if (data.error) {
         console.error('Error fetching models:', data.error);
+        setModels([]);
         return;
       }
       // Filter out null/undefined values and ensure unique values
@@ -342,6 +352,7 @@ const OnlineEstimate = () => {
       setModels(validModels);
     } catch (error) {
       console.error('Error fetching models:', error);
+      setModels([]);
     }
   };
 

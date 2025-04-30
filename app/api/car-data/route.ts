@@ -13,6 +13,9 @@ interface ModelItem {
   model_name: string;
 }
 
+let makesCache: { data: string[]; timestamp: number } | null = null;
+const CACHE_DURATION = 24 * 60 * 60 * 1000;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get('type'); // 'years', 'makes', or 'models'
@@ -26,8 +29,20 @@ export async function GET(request: Request) {
         const years = Array.from({ length: currentYear - 1980 }, (_, i) => ({
           Model_Year: (currentYear - i).toString()
         }));
-        return NextResponse.json(years);
+        return NextResponse.json(years, {
+          headers: {
+            'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200'
+          }
+        });
       case 'makes':
+        if (makesCache && Date.now() - makesCache.timestamp < CACHE_DURATION) {
+          return NextResponse.json(makesCache.data, {
+            headers: {
+              'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200'
+            }
+          });
+        }
+
         const makesUrl = `https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json`;        
         const makesResponse = await fetch(makesUrl);
         const makesData = await makesResponse.json();
@@ -46,7 +61,16 @@ export async function GET(request: Request) {
             .filter((name: string) => majorManufacturers.includes(name))
             .sort();
 
-          return NextResponse.json(makes);
+          makesCache = {
+            data: makes,
+            timestamp: Date.now()
+          };
+
+          return NextResponse.json(makes, {
+            headers: {
+              'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200'
+            }
+          });
         }
         break;
         
@@ -67,7 +91,11 @@ export async function GET(request: Request) {
             .filter((item: ModelItem) => item.model_name) // Remove any null/undefined values
             .sort((a: ModelItem, b: ModelItem) => a.model_name.localeCompare(b.model_name));
 
-          return NextResponse.json(models);
+          return NextResponse.json(models, {
+            headers: {
+              'Cache-Control': 'public, max-age=3600, stale-while-revalidate=1800'
+            }
+          });
         }
         break;
       default:
