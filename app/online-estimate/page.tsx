@@ -313,15 +313,18 @@ const OnlineEstimate = () => {
         console.error('Error fetching makes:', data.error);
         return;
       }
-      // Sort makes alphabetically
-      const sortedMakes = data.map((item: any) => item.make_display).sort();
-      setMakes(sortedMakes);
+      setMakes(data);
     } catch (error) {
       console.error('Error fetching makes:', error);
     }
   };
 
   const fetchModels = async (make: string, year: string) => {
+    if (!make || !year) {
+      console.log('Make and year are required to fetch models');
+      setModels([]);
+      return;
+    }
     try {
       const response = await fetch(`/api/car-data?type=models&make=${make}&year=${year}`);
       const data = await response.json();

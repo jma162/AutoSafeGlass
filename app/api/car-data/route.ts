@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
 
+interface MakeResult {
+  Make_ID: string;
+  Make_Name: string;
+}
+
+interface ModelResult {
+  Model_Name: string;
+}
+
+interface ModelItem {
+  model_name: string;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get('type'); // 'years', 'makes', or 'models'
@@ -7,31 +20,54 @@ export async function GET(request: Request) {
   const make = searchParams.get('make');
   
   try {
-    let url = '';
     switch (type) {
       case 'years':
-        // Get years from 1981 to current year
         const currentYear = new Date().getFullYear();
         const years = Array.from({ length: currentYear - 1980 }, (_, i) => ({
           Model_Year: (currentYear - i).toString()
         }));
         return NextResponse.json(years);
       case 'makes':
-        // Fetch all makes and filter by year
-        url = `https://www.carqueryapi.com/api/0.3/?cmd=getMakes&year=${year}&sold_in_us=1`;
-        const makesResponse = await fetch(url);
+        const makesUrl = `https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json`;        
+        const makesResponse = await fetch(makesUrl);
         const makesData = await makesResponse.json();
-        if (makesData.Makes) {
-          return NextResponse.json(makesData.Makes);
+
+        if (makesData.Results && makesData.Results.length > 0) {
+          const majorManufacturers = [
+            'ACURA', 'ALFA ROMEO', 'ASTON MARTIN', 'AUDI', 'BENTLEY', 'BMW', 'BUICK', 'CADILLAC',
+            'CHEVROLET', 'CHRYSLER', 'DODGE', 'FERRARI', 'FIAT', 'FORD', 'GENESIS', 'GMC', 'HONDA',
+            'HYUNDAI', 'INFINITI', 'JAGUAR', 'JEEP', 'KIA', 'LAMBORGHINI', 'LAND ROVER', 'LEXUS',
+            'LINCOLN', 'LOTUS', 'MASERATI', 'MAZDA', 'MCLAREN', 'MERCEDES-BENZ', 'MINI', 'MITSUBISHI',
+            'NISSAN', 'PORSCHE', 'RAM', 'ROLLS-ROYCE', 'SUBARU', 'TESLA', 'TOYOTA', 'VOLKSWAGEN', 'VOLVO'
+          ];
+
+          const makes = makesData.Results
+            .map((make: MakeResult) => make.Make_Name.toUpperCase())
+            .filter((name: string) => majorManufacturers.includes(name))
+            .sort();
+
+          return NextResponse.json(makes);
         }
         break;
+        
       case 'models':
-        // Fetch all models for the make
-        url = `https://www.carqueryapi.com/api/0.3/?cmd=getModels&make=${make}&year=${year}&sold_in_us=1`;
-        const modelsResponse = await fetch(url);
+        if (!make || !year) {
+          return NextResponse.json({ error: 'Make and year are required' }, { status: 400 });
+        }
+
+        const modelsUrl = `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${make}/modelyear/${year}?format=json`;
+        const modelsResponse = await fetch(modelsUrl);
         const modelsData = await modelsResponse.json();
-        if (modelsData.Models) {
-          return NextResponse.json(modelsData.Models);
+
+        if (modelsData.Results && modelsData.Results.length > 0) {
+          const models = modelsData.Results
+            .map((model: ModelResult) => ({
+              model_name: model.Model_Name
+            }))
+            .filter((item: ModelItem) => item.model_name) // Remove any null/undefined values
+            .sort((a: ModelItem, b: ModelItem) => a.model_name.localeCompare(b.model_name));
+
+          return NextResponse.json(models);
         }
         break;
       default:
