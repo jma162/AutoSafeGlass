@@ -256,7 +256,7 @@ export async function POST(request: Request) {
 
     await transporter.sendMail({
       from: `"AutoSafeGlass" <trustmuhammadimedical@gmail.com>`,
-      to: 'trustmuhammadimedical@gmail.com',
+      to: 'quote@autosafeglass.com',
       subject: 'New Auto Glass Estimate Request',
       html: adminEmailHtml,
     });
