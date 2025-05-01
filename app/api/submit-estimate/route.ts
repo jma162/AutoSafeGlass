@@ -255,7 +255,8 @@ export async function POST(request: Request) {
     console.log('Sending admin email with HTML:', adminEmailHtml);
 
     await transporter.sendMail({
-      from: `${userInfo.firstName} ${userInfo.lastName} ${userInfo?.email}`,
+      // from: `${userInfo.firstName} ${userInfo.lastName} ${userInfo?.email}`,
+      from: `"Auto Safe Glass" <quote@autosafeglass.com>`,
       to: 'quote@autosafeglass.com',
       subject: 'New Auto Glass Estimate Request',
       html: adminEmailHtml,
