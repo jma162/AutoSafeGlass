@@ -15,18 +15,6 @@ const Banner = () => {
       title: "Windshield Replacement",
       subtitle: "Free Mobile Service",
       image: "/banner.jpeg",
-    },
-    {
-      id: 2,
-      title: "Professional Service",
-      subtitle: "Expert Technicians",
-      image: "/demo1.jpg",
-    },
-    {
-      id: 3,
-      title: "Quality Work",
-      subtitle: "Satisfaction Guaranteed",
-      image: "/demo2.jpg",
     }
   ]
 
@@ -52,12 +40,7 @@ const Banner = () => {
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className="absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out"
-            style={{
-              transform: `translateX(${(index - currentSlide) * 100}%)`,
-              opacity: Math.abs(index - currentSlide) <= 1 ? 1 : 0,
-              zIndex: index === currentSlide ? 1 : 0
-            }}
+            className="absolute inset-0 w-full h-full"
           >
             {/* Background Image */}
             <div
@@ -124,19 +107,6 @@ const Banner = () => {
               </div>
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-white scale-125' : 'bg-white/50'
-            }`}
-          />
         ))}
       </div>
 

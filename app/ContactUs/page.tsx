@@ -60,7 +60,7 @@ const ContactUs = () => {
               <div>
                 <p className="text-base text-gray-500">Email us at</p>
                 <p className="text-lg font-[montserratSemiBold] text-gray-900">
-                  info@autosafeglass.com
+                  quote@autosafeglass.com
                 </p>
               </div>
             </div>
