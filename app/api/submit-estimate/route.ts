@@ -16,8 +16,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "trustmuhammadimedical@gmail.com",
-    pass: "fxjqiyaquedqyyjj",
+    user: "quote@autosafeglass.com",
+    pass: "Autosafeglass1#",
   },
 });
 
@@ -195,7 +195,7 @@ export async function POST(request: Request) {
     console.log('Sending user email with HTML:', userEmailHtml);
 
     await transporter.sendMail({
-      from: `"AutoSafeGlass" <trustmuhammadimedical@gmail.com>`,
+      from: `"Auto Safe Glass" <quote@autosafeglass.com>`,
       to: userInfo.email,
       subject: 'Your Auto Glass Estimate Request',
       html: userEmailHtml,
@@ -255,7 +255,7 @@ export async function POST(request: Request) {
     console.log('Sending admin email with HTML:', adminEmailHtml);
 
     await transporter.sendMail({
-      from: `"AutoSafeGlass" <trustmuhammadimedical@gmail.com>`,
+      from: `${userInfo.firstName} ${userInfo.lastName} ${userInfo?.email}`,
       to: 'quote@autosafeglass.com',
       subject: 'New Auto Glass Estimate Request',
       html: adminEmailHtml,
