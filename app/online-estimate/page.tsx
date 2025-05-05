@@ -8,7 +8,6 @@ import { Shield} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-hot-toast';
 
-// Add this interface before the OnlineEstimate component
 interface ContactStepProps {
   userInfo: {
     firstName: string;
