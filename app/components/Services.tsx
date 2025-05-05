@@ -87,7 +87,7 @@ const Services = () => {
             </div>
 
             <div className="mt-8">
-              <button onClick={() => router.push('/services')} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-full transition-colors">
+              <button onClick={() => router.push('/our-services')} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-full transition-colors">
                 View All Services
               </button>
             </div>
