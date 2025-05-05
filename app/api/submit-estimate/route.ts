@@ -250,10 +250,6 @@ export async function POST(request: Request) {
             </div>
 
             ${getPhotosHtml()}
-
-            <p style="margin-top: 15px; font-size: 15px; color: #555;">Please review this estimate request and contact the customer as soon as possible.</p>
-            <p style="font-size: 15px; color: #555;">Customer's preferred contact method: ${userInfo.phone}</p>
-
             ${getCompanyFooter()}
           </div>
         </body>
@@ -268,10 +264,6 @@ export async function POST(request: Request) {
       to: 'quote@autosafeglass.com',
       subject: 'New Auto Glass Estimate Request',
       html: adminEmailHtml,
-      attachments: photoUrls.map((url, index) => ({
-        filename: `damage_photo_${index + 1}.jpg`,
-        path: url
-      }))
     });
 
     return NextResponse.json({ success: true })
