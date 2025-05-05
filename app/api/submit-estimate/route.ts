@@ -12,13 +12,17 @@ cloudinary.config({
 
 // Configure nodemailer
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  host: "smtp.hostinger.com",
+  port: 587,
+  secure: false,
   auth: {
     user: "quote@autosafeglass.com",
     pass: "Autosafeglass1#",
   },
+  tls: {
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false
+  }
 });
 
 export async function POST(request: Request) {
@@ -199,6 +203,10 @@ export async function POST(request: Request) {
       to: userInfo.email,
       subject: 'Your Auto Glass Estimate Request',
       html: userEmailHtml,
+      attachments: photoUrls.map((url, index) => ({
+        filename: `damage_photo_${index + 1}.jpg`,
+        path: url
+      }))
     });
 
     // Send email to admin
@@ -255,18 +263,25 @@ export async function POST(request: Request) {
     console.log('Sending admin email with HTML:', adminEmailHtml);
 
     await transporter.sendMail({
-      // from: `${userInfo.firstName} ${userInfo.lastName} ${userInfo?.email}`,
       from: `"Auto Safe Glass" <quote@autosafeglass.com>`,
+      replyTo: userInfo.email,
       to: 'quote@autosafeglass.com',
       subject: 'New Auto Glass Estimate Request',
       html: adminEmailHtml,
+      attachments: photoUrls.map((url, index) => ({
+        filename: `damage_photo_${index + 1}.jpg`,
+        path: url
+      }))
     });
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error processing estimate request:", error)
     return NextResponse.json(
-      { error: "Failed to process estimate request" },
+      { 
+        error: "Failed to process estimate request",
+        details: error instanceof Error ? error.message : "Unknown error"
+      },
       { status: 500 }
     )
   }

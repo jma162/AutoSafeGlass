@@ -162,6 +162,9 @@ const OnlineEstimate = () => {
       const response = await fetch("/api/submit-estimate", {
         method: "POST",
         body: formData,
+        headers: {
+          'Accept': 'application/json',
+        },
       });
 
       if (response.ok) {
@@ -268,10 +271,10 @@ const OnlineEstimate = () => {
                 </div>
                 <div className="ml-3 flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    An error occurred
+                    Submission Error
                   </p>
                   <p className="mt-1 text-sm text-gray-500">
-                    Please try again later.
+                    {error instanceof Error ? error.message : 'Please try again or contact us directly.'}
                   </p>
                 </div>
               </div>
