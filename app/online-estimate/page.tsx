@@ -112,13 +112,23 @@ const OnlineEstimate = () => {
     }
   }, []);
 
+  const validateVehicleInfo = () => {
+    if (vehicleInfo.method === "license") {
+      return vehicleInfo.vin.trim() !== "";
+    } else {
+      return vehicleInfo.year.trim() !== "" && 
+             vehicleInfo.make.trim() !== "" && 
+             vehicleInfo.model.trim() !== "";
+    }
+  };
+
   const handleNext = () => {
     if (currentStep === 1) {
       if (validateStep(1)) {
         setCurrentStep(2);
       }
     } else if (currentStep === 2) {
-      if (validateStep(2)) {
+      if (validateStep(2) && validateVehicleInfo()) {
         setCurrentStep(3);
       }
     } else if (currentStep === 3) {
@@ -1481,7 +1491,11 @@ const OnlineEstimate = () => {
             {currentStep < 5 && (
               <button
                 onClick={handleNext}
-                disabled={currentStep === 1 && (!selectedOption || !willClaimInsurance)}
+                disabled={
+                  (currentStep === 1 && (!selectedOption || !willClaimInsurance)) ||
+                  (currentStep === 2 && !validateVehicleInfo()) ||
+                  (currentStep === 3 && !validateContactInfo())
+                }
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md min-w-[140px]"
               >
                 <span>Continue</span>
