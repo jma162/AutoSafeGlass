@@ -1,4 +1,4 @@
-"use client"; // <<< MUST BE THE VERY FIRST LINE
+"use client";
 
 // Correct imports (ensure memo and useCallback are here if needed)
 import { useState, useEffect, useCallback, useRef } from "react"; 
