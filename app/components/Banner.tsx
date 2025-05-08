@@ -68,8 +68,8 @@ const Banner = () => {
                 </div>
                 
                 <div className="space-y-2 mb-6">
-                  <div className="bg-black/50 rounded-lg p-3 inline-block">
-                    <p className="text-white text-lg sm:text-xl font-bold tracking-wide uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Service Areas:</p>
+                  <div className="rounded-lg p-3 inline-block">
+                    <p className="text-white text-lg sm:text-xl font-bold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Service Areas:</p>
                     <div className="flex items-center justify-center gap-2 text-base sm:text-lg mt-2">
                       <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
                       <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Philadelphia</span>
