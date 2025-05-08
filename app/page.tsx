@@ -1,7 +1,7 @@
 import React from 'react'
 import Banner from './components/Banner'
 import HowItWorks from './components/HowItWorks'
-import { Phone, Clock, ChevronRight } from 'lucide-react'
+import { Phone, Clock, ChevronRight, MapPin, Car } from 'lucide-react'
 
 const page = () => {
   return (
@@ -11,13 +11,36 @@ const page = () => {
 
       {/* Quick Action Section */}
       <div className="bg-white py-8 sm:py-12">
+        {/* Service Areas 横向展示 */}
+        <div className="w-full flex justify-center mb-6">
+          <div className="inline-block px-4 py-2 rounded-lg bg-[#2c7a6d] bg-opacity-90 w-full max-w-xs sm:max-w-none">
+            <div className="flex flex-col items-center sm:flex-row sm:justify-center">
+              <span className="text-white text-base sm:text-lg font-bold tracking-wide mb-1 sm:mb-0 sm:mr-2">Service areas:</span>
+              <div className="flex items-center gap-2 mb-1 sm:mb-0 sm:mr-2">
+                <span className="font-bold text-lg sm:text-xl text-white align-middle">•</span>
+                <span className="text-white font-bold text-sm sm:text-base">Philadelphia</span>
+              </div>
+              <div className="flex items-center gap-2 mb-1 sm:mb-0 sm:mr-2">
+                <span className="font-bold text-lg sm:text-xl text-white align-middle">•</span>
+                <span className="text-white font-bold text-sm sm:text-base">South Jersey</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-lg sm:text-xl text-white align-middle">•</span>
+                <span className="text-white font-bold text-sm sm:text-base">Surrounding Areas</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Get Quote Button */}
-            <div className="bg-[#2c7a6d] p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-[#f0f7f5] p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="flex flex-col items-center text-center">
-                <h3 className="text-xl font-semibold text-white mb-3">Mobile Service Available</h3>
-                <p className="text-white/90 mb-4">We come to you for free</p>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4">
+                  <Car className="w-6 h-6 text-[#2c7a6d]" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Mobile Service Available</h3>
+                <p className="text-gray-600 mb-4">We come to you for free</p>
                 <a 
                   href="/online-estimate"
                   className="inline-flex items-center gap-2 bg-white text-[#2c7a6d] px-6 py-3 rounded-lg font-semibold hover:bg-[#f0f7f5] transition-colors"

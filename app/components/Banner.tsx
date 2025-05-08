@@ -32,7 +32,7 @@ const Banner = () => {
 
   return (
     <div 
-      className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden mx-auto max-w-[1920px]"
+      className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden"
       style={{ marginTop: estimatedHeaderHeight }}
     >
       {/* Slides Container */}
@@ -68,17 +68,7 @@ const Banner = () => {
                 </div>
                 
                 <div className="space-y-2 mb-6">
-                  <div className="rounded-lg p-3 inline-block">
-                    <p className="text-white text-lg sm:text-xl font-bold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Service Areas:</p>
-                    <div className="flex items-center justify-center gap-2 text-base sm:text-lg mt-2">
-                      <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
-                      <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Philadelphia</span>
-                      <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
-                      <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">South Jersey</span>
-                      <span className="font-bold text-lg sm:text-xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">•</span>
-                      <span className="text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">Surrounding Areas</span>
-                    </div>
-                  </div>
+   
                 </div>
 
                 {/* CTA Button Container */}
