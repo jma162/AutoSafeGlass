@@ -1,6 +1,5 @@
 "use client";
 
-// Correct imports (ensure memo and useCallback are here if needed)
 import { useState, useEffect, useCallback, useRef } from "react"; 
 import { Check, Loader2, Car, User, FileText, AlertCircle, Info, Send, Phone, ChevronLeft, ChevronRight, Upload, X, Camera, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
