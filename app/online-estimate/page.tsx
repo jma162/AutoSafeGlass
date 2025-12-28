@@ -558,7 +558,7 @@ const OnlineEstimate = () => {
             <select
               value={willClaimInsurance}
               onChange={(e) => setWillClaimInsurance(e.target.value)}
-              className="w-full px-4 py-3 shadow-sm rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#236b5e] focus:border-transparent transition-colors outline-none"
               required
             >
               <option value="">Select...</option>
