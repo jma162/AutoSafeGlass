@@ -35,12 +35,26 @@ export async function POST(request: Request) {
 
     await transporter.sendMail(userMailOptions);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      { success: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (error) {
     console.error("Error sending email:", error);
     return NextResponse.json(
       { error: "Failed to send message" },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'application/json',
+        },
+      }
     );
   }
 }

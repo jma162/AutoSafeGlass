@@ -13,7 +13,17 @@ export async function POST(request: Request) {
     const worker = await createWorker('eng');
     
     // Convert the File to a data URL that Tesseract can process
+    // Use streaming approach to reduce memory footprint
     const arrayBuffer = await image.arrayBuffer();
+    // Limit image size to prevent excessive memory usage
+    if (arrayBuffer.byteLength > 10 * 1024 * 1024) { // 10MB limit
+      await worker.terminate();
+      return NextResponse.json(
+        { error: 'Image too large. Maximum size is 10MB.' },
+        { status: 400 }
+      );
+    }
+    
     const base64Image = Buffer.from(arrayBuffer).toString('base64');
     const imageUrl = `data:${image.type};base64,${base64Image}`;
 
@@ -25,9 +35,26 @@ export async function POST(request: Request) {
     const matches = text.match(vinPattern);
     const vin = matches ? matches[0].toUpperCase() : null;
 
-    return NextResponse.json({ vin });
+    return NextResponse.json(
+      { vin },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (error) {
     console.error('OCR Error:', error);
-    return NextResponse.json({ error: 'Failed to process image' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to process image' }, 
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }

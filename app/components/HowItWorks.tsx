@@ -23,10 +23,8 @@ const HowItWorks = () => {
                 playsInline
                 preload="auto"
                 className="w-full aspect-video object-cover"
-                poster="/video-poster.jpg"
               >
                 <source src="/video.mp4" type="video/mp4" />
-                <source src="/video.webm" type="video/webm" />
                 Your browser does not support the video tag.
               </video>
             </div>

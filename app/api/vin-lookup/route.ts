@@ -24,11 +24,32 @@ export async function GET(request: Request) {
         engineType: data.Results.find((item: any) => item.Variable === 'Engine Type')?.Value || '',
       };
 
-      return NextResponse.json(vehicleInfo);
+      return NextResponse.json(vehicleInfo, {
+        headers: {
+          'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
+          'Content-Type': 'application/json',
+        },
+      });
     }
 
-    return NextResponse.json({ error: 'Invalid VIN' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid VIN' }, 
+      { 
+        status: 400,
+        headers: {
+          'Cache-Control': 'public, max-age=300',
+        },
+      }
+    );
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch VIN data' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch VIN data' }, 
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   }
 } 

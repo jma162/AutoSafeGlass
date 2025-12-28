@@ -33,97 +33,123 @@ export async function POST(request: Request) {
     const userInfo = JSON.parse(formData.get('userInfo') as string)
     const willClaimInsurance = formData.get('willClaimInsurance') as string
     
-    // Add detailed logging
-    console.log('Raw form data:', {
-      damage: formData.get('damage'),
-      vehicle: formData.get('vehicle'),
-      userInfo: formData.get('userInfo'),
-      willClaimInsurance: formData.get('willClaimInsurance')
-    });
-    
-    console.log('Parsed userInfo:', userInfo);
-    console.log('Insurance Claim value type:', typeof userInfo.willMakeInsuranceClaim);
-    console.log('Insurance Claim raw value:', userInfo.willMakeInsuranceClaim);
-    
     // Convert willMakeInsuranceClaim to boolean if it's a string
     if (typeof userInfo.willMakeInsuranceClaim === 'string') {
       userInfo.willMakeInsuranceClaim = userInfo.willMakeInsuranceClaim.toLowerCase() === 'true';
     }
-    
-    console.log('Processed Insurance Claim value:', userInfo.willMakeInsuranceClaim);
 
     const photoUrls: string[] = [];
     let photoIndex = 0;
     
+    // Process photos in parallel with streaming to reduce memory usage
+    const photoPromises: Promise<void>[] = [];
+    
     while (formData.has(`photo${photoIndex}`)) {
       const photo = formData.get(`photo${photoIndex}`) as File;
       if (photo) {
-        try {
-          console.log(`Processing photo ${photoIndex}`);
-          const bytes = await photo.arrayBuffer();
-          const buffer = Buffer.from(bytes);
-          
-          // Convert buffer to stream
-          const bufferStream = new Readable();
-          bufferStream.push(buffer);
-          bufferStream.push(null);
+        // Check file size to prevent excessive memory usage (10MB limit per image)
+        if (photo.size > 10 * 1024 * 1024) {
+          console.warn(`Photo ${photoIndex} exceeds 10MB limit, skipping`);
+          photoIndex++;
+          continue;
+        }
 
-          // Upload to Cloudinary with preset
-          const result = await new Promise((resolve, reject) => {
-            const uploadStream = cloudinary.uploader.upload_stream(
-              {
-                resource_type: 'auto',
-                folder: 'auto-glass-estimates',
-                upload_preset: 'autosafeglass'
-              },
-              (error, result) => {
-                if (error) {
-                  console.error('Cloudinary upload error:', error);
-                  reject(error);
-                } else {
-                  console.log('Upload successful:', result);
-                  resolve(result);
+        // Use streaming upload to avoid loading entire file into memory
+        const photoPromise = (async () => {
+          try {
+            // Stream directly from File to Cloudinary without loading into memory
+            const stream = photo.stream();
+            const reader = stream.getReader();
+            
+            // Convert ReadableStream to Node.js stream for Cloudinary
+            const nodeStream = new Readable({
+              async read() {
+                try {
+                  const { done, value } = await reader.read();
+                  if (done) {
+                    this.push(null);
+                  } else {
+                    this.push(Buffer.from(value));
+                  }
+                } catch (error) {
+                  this.destroy(error as Error);
                 }
               }
-            );
+            });
 
-            bufferStream.pipe(uploadStream);
-          });
+            // Upload to Cloudinary with preset and optimization
+            const result = await new Promise((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                  resource_type: 'auto',
+                  folder: 'auto-glass-estimates',
+                  upload_preset: 'autosafeglass',
+                  quality: 'auto:good',
+                  fetch_format: 'auto',
+                },
+                (error, result) => {
+                  if (error) {
+                    reject(error);
+                  } else {
+                    resolve(result);
+                  }
+                }
+              );
 
-          if (result && typeof result === 'object' && 'secure_url' in result) {
-            const secureUrl = (result as any).secure_url;
-            console.log('Generated secure URL:', secureUrl);
-            photoUrls.push(secureUrl);
+              nodeStream.pipe(uploadStream);
+            });
+
+            if (result && typeof result === 'object' && 'secure_url' in result) {
+              const secureUrl = (result as any).secure_url;
+              photoUrls.push(secureUrl);
+            }
+          } catch (error) {
+            // Continue with other photos even if one fails
+            console.error(`Error uploading photo ${photoIndex}:`, error);
           }
-        } catch (error) {
-          console.error(`Error processing photo ${photoIndex}:`, error);
-          // Continue with other photos even if one fails
-        }
+        })();
+        
+        photoPromises.push(photoPromise);
       }
       photoIndex++;
     }
+    
+    // Wait for all photo uploads to complete in parallel
+    await Promise.all(photoPromises);
 
-    console.log('All photo URLs:', photoUrls);
-
-    // Create a reusable function for photo display
+    // Create a reusable function for photo display with optimized images
     const getPhotosHtml = () => {
       if (photoUrls.length === 0) return '';
+      
+      // Helper function to generate optimized Cloudinary URL for email
+      const getOptimizedUrl = (url: string) => {
+        // Cloudinary URL transformation: quality auto, format auto, width 800px max
+        // This significantly reduces image size for email without losing visual quality
+        if (url.includes('cloudinary.com')) {
+          // Insert transformation parameters before the filename
+          const parts = url.split('/upload/');
+          if (parts.length === 2) {
+            return `${parts[0]}/upload/q_auto,f_auto,w_800,c_limit/${parts[1]}`;
+          }
+        }
+        return url;
+      };
+      
       const photosHtml = `
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3 style="color: #2c7a6d; margin-bottom: 15px;">Damage Photos</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
-            ${photoUrls.map(url => {
-              console.log('Generating HTML for URL:', url);
-              return `
+              ${photoUrls.map(url => {
+                const optimizedUrl = getOptimizedUrl(url);
+                return `
                 <div style="background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                  <img src="${url}" alt="Damage Photo" style="width: 100%; height: auto; border-radius: 8px; display: block;" />
+                  <img src="${optimizedUrl}" alt="Damage Photo" style="width: 100%; height: auto; border-radius: 8px; display: block;" loading="lazy" />
                 </div>
               `;
-            }).join('')}
+              }).join('')}
           </div>
         </div>
       `;
-      console.log('Generated photos HTML:', photosHtml);
       return photosHtml;
     };
 
@@ -196,17 +222,12 @@ export async function POST(request: Request) {
       </html>
     `;
 
-    console.log('Sending user email with HTML:', userEmailHtml);
-
     await transporter.sendMail({
       from: `"Auto Safe Glass" <quote@autosafeglass.com>`,
       to: userInfo.email,
       subject: 'Your Auto Glass Estimate Request',
       html: userEmailHtml,
-      attachments: photoUrls.map((url, index) => ({
-        filename: `damage_photo_${index + 1}.jpg`,
-        path: url
-      }))
+      // Remove attachments to reduce email size - photos are already in HTML
     });
 
     // Send email to admin
@@ -256,8 +277,6 @@ export async function POST(request: Request) {
       </html>
     `;
 
-    console.log('Sending admin email with HTML:', adminEmailHtml);
-
     await transporter.sendMail({
       from: `"Auto Safe Glass" <quote@autosafeglass.com>`,
       replyTo: userInfo.email,
@@ -266,15 +285,26 @@ export async function POST(request: Request) {
       html: adminEmailHtml,
     });
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json(
+      { success: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   } catch (error) {
     console.error("Error processing estimate request:", error)
     return NextResponse.json(
+      { error: "Failed to process estimate request" },
       { 
-        error: "Failed to process estimate request",
-        details: error instanceof Error ? error.message : "Unknown error"
-      },
-      { status: 500 }
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'application/json',
+        },
+      }
     )
   }
 } 
